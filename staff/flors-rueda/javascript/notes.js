@@ -32,7 +32,7 @@ for (var index = 0; index < arrr.length; index++) {
         */
     }
 }
-
+/*
 var truth = true
 var truth2 = 'true'
 
@@ -81,10 +81,21 @@ function myConsoleLog(text) {
     alert(text);
     console.log(text);
 }
-
+*/
 
 /*
 alert() --> parecido a un console.log
 var variableName = prompt() --> captura el input del usuario y lo asigna a variableName
 var bool = confirm() --> captura de nuevo el input: aceptar = true, cancelar = false
 */
+
+//OBJETOS:
+
+var rounds = [
+    { wasRoundWon: true, tries: 3 },
+    { wasRoundWon: true, tries: 2 },
+    { wasRoundWon: false, tries: 4 },
+    { wasRoundWon: true, tries: 1 }
+]
+
+console.log(rounds[1]['tries'], rounds[1].tries)
