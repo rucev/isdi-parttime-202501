@@ -1,0 +1,14 @@
+body {
+    height: 100vh;
+}
+
+button {
+    height: 100%;
+    width: 100%;
+    background-color: greenyellow;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: fuchsia;
+}
