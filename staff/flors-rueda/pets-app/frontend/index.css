@@ -1,0 +1,17 @@
+.title {
+    color: red
+}
+
+
+@media (min-width: 720px) {
+    .title {
+        color: blue
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .title {
+        color: greenyellow
+    }
+}
