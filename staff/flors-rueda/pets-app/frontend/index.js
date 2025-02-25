@@ -1,5 +1,7 @@
 var body = document.body;
 
+var users = [];
+
 /*Función para añadir multiples hijos a el elemento padre que es el primero que pasamos hecha por nosotros para ver más fors*/
 function appendChildren() {
     var parent = arguments[0] //el primer elemento es el contendor
@@ -33,7 +35,7 @@ function createContainer(style) {
     return container
 }
 
-function createForm(inputsArray, submitButtonText) { //inputsArray = [{label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email'}, {label: 'Password....}]
+function createForm(inputsArray, submitButtonText, callback) { //inputsArray = [{label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email'}, {label: 'Password....}]
     var formContainer = document.createElement('form');
     formContainer.className = 'form'
     for (var i = 0; i < inputsArray.length; i++) {
@@ -45,6 +47,7 @@ function createForm(inputsArray, submitButtonText) { //inputsArray = [{label: 'E
         inputElement.type = input.inputType;
         inputElement.id = input.inputId;
         inputElement.placeholder = input.inputPlaceholder
+        inputElement.required = input.isRequired
 
         appendChildren(formContainer, label, inputElement)
     }
@@ -57,25 +60,53 @@ function createForm(inputsArray, submitButtonText) { //inputsArray = [{label: 'E
 
     formContainer.addEventListener('submit', function (event) {
         event.preventDefault()
-        var formEvent = event.target;
-        var values = []
+
+        var form = event.target; // --> elemento form html al que le hemos dado submit
+        var formData = {};
+
+        //iterar todos los inputs que he generado en el formulario, de esos inputs quiero acceder al valor que ha escrito el usuario
         for (var i = 0; i < inputsArray.length; i++) {
-            var type = inputsArray[i].inputType // e.g. email 
-            console.log(formEvent[type].value) //event.target.email
+            //inputsArray = [{ label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email' }, ...]
+            // normalmente para acceder al valor de un input a traves del id --> event.target.idDelInput (e.g. event.target.email)
+
+            //form[inputsArray[i].inputId] ---> event.target['email'] === event.target.email
+            //console.log(form[inputsArray[i].inputId].value) //<input />.value
+            var fieldName = inputsArray[i].inputId;
+            var value = form[inputsArray[i].inputId].value
+
+            formData[fieldName] = value; //formData = {'email': 'patata@mail.com'}
         }
 
+        callback(formData)
     })
 
     return formContainer;
 
 }
 
+function registerUser(registerData) { //registerData = {'email': '', 'password': '', 'confirmation-password': ''}
+    if (!registerData['email'] && !registerData['password'] && !registerData['confirmation-password']) { //!registerData['email'] => registerData['email'] === undefined && registerData['email'] === null
+        alert('Register Data Incomplete')
+        return;
+    }
+    if (registerData['password'] !== registerData['confirmation-password']) {
+        alert('Password and confirmation password are not the same')
+        return
+    }
+    /*Podriamos longitud, y caracteres de la contraseñar, validar que el mail no esta en uso, etc*/
+
+    users.push({ email: registerData['email'], password: registerData['password'], id: Date.now() })
+    console.log(users)
+
+}
+
 function createRegisterPage() {
     var registerContainer = createContainer('');
     var registerTitle = createTextContainer('h1', 'Register', '');
-    var objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email' };
-    var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '*******', inputId: 'password' }
-    var registerForm = createForm([objectEmail, objectPassword], 'Register')
+    var objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true };
+    var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '*******', inputId: 'password', isRequired: true }
+    var objectConfirmPassword = { label: 'Confirm password', inputType: 'password', inputPlaceholder: '*******', inputId: 'confirmation-password', isRequired: true }
+    var registerForm = createForm([objectEmail, objectPassword, objectConfirmPassword], 'Register', registerUser)
 
 
     var toLoginButton = createButton('Go to login', '', function () { navigateToLogin(view) })
