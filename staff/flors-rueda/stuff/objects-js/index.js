@@ -7,28 +7,32 @@ var search = prompt('mascota?')
 
 var pets = { percy: { type: 'dog', hobbies: ['palitos', 'dormir'], age: 4, lifeExpectancy: 20 }, hiro: { type: 'cat' }, 'thunder-cat': { type: 'cat' } }
 
+pets['cosmo'] = { type: 'cat' }
+pets.baldeer = { type: 'dog' }
+
+
 console.log(pets[search])
 
-var allEntries = Object.keys(objectExample);
+var allEntriesKeys = Object.keys(pets);
 
 var timeLeft = pets.percy.lifeExpectancy - pets.percy.age
-console.log(timeLeft)
+//console.log(timeLeft)
 
-var timeLeft3 = pets['percy']['lifeExpectancy']
+var lifeExpectancy = pets['percy']['lifeExpectancy']
 
 var timeLeft2 = petsArr[0][4] - petsArr[0][8]
 
-console.log(timeLeft2)
+//console.log(timeLeft2)
 
 var allCatsNames = []
-for (var i = 0; i < allEntries.length; i++) {
-    if (objectExample[allEntries[i]].hobbies) {
-        for (var j = 0; j < objectExample[allEntries[i]].hobbies.length; j++) {
-            console.log(objectExample[allEntries[i]].hobbies[j])
+for (var i = 0; i < allEntriesKeys.length; i++) {
+    if (objectExample[allEntriesKeys[i]].hobbies) {
+        for (var j = 0; j < objectExample[allEntriesKeys[i]].hobbies.length; j++) {
+            //console.log(objectExample[allEntriesKeys[i]].hobbies[j])
         }
     }
 }
 
-//console.log(allEntries)
+//console.log(allEntriesKeys)
 
 //console.log(objectExample.percy)
