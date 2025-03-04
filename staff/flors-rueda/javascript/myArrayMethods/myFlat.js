@@ -1,25 +1,27 @@
 console.info('running code')
 
 function myFlat(array, deepIndex = 1) {
-    var resultArray = []
+    var resultArray = [] //declaro el array que devolvera la función
     var doesArrayStillHaveNestedArrays = false
 
-    for (var i = 0; i < array.length; i++) {
-        if (array[i].constructor !== Array) {
-            resultArray[resultArray.length] = array[i]
-        } else {
+    for (var i = 0; i < array.length; i++) { //itero una única vez el array parametro
+        if (array[i].constructor !== Array) { //y si el item que hay en ese indice NO es un array
+            resultArray[resultArray.length] = array[i] //lo pusheo al array resultado
+        } else { //si SÍ es un array, lo iteramos
             for (var j = 0; j < array[i].length; j++) {
-                resultArray[resultArray.length] = array[i][j]
-                if (array[i][j].constructor === Array) {
-                    doesArrayStillHaveNestedArrays = true
+                resultArray[resultArray.length] = array[i][j] //pusheamos los valores dentro de ese segundo array
+                if (array[i][j].constructor === Array) { //en caso de que alguno de esos valores sea un array
+                    doesArrayStillHaveNestedArrays = true //modificamos el booleano de arrays anidados pasandolo a true
                 }
             }
         }
     }
 
-    deepIndex = deepIndex === Infinity ? Infinity : deepIndex - 1
+    deepIndex = deepIndex === Infinity ? Infinity : deepIndex - 1 //si deepIndex === Infinity se queda tal cual, pero si es un valor numerico le resto 1
 
     if ((deepIndex !== Infinity && deepIndex > 0) || (deepIndex === Infinity && doesArrayStillHaveNestedArrays)) {
+        //entro en este if si el deepIndex todavia no es cero y el usuario me aplane más mi array
+        //o si el deepIndex es infinity y aun quedan arrays anidados
         return myFlat(resultArray, deepIndex)
     } else {
         return resultArray
