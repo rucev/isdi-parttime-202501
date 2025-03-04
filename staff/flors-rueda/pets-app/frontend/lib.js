@@ -45,10 +45,17 @@ function createForm(inputsArray, submitButtonText, callback) { //inputsArray = [
         var inputElement = document.createElement('input')
         inputElement.type = input.inputType;
         inputElement.id = input.inputId;
-        inputElement.placeholder = input.inputPlaceholder
         inputElement.required = input.isRequired
-
-        appendChildren(formContainer, label, inputElement)
+        if (input.inputType === 'checkbox') {
+            var fieldset = document.createElement('fieldset');
+            inputElement.value = input.inputValue;
+            inputElement.required = input.isRequired;
+            appendChildren(fieldset, label, inputElement)
+            formContainer.appendChild(fieldset)
+        } else {
+            inputElement.placeholder = input.inputPlaceholder
+            appendChildren(formContainer, label, inputElement)
+        }
     }
 
     var submitButton = document.createElement('input');
@@ -71,7 +78,13 @@ function createForm(inputsArray, submitButtonText, callback) { //inputsArray = [
             //form[inputsArray[i].inputId] ---> event.target['email'] === event.target.email
             //console.log(form[inputsArray[i].inputId].value) //<input />.value
             var fieldName = inputsArray[i].inputId;
-            var value = form[inputsArray[i].inputId].value
+            var value;
+            if (inputsArray[i].inputType === 'checkbox') {
+                value = form[inputsArray[i].inputId].checked
+            } else {
+                value = form[inputsArray[i].inputId].value
+            }
+
 
             formData[fieldName] = value; //formData = {'email': 'patata@mail.com'}
         }

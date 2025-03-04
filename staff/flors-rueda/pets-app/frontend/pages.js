@@ -22,7 +22,12 @@ function createRegisterPage() {
 
 function createHomePage() {
     var homeContainer = createContainer('')
-    var loggedUserId = JSON.parse(sessionStorage.getItem('id')); //comprobar si se ha guardado el id de un usuario loggeado
+    var loggedUserId;
+    if (localStorage.id) {
+        loggedUserId = JSON.parse(localStorage.getItem('id'));
+    } else {
+        loggedUserId = JSON.parse(sessionStorage.getItem('id')); //comprobar si se ha guardado el id de un usuario loggeado
+    }
 
     var userLogged = data.findUserById(loggedUserId)
 
@@ -34,7 +39,15 @@ function createHomePage() {
     var loggedUserUsername = userLogged.username //nos traemos el nombre de usuario para dar un mensaje de bienvenida personalizado
     var welcomeText = createTextContainer('h1', `Welcome, ${loggedUserUsername}`, '')
 
-    var logoutButton = createButton('Logout', '', function () { sessionStorage.removeItem('id'); navigateToLogin(homeContainer) })
+    var logoutButton = createButton('Logout', '', function () {
+        if (sessionStorage.id) {
+            sessionStorage.removeItem('id')
+        }
+        if (localStorage.id) {
+            localStorage.removeItem('id')
+        }
+        navigateToLogin(homeContainer)
+    })
 
 
     appendChildren(homeContainer, welcomeText, logoutButton);
@@ -48,7 +61,8 @@ function createLoginPage() {
     var loginTitle = createTextContainer('h1', 'Login', '');
     var objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true }
     var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '*******', inputId: 'password', isRequired: true }
-    var loginForm = createForm([objectEmail, objectPassword], 'Login', loginUser)
+    var objectRemember = { label: 'Remember me', inputType: 'checkbox', inputValue: 'remember', inputId: 'remember', isRequired: false }
+    var loginForm = createForm([objectEmail, objectPassword, objectRemember], 'Login', loginUser)
     var toRegisterButton = createButton('Go to register', '', function () { navigateToRegister(loginContainer) })
 
     appendChildren(loginContainer, loginTitle, loginForm, toRegisterButton)
