@@ -1,35 +1,30 @@
 console.info('running code')
 
 function myFlat(array, deepIndex = 1) {
-    var resultArray = [];
-    var isInfinityOn = deepIndex === Infinity;
-    if (isInfinityOn) {
-        deepIndex = 0;
-    }
+    var resultArray = []
     var doesArrayStillHaveNestedArrays = false
 
     for (var i = 0; i < array.length; i++) {
         if (array[i].constructor !== Array) {
             resultArray[resultArray.length] = array[i]
         } else {
-            doesArrayStillHaveNestedArrays = true
             for (var j = 0; j < array[i].length; j++) {
                 resultArray[resultArray.length] = array[i][j]
+                if (array[i][j].constructor === Array) {
+                    doesArrayStillHaveNestedArrays = true
+                }
             }
         }
     }
 
-    deepIndex = isInfinityOn ? Infinity : deepIndex - 1
+    deepIndex = deepIndex === Infinity ? Infinity : deepIndex - 1
 
-    if (deepIndex > 0 || (isInfinityOn && doesArrayStillHaveNestedArrays)) {
+    if ((deepIndex !== Infinity && deepIndex > 0) || (deepIndex === Infinity && doesArrayStillHaveNestedArrays)) {
         return myFlat(resultArray, deepIndex)
     } else {
         return resultArray
     }
-
 }
-
-
 
 //Función para pasar el assert a dos arrays que puede que tengan otros arrays anidados
 function nestedArrayAssert(array1, array2) {
@@ -40,10 +35,8 @@ function nestedArrayAssert(array1, array2) {
         } else {
             nestedArrayAssert(array1[i], array2[i])
         }
-
     }
 }
-
 
 //Tests pasando un numero como deepIndex
 console.info('tests with deepIndex === 2')
@@ -72,9 +65,8 @@ console.info('tests with deepIndex === Infinity')
 arrayControl = ['Juan', ['Francisco', 'Loli', ['Dante', 'Germán', ['AAAA']]], 'Diana', ['Gonzalo', 'Angel', ['María', 'David']], 'Sonia', ['Lidia, Tere', ['Amira', 'Telma']], 'Marta']
 arrayTest = ['Juan', ['Francisco', 'Loli', ['Dante', 'Germán', ['AAAA']]], 'Diana', ['Gonzalo', 'Angel', ['María', 'David']], 'Sonia', ['Lidia, Tere', ['Amira', 'Telma']], 'Marta']
 
-var elementControlInfinity = arrayControl.flat()
-var elementTestInfinity = myFlat(arrayTest)
-
+var elementControlInfinity = arrayControl.flat(Infinity)
+var elementTestInfinity = myFlat(arrayTest, Infinity)
 
 nestedArrayAssert(arrayControl, arrayTest)
 nestedArrayAssert(elementControlInfinity, elementTestInfinity)
