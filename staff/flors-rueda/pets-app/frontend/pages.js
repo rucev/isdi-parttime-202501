@@ -6,6 +6,9 @@ var currentView;
 
 function createRegisterPage() {
     var registerContainer = createContainer('');
+    var logo = createLogo('2rem')
+    logo.addEventListener('click', function () { navigateToLanding(registerContainer) })
+    var header = createHeader(logo);
     var registerTitle = createTextContainer('h1', 'Register', '');
     var objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true };
     var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '*******', inputId: 'password', isRequired: true }
@@ -14,7 +17,7 @@ function createRegisterPage() {
 
 
     var toLoginButton = createButton('Go to login', '', function () { navigateToLogin(view) })
-    var view = appendChildren(registerContainer, registerTitle, registerForm, toLoginButton)
+    var view = appendChildren(registerContainer, header, registerTitle, registerForm, toLoginButton)
 
     return view
 
@@ -69,16 +72,29 @@ function createLoginPage() {
     return loginContainer
 }
 
-/*Renderizar landing*/
-function renderLanding() {
-    var landingContainer = createContainer('');
-    var landingTitle = createTextContainer('h1', 'PET APP', 'title');
-    var joinButton = createButton('JOIN IN!', '', function () { navigateToRegister(landingContainer) })
+function createLandingPage() {
+    var landingContainer = createContainer('landing');
+    var contentContainer = createContainer('landing__content')
+    var landingTitle = createTextContainer('h1', 'PET APP', 'landing__title');
+    var landingSubtitle = createTextContainer('h2', 'A social app for pets', 'landing__subtitle');
+    var joinButton = createButton('JOIN IN!', 'header__join-button', function () { navigateToRegister(landingContainer) })
+
+
+    var header = createHeader(joinButton)
+    var logo = createLogo('20rem');
 
     currentView = landingContainer
 
-    landingContainer.appendChild(landingTitle);
-    landingContainer.appendChild(joinButton);
+    appendChildren(contentContainer, landingTitle, logo, landingSubtitle)
+
+    appendChildren(landingContainer, header, contentContainer)
+    return landingContainer
+}
+
+/*Renderizar landing*/
+function renderLanding() {
+    var landingContainer = createLandingPage()
+
     body.appendChild(landingContainer);
 }
 
@@ -115,3 +131,10 @@ function navigateToLogin(previousView) {
     body.replaceChild(loginContainer, previousView)
 }
 
+function navigateToLanding(previousView) {
+    var landingContainer = createLandingPage();
+
+    currentView = landingContainer
+
+    body.replaceChild(landingContainer, previousView)
+}

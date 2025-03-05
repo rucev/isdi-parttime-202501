@@ -95,3 +95,28 @@ function createForm(inputsArray, submitButtonText, callback) { //inputsArray = [
     return formContainer;
 
 }
+
+function createLogo(size) {
+    var logo = createContainer('logo')
+    logo.innerHTML = patita
+
+    logo.style.width = size;
+    logo.style.height = size
+
+    return logo
+}
+
+function createHeader() {
+    var header = document.createElement('header')
+    header.className = 'header'
+    header.style.justifyContent = arguments.length === 1 ? 'end' : 'space-between'
+    /*
+    if (arguments.length === 1 && arguments[0].classList.includes('logo')) {
+        header.style.justifyContent = 'start'
+    }*/
+
+    for (var i = 0; i < arguments.length; i++) {
+        header.appendChild(arguments[i])
+    }
+    return header
+}
