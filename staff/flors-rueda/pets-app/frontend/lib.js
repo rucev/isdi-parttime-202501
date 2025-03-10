@@ -48,18 +48,21 @@ function createForm(inputsArray, submitButtonText, callback) { //inputsArray = [
         inputElement.required = input.isRequired
         if (input.inputType === 'checkbox') {
             var fieldset = document.createElement('fieldset');
+            inputElement.className = 'form__input-checkbox'
             inputElement.value = input.inputValue;
             inputElement.required = input.isRequired;
-            appendChildren(fieldset, label, inputElement)
+            appendChildren(fieldset, inputElement, label)
             formContainer.appendChild(fieldset)
         } else {
             inputElement.placeholder = input.inputPlaceholder
+            inputElement.className = 'form__input-text'
             appendChildren(formContainer, label, inputElement)
         }
     }
 
     var submitButton = document.createElement('input');
     submitButton.type = 'submit';
+    submitButton.className = 'form__submit-button'
     submitButton.value = submitButtonText
 
     formContainer.appendChild(submitButton)
@@ -108,9 +111,9 @@ function createLogo(size) {
 
 function createHeader() {
     var header = document.createElement('header')
-    header.className = 'header'
+    header.className = 'header'/*
     header.style.justifyContent = arguments.length === 1 ? 'end' : 'space-between'
-    /*
+    
     if (arguments.length === 1 && arguments[0].classList.includes('logo')) {
         header.style.justifyContent = 'start'
     }*/

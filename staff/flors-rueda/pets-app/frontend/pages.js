@@ -5,26 +5,73 @@ var currentView;
 /*PAGES crean las diferentes vistas de la app*/
 
 function createRegisterPage() {
-    var registerContainer = createContainer('');
+    var registerContainer = createContainer('register');
     var logo = createLogo('2rem')
     logo.addEventListener('click', function () { navigateToLanding(registerContainer) })
     var header = createHeader(logo);
     var registerTitle = createTextContainer('h1', 'Register', '');
     var objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true };
-    var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '*******', inputId: 'password', isRequired: true }
-    var objectConfirmPassword = { label: 'Confirm password', inputType: 'password', inputPlaceholder: '*******', inputId: 'confirmation-password', isRequired: true }
+    var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
+    var objectConfirmPassword = { label: 'Confirm password', inputType: 'password', inputPlaceholder: '·········', inputId: 'confirmation-password', isRequired: true }
     var registerForm = createForm([objectEmail, objectPassword, objectConfirmPassword], 'Register', registerUser) //usamos una función que nos permite registrar el usuario y cambiar de vista
 
+    var toLoginText = createTextContainer('span', 'Already have an account?', 'register__login--text')
+    var toLoginButton = createButton('Go to login', 'register__login--button', function () { navigateToLogin(view) })
+    var toLoginContainer = createContainer('register__login')
 
-    var toLoginButton = createButton('Go to login', '', function () { navigateToLogin(view) })
-    var view = appendChildren(registerContainer, header, registerTitle, registerForm, toLoginButton)
+    appendChildren(toLoginContainer, toLoginText, toLoginButton)
+
+    var view = appendChildren(registerContainer, header, registerTitle, registerForm, toLoginContainer)
 
     return view
 
 }
 
+//MOVER A OTRO SITIO ESTA FUNCION:
+function onUserMenuClick(homeContainer) {
+    var menu = document.getElementById('user-menu')
+    if (menu) {
+        closeUserMenu()
+    } else {
+        openUserMenu(homeContainer)
+    }
+}
+
+
+function openUserMenu(homeContainer) {
+    var menu = document.createElement('aside')
+    menu.className = 'header__user-menu'
+    menu.id = 'user-menu'
+
+    var button1 = createButton('Meh', 'header__user-menu--button', function () { closeUserMenu() })
+    var button2 = createButton('Meh', 'header__user-menu--button', function () { closeUserMenu() })
+    var button3 = createButton('Meh', 'header__user-menu--button', function () { closeUserMenu() })
+
+    var logoutButton = createButton('Logout', 'header__user-menu--button', function () {
+        if (sessionStorage.id) {
+            sessionStorage.removeItem('id')
+        }
+        if (localStorage.id) {
+            localStorage.removeItem('id')
+        }
+        closeUserMenu()
+        navigateToLogin(homeContainer)
+
+    })
+
+    appendChildren(menu, button1, button2, button3, logoutButton)
+    homeContainer.appendChild(menu)
+}
+
+function closeUserMenu() {
+    var menu = document.getElementById('user-menu')
+
+    menu.remove()
+}
+
 function createHomePage() {
-    var homeContainer = createContainer('')
+    var homeContainer = createContainer('home')
+
     var loggedUserId;
     if (localStorage.id) {
         loggedUserId = JSON.parse(localStorage.getItem('id'));
@@ -39,36 +86,40 @@ function createHomePage() {
         return createRegisterPage();
     }
 
+    var logo = createLogo('2rem')
     var loggedUserUsername = userLogged.username //nos traemos el nombre de usuario para dar un mensaje de bienvenida personalizado
-    var welcomeText = createTextContainer('h1', `Welcome, ${loggedUserUsername}`, '')
+    var welcomeText = createTextContainer('p', `Welcome, ${loggedUserUsername}`, '')
 
-    var logoutButton = createButton('Logout', '', function () {
-        if (sessionStorage.id) {
-            sessionStorage.removeItem('id')
-        }
-        if (localStorage.id) {
-            localStorage.removeItem('id')
-        }
-        navigateToLogin(homeContainer)
-    })
+    var userButton = createButton(userLogged.username[0].toUpperCase(), 'header__user-button', function () { onUserMenuClick(homeContainer) })
+
+    var header = createHeader(logo, welcomeText, userButton);
 
 
-    appendChildren(homeContainer, welcomeText, logoutButton);
+
+    appendChildren(homeContainer, header);
     return homeContainer
 }
 
 
 
 function createLoginPage() {
-    var loginContainer = createContainer('')
+    var loginContainer = createContainer('login')
+    var logo = createLogo('2rem')
+    logo.addEventListener('click', function () { navigateToLanding(loginContainer) })
     var loginTitle = createTextContainer('h1', 'Login', '');
     var objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true }
-    var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '*******', inputId: 'password', isRequired: true }
+    var objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
     var objectRemember = { label: 'Remember me', inputType: 'checkbox', inputValue: 'remember', inputId: 'remember', isRequired: false }
     var loginForm = createForm([objectEmail, objectPassword, objectRemember], 'Login', loginUser)
-    var toRegisterButton = createButton('Go to register', '', function () { navigateToRegister(loginContainer) })
+    var toRegisterText = createTextContainer('span', 'Are you new here?', 'login__register--text')
+    var toRegisterButton = createButton('Register now!', 'login__register--button', function () { navigateToRegister(loginContainer) })
+    var toRegisterContainer = createContainer('login__register')
 
-    appendChildren(loginContainer, loginTitle, loginForm, toRegisterButton)
+    appendChildren(toRegisterContainer, toRegisterText, toRegisterButton)
+
+    var header = createHeader(logo)
+
+    appendChildren(loginContainer, header, loginTitle, loginForm, toRegisterContainer)
     return loginContainer
 }
 
@@ -77,7 +128,7 @@ function createLandingPage() {
     var contentContainer = createContainer('landing__content')
     var landingTitle = createTextContainer('h1', 'PET APP', 'landing__title');
     var landingSubtitle = createTextContainer('h2', 'A social app for pets', 'landing__subtitle');
-    var joinButton = createButton('JOIN IN!', 'header__join-button', function () { navigateToRegister(landingContainer) })
+    var joinButton = createButton('Join in!', 'header__join-button', function () { navigateToRegister(landingContainer) })
 
 
     var header = createHeader(joinButton)
