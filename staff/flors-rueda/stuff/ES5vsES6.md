@@ -31,10 +31,6 @@
   const sum = (a, b) => a + b;
   ```
 
-  ¡Por supuesto! Aquí tienes una explicación sobre el **"this léxico"** en ES6:
-
----
-
 ### **¿Qué es el `this` léxico en JavaScript?**
 En JavaScript, el valor de `this` depende de cómo se invoca una función. Tradicionalmente, en **ES5**, `this` puede cambiar dependiendo del contexto de ejecución y cómo se llama la función. Sin embargo, en **ES6**, las funciones flecha (`=>`) introducen el concepto de **"this léxico"**, lo que significa que `this` se determina **según el contexto en el que la función fue definida**, en lugar de cómo se invoca.
 
