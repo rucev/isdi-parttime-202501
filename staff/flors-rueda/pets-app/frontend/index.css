@@ -7,6 +7,17 @@ body {
     font-size: medium;
 }
 
+.landing,
+.login,
+.register,
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+    padding-bottom: 5rem;
+}
+
 button,
 input {
     font-family: "Josefin Sans", sans-serif;
@@ -85,14 +96,37 @@ input {
     width: 100%;
 }
 
-
-.landing,
-.login,
-.register {
+.post-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 5rem
+    max-width: 80vw;
+    gap: 0.5rem;
+    border: solid 0.09rem #d9d9d9;
+    padding: 1rem;
+    border-radius: 0.5rem
+}
+
+.post-card__author {
+    margin: 0;
+}
+
+.post-card__title {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+.post-card__description {
+    margin: 0;
+}
+
+.post-card__img {
+    width: 10rem;
+}
+
+.post-card__img-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .login,
@@ -176,6 +210,12 @@ fieldset label {
 .form__input-checkbox:checked {
     appearance: auto;
     accent-color: black;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem
 }
 
 @media (min-width: 720px) {}
