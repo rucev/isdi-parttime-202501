@@ -83,8 +83,17 @@ const createForm = (inputsArray, submitButtonText, callback) => { //inputsArray 
             formData[fieldName] = value; //formData = {'email': 'patata@mail.com'}
         }
 
-        callback(formData)
-        formContainer.reset()
+        try {
+            callback(formData)
+            formContainer.reset()
+        } catch (error) {
+            console.error(error)
+            if (error.name === 'FormatError' || error.name === 'RangeError' || error.name === 'TypeError') {
+                alert('incorrect inputs, check your form data again')
+            }
+        }
+
+
     })
 
     return formContainer;

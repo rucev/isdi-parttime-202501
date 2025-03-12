@@ -2,6 +2,7 @@
 
 import data from './data.mjs'
 import navigate from './navigate.mjs'
+import validator from './validators.mjs'
 
 /*Logicas internas de las funcionalidades de la app*/
 
@@ -30,6 +31,12 @@ const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
 }
 
 const registerUser = (registerData) => { //registerData = {'email': '', 'password': '', 'confirmation-password': ''}
+    validator.email(registerData['email'])
+    validator.password(registerData['password'])
+    const username = registerData['email'].split('@')[0]
+    validator.username(username)
+
+
     if (!registerData['email'] && !registerData['password'] && !registerData['confirmation-password']) { //!registerData['email'] => registerData['email'] === undefined && registerData['email'] === null
         alert('Register Data Incomplete')
         return;
@@ -48,8 +55,6 @@ const registerUser = (registerData) => { //registerData = {'email': '', 'passwor
         return
     }
 
-    const username = registerData['email'].split('@')[0]
-
     const userCreated = { email: registerData['email'], password: registerData['password'], username, id: Date.now() }
 
     data.createUser(userCreated)
@@ -61,12 +66,17 @@ const registerUser = (registerData) => { //registerData = {'email': '', 'passwor
 
 
 const publishPost = (postData) => {
-    const userIdJson = localStorage.id;
+    validator.text(postData['title'], 40, 1, 'Post-Title')
+    validator.text(postData['description'], 210, 1, 'Post-Description')
+    if (postData['img']) validator.imgUrl(postData['img'])
+
+    let userIdJson = localStorage.id;
     if (!userIdJson) {
         userIdJson = sessionStorage.id
     }
 
     const userId = JSON.parse(userIdJson)
+    validator.id(userId)
 
     postData.author = userId;
     data.createPost(postData)
