@@ -1,14 +1,16 @@
 import { loginUser } from '../logics.mjs'
-import { createButton, createContainer, createForm, createHeader, createLogo, createTextContainer } from '../lib.mjs'
+import { createButton, createContainer, createForm, createTextContainer } from '../lib.mjs'
 import navigate from '../navigate.mjs'
+import header from '../components/header.mjs'
 
 const login = {
     mount: (body) => {
         console.info('login mounted')
         const loginContainer = createContainer('login')
         loginContainer.id = 'login'
-        const logo = createLogo('2rem')
-        logo.addEventListener('click', () => navigate('login', 'landing'))
+
+        header.mount(loginContainer, 'login')
+
         const loginTitle = createTextContainer('h1', 'Login', '');
         const objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true }
         const objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
@@ -20,9 +22,7 @@ const login = {
 
         toRegisterContainer.append(toRegisterText, toRegisterButton)
 
-        const header = createHeader(logo)
-
-        loginContainer.append(header, loginTitle, loginForm, toRegisterContainer)
+        loginContainer.append(loginTitle, loginForm, toRegisterContainer)
         body.appendChild(loginContainer)
     },
     dismount: () => {

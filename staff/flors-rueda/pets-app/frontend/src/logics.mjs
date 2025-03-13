@@ -85,8 +85,11 @@ const publishPost = (postData) => {
 const getAllPosts = () => {
     const posts = data.retrievePosts();
 
+    if (posts.length > 0) posts.sort((item1, item2) => new Date(item2.createdOn) - new Date(item1.createdOn))
+
     for (let i = 0; i < posts.length; i++) {
         const author = data.findUserById(posts[i].author)
+        if (!posts[i].likes) posts[i].likes = [];
         posts[i].author = author.username
         const date = new Date(posts[i].createdOn)
         posts[i].createdOn = date.toLocaleString()
@@ -95,9 +98,48 @@ const getAllPosts = () => {
     return posts
 }
 
+const getLoggedUserUsername = () => {
+    let loggedUserId;
+    if (localStorage.id) {
+        loggedUserId = JSON.parse(localStorage.getItem('id'));
+    } else {
+        loggedUserId = JSON.parse(sessionStorage.getItem('id')); //comprobar si se ha guardado el id de un usuario loggeado
+    }
+
+    const userLogged = data.findUserById(loggedUserId)
+
+    return userLogged.username
+}
+
+const toggleLike = (postId) => {
+    let loggedUserId;
+    if (localStorage.id) {
+        loggedUserId = JSON.parse(localStorage.getItem('id'));
+    } else {
+        loggedUserId = JSON.parse(sessionStorage.getItem('id')); //comprobar si se ha guardado el id de un usuario loggeado
+    }
+
+    const post = data.findPostById(postId)
+
+    if (!post.likes) post.likes = [];
+
+    const userIndex = post.likes.indexOf(loggedUserId)
+
+    if (userIndex !== -1) {
+        post.likes.splice(userIndex, 1);
+    } else {
+        post.likes.push()
+    }
+
+    data.updatePostById(postId, post)
+
+}
+
 export {
     loginUser,
     registerUser,
     publishPost,
-    getAllPosts
+    getAllPosts,
+    getLoggedUserUsername,
+    toggleLike
 }

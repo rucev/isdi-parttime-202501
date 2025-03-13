@@ -43,6 +43,7 @@ const data = {
 
         post.createdOn = new Date();
         post.id = Date.now()
+        post.likes = []
 
         posts.push(post)
 
@@ -53,6 +54,22 @@ const data = {
         const posts = localStorage.posts ? JSON.parse(localStorage.getItem("posts")) : [];
 
         return posts
+    },
+    updatePostById: (id, newPostData) => {
+        const posts = localStorage.posts ? JSON.parse(localStorage.getItem("posts")) : [];
+        const postIndex = posts.findIndex(post => post.id === id)
+        if (postIndex === -1) {
+            return
+        }
+
+        posts[postIndex] = newPostData
+
+        localStorage.post = JSON.stringify(posts)
+    },
+    findPostById: (id) => {
+        const posts = localStorage.posts ? JSON.parse(localStorage.getItem("posts")) : [];
+        const post = posts.find(post => post.id === id)
+        return post
     }
 }
 

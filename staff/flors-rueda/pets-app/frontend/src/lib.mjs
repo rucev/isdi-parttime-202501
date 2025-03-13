@@ -110,21 +110,11 @@ const createLogo = (size) => {
     return logo
 }
 
-const createHeader = (...args) => {
-    const header = document.createElement('header')
-    header.className = 'header'
-
-    for (let i = 0; i < args.length; i++) {
-        header.appendChild(args[i])
-    }
-    return header
-}
 
 export {
     createTextContainer,
     createButton,
     createContainer,
     createForm,
-    createHeader,
     createLogo
 }
