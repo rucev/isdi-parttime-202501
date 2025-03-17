@@ -89,10 +89,10 @@ const getAllPosts = () => {
 
     for (let i = 0; i < posts.length; i++) {
         const author = data.findUserById(posts[i].author)
-        if (!posts[i].likes) posts[i].likes = [];
         posts[i].author = author.username
         const date = new Date(posts[i].createdOn)
         posts[i].createdOn = date.toLocaleString()
+        //TODO añadir if (!posts[i].likes) posts[i].likes = []; para manejar posts sin arrays de likes
     }
 
     return posts
@@ -121,14 +121,14 @@ const toggleLike = (postId) => {
 
     const post = data.findPostById(postId)
 
-    if (!post.likes) post.likes = [];
+    if (!post.likes) post.likes = []; //TODO Esta no hace falta si lo añado en el getAllPosts
 
     const userIndex = post.likes.indexOf(loggedUserId)
 
     if (userIndex !== -1) {
         post.likes.splice(userIndex, 1);
     } else {
-        post.likes.push()
+        post.likes.push() //TODO añadir loggedUserId al push!
     }
 
     data.updatePostById(postId, post)

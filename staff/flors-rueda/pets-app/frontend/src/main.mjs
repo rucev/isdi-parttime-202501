@@ -1,5 +1,3 @@
-//TODO manejar aqui lo que mostramos y cuando lo mostramos
-
 import pages from './pages/index.js'
 
 const { home, landing } = pages;

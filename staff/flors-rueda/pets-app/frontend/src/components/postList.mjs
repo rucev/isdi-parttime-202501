@@ -13,7 +13,7 @@ const postList = {
             const postTitle = createTextContainer('h3', posts[i].title, 'post-card__title')
             const postDescription = createTextContainer('p', posts[i].description, 'post-card__description')
             const postLikes = createTextContainer('p', `${posts[i].likes.length}`)
-            const buttonLike = createButton('like', '', () => toggleLike(posts[i].id))
+            const buttonLike = createButton('like', '', () => { toggleLike(posts[i].id) })
             postContainer.append(authorAndDate, postTitle, postDescription, postLikes, buttonLike)
 
             let postImg;
@@ -24,7 +24,6 @@ const postList = {
                 postImg.src = posts[i].img
                 imgContainer.appendChild(postImg)
                 postContainer.appendChild(imgContainer)
-
             }
             postsContainer.appendChild(postContainer)
         }
