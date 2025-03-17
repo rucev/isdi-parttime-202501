@@ -1,9 +1,9 @@
-import { likeFill } from "../icons.mjs";
+import { likeEmpty, likeFill } from "../icons.mjs";
 import { createButton, createContainer, createTextContainer } from "../lib.mjs";
-import { getAllPosts, toggleLike } from "../logics.mjs";
+import { getAllPosts } from "../logics.mjs";
 
 const postList = {
-    mount: (parentNode) => {
+    mount: (parentNode, onLikePost) => {
         const posts = getAllPosts();
         const postsContainer = createContainer('posts')
 
@@ -12,9 +12,16 @@ const postList = {
             const authorAndDate = createTextContainer('p', `${posts[i].author} said on ${posts[i].createdOn}`, 'post-card__author')
             const postTitle = createTextContainer('h3', posts[i].title, 'post-card__title')
             const postDescription = createTextContainer('p', posts[i].description, 'post-card__description')
+
+            const likeContainer = createContainer('post-card__like')
+            const likeIcon = document.createElement('span')
+            likeIcon.className = 'post-card__like-btn'
+            likeIcon.innerHTML = posts[i].isLiked ? likeFill : likeEmpty
             const postLikes = createTextContainer('p', `${posts[i].likes.length}`)
-            const buttonLike = createButton('like', '', () => { toggleLike(posts[i].id) })
-            postContainer.append(authorAndDate, postTitle, postDescription, postLikes, buttonLike)
+            likeIcon.addEventListener('click', () => { onLikePost(posts[i].id) })
+            likeContainer.append(likeIcon, postLikes)
+
+            postContainer.append(authorAndDate, postTitle, postDescription, likeContainer)
 
             let postImg;
             if (posts[i].img !== '') {

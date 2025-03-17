@@ -262,6 +262,18 @@ dialog {
     background-color: rgba(74, 48, 3, 0.53);
 }
 
+.post-card__like {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 0.5rem
+}
+
+.post-card__like-btn {
+    cursor: pointer;
+}
+
 @media (min-width: 720px) {}
 
 
