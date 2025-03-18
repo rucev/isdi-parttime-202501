@@ -56,7 +56,6 @@ const app = () => {
     btnConainer.className = 'btn-container'
 
 
-
     CHOICES.forEach(choice => {
         choiceBtn.mount(btnConainer, choice.content, () => handleUserChoice(choice.name, currentRecord, body))
     })
