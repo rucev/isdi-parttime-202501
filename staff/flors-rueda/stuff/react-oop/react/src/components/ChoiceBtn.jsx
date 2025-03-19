@@ -7,7 +7,7 @@ class ChoiceBtn extends React.Component {
     }
 
     componentDidMount() {
-        console.info(`button ${this.props.btnContent} mounted`)
+        //console.info(`button ${this.props.btnContent} mounted`)
     }
 
     render() {

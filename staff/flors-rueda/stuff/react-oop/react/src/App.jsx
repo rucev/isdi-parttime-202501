@@ -33,7 +33,7 @@ const determineWinner = (playerChoice, pcChoice) => {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { record: [], feedbackText: 'Make your choice!', feedbackValue: '' };
+        this.state = { record: [], feedbackText: 'Make your choice!', feedbackValue: '', showRecord: true };
     }
 
     updateFeedback(newText, newValue) {
@@ -42,7 +42,6 @@ class App extends React.Component {
     }
 
     handleChoiceClick(choiceName) {
-        console.log(`${choiceName} selected`)
         const pcChoice = getPcChoice();
         const playerChoice = CHOICES.find(choice => choice.name === choiceName)
         const winner = determineWinner(playerChoice, pcChoice)
@@ -50,24 +49,20 @@ class App extends React.Component {
         if (winner === 'player') this.updateFeedback('You won!', 'win')
         else if (winner === 'pc') this.updateFeedback('You lose!', 'lose')
         else this.updateFeedback(`It's a draw!`, 'draw')
-        console.log(this.state.record)
         this.forceUpdate()
     }
 
     render() {
-        try {
-            const { record, feedbackText, feedbackValue } = this.state
-            return (<div>
-                <div className="btn-container">
-                    {/*Construir un código que me devuelva varias instancias de mi clase ChoiceBtn*/
-                        CHOICES.map((choice, index) => <ChoiceBtn key={index} btnContent={choice.content} bntCallback={() => this.handleChoiceClick(choice.name)} />)
-                    }{/*[<Component/>, <Component />, <Component/>]*/}
-                </div>
-                <Feedback feedbackText={feedbackText} feedbackValue={feedbackValue} />
-                <Record record={record} />
-            </div>);
-        } catch (error) {
-            console.error(error)
-        }
+        const { record, feedbackText, feedbackValue, showRecord } = this.state
+        return (<div>
+            <button onClick={() => this.setState({ showRecord: !this.state.showRecord })}>RECORD</button>
+            <div className="btn-container">
+                {/*Construir un código que me devuelva varias instancias de mi clase ChoiceBtn*/
+                    CHOICES.map((choice, index) => <ChoiceBtn key={index} btnContent={choice.content} bntCallback={() => this.handleChoiceClick(choice.name)} />)
+                }{/*[<Component key=1/>, <Component key=2 />, <Component/>]*/}
+            </div>
+            <Feedback feedbackText={feedbackText} feedbackValue={feedbackValue} />
+            {showRecord && <Record record={record} />}
+        </div>);
     }
 }

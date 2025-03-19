@@ -4,7 +4,7 @@ class Feedback extends React.Component {
     }
 
     componentDidMount() {
-        console.info(`feedback mounted`)
+        //console.info(`feedback mounted`)
     }
     render() {
         return (<div>

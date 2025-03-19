@@ -4,7 +4,15 @@ class Record extends React.Component {
     }
 
     componentDidMount() {
-        console.info(`record mounted`)
+        console.info(`record mounted ${this.props.record.length}`)
+    }
+
+    componentDidUpdate() {
+        console.info(`record updated ${this.props.record.length}`)
+    }
+
+    componentWillUnmount() {
+        console.info(`record dismounted ${this.props.record.length}`)
     }
 
     render() {
@@ -12,7 +20,7 @@ class Record extends React.Component {
             <div className="record">
                 {
                     (this.props.record && this.props.record.length > 0)
-                    && this.props.record.map(recordItem => <div className="record-item">
+                    && this.props.record.map((recordItem, index) => <div key={index} className="record-item">
                         <div className={`${recordItem.won === 'player' ? 'winner' : 'loser'}`}>{recordItem.player.content}</div>
                         <div className={`${recordItem.won === 'pc' ? 'winner' : 'loser'}`}>{recordItem.pc.content}</div>
                     </div>)
