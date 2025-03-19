@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    flex-direction: column;
+    width: 95vw;
+    align-items: center;
+    padding-top: 3rem;
+    background-color: black;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: row;
+    height: 2rem;
+    gap: 2rem
+}
+
+.btn {
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.25rem;
+    width: 2rem;
+}
+
+.btn:hover {
+    font-size: 1.5rem;
+}
+
+.record {
+    display: flex;
+    flex-direction: column;
+    max-height: 50vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    max-width: 10rem;
+
+}
+
+.record-item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.25rem;
+}
+
+.record-item .winner {
+    opacity: 1;
+}
+
+.record-item .loser {
+    opacity: 0.5;
+}
+
+.feedback {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: whitesmoke;
+}
+
+.win {
+    color: lawngreen;
+}
+
+.lose {
+    color: red;
+}
+
+.draw {
+    color: slategray;
+}
