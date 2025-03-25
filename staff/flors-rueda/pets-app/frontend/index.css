@@ -16,7 +16,8 @@ body {
 .landing,
 .login,
 .register,
-.home {
+.home,
+.account {
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -6,15 +6,10 @@ const App = () => {
     const [view, setView] = useState(isUserLoggedIn() ? 'home' : 'landing') //register, login, home
 
     const navigateToLogin = () => setView('login')
-
-    const navigateToRegister = () => {
-        setView('register')
-    }
+    const navigateToRegister = () => setView('register')
     const navigateToHome = () => setView('home')
-
-    const navigateToLanding = () => {
-        setView('landing')
-    }
+    const navigateToLanding = () => setView('landing')
+    const navigateToMyProfile = () => setView('account')
 
 
     useEffect(() => {
@@ -26,10 +21,13 @@ const App = () => {
             currentView={view}
             handleRegisterClick={navigateToRegister}
             handleLandingClick={navigateToLanding}
+            handleAccountClick={navigateToMyProfile}
+            handleHomeClick={navigateToHome}
         />
         {view === 'landing' && <Landing />}
         {view === 'register' && <Register handleNavigateToHome={navigateToHome} handleLoginClick={navigateToLogin} />}
-        {view === 'login' && <Login />}
+        {view === 'login' && <Login handleNavigateToHome={navigateToHome} handleRegisterClick={navigateToRegister} />}
         {view === 'home' && <Home />}
+        {view === 'account' && <MyProfile />}
     </div>
 }

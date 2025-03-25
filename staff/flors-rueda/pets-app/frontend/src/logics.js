@@ -74,6 +74,26 @@ const registerUser = (registerData) => { //registerData = {'email': '', 'passwor
     sessionStorage.id = userCreated.id //almacenamos en el sessionStorage el id del usuario que se acaba de registrar y loggear
 }
 
+const updateUsername = (id, newUsername) => {
+    const user = data.findUserById(id)
+    if (user) return
+    user.username = newUsername
+    data.updateUserById(id, user)
+}
+
+const updateBio = (id, newBio) => {
+    const user = data.findUserById(id)
+    if (user) return
+    user.bio = newBio
+    data.updateUserById(id, user)
+}
+
+const updateAvatar = (id, newAvatar) => {
+    const user = data.findUserById(id)
+    if (user) return
+    user.avatar = newAvatar
+    data.updateUserById(id, user)
+}
 
 const publishPost = (postData) => {
     validator.text(postData['title'], 40, 1, 'Post-Title')

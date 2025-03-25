@@ -8,7 +8,7 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText }) => { //inputs
         event.preventDefault()
 
         const form = event.target; // --> elemento form html al que le hemos dado submit
-        const formData = {};
+        const formData = {}; // {email: esto, password: esto-otro}
 
         //iterar todos los inputs que he generado en el formulario, de esos inputs quiero acceder al valor que ha escrito el usuario
         for (let i = 0; i < inputsArray.length; i++) {
@@ -17,9 +17,8 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText }) => { //inputs
             if (inputsArray[i].inputType === 'checkbox') {
                 value = form[inputsArray[i].inputId].checked
             } else {
-                value = form[inputsArray[i].inputId].value
+                vlue = form[inputsArray[i].inputId].value
             }
-
 
             formData[fieldName] = value; //formData = {'email': 'patata@mail.com'}
         }

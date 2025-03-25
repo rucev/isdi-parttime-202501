@@ -32,6 +32,17 @@ const data = {
 
         localStorage.setItem('users', JSON.stringify(users))
     },
+    updateUserById: (id, newUserData) => {
+        const users = localStorage.users ? JSON.parse(localStorage.getItem("users")) : [];
+        const userIndex = users.findIndex(user => user.id === id)
+        if (userIndex === -1) {
+            return
+        }
+
+        users[userIndex] = newUserData
+
+        localStorage.users = JSON.stringify(users)
+    },
     createPost: (post) => { //e.g post = {title: "Hello", description: "world", img: "https://iamalink.com/img.png"}
         const postsJson = localStorage.posts
         let posts;
