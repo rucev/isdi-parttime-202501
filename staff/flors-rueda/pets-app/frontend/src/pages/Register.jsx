@@ -17,7 +17,7 @@ const Register = ({ handleNavigateToHome, handleLoginClick }) => {
 
     }
 
-    return <div className="register">
+    return <div className="main-container">
         <h1>Register</h1>
         <Form inputsArray={[objectEmail, objectPassword, objectConfirmPassword]} submitButtonText={'Register'} onSubmitCallback={onRegisterUser} />
         <div className="register__login">

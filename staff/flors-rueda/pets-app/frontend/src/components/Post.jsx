@@ -1,4 +1,5 @@
 import logics from "../logic"
+import './Post.css'
 
 const Post = ({ postData, onLikePost }) => {
     const handleLikePost = (id) => {

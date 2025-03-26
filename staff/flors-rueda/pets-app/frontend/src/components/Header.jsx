@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import Btn from "./lib/Btn"
 import Logo from "./lib/Logo"
 import logics from "../logic"
+import './Header.css'
 
 const Header = ({ currentView, handleRegisterClick, handleLandingClick, handleAccountClick, handleHomeClick }) => {
     const [username, setUsername] = useState('')

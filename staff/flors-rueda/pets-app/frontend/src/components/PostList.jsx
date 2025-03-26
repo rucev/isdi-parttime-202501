@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import logics from "../logic"
 import Post from "./Post"
+import "./PostList.css"
 
 const PostList = ({ refreshPosts, setRefreshPosts }) => {
     const [posts, setPosts] = useState([])

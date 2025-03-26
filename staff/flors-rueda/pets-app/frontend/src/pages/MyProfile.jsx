@@ -12,7 +12,7 @@ const MyProfile = () => {
         }
     }
 
-    return <div className="account">
+    return <div className="main-container">
         <h2>Change my username</h2>
         <Form inputsArray={[usernameObject]} onSubmitCallback={onUpdateUsername} submitButtonText={"Save new username"} />
     </div>

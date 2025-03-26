@@ -1,6 +1,7 @@
 import Btn from "../components/lib/Btn"
 import Form from "../components/lib/Form"
 import logics from "../logic"
+import "./LoginRegister.css"
 
 const Login = ({ handleNavigateToHome, handleRegisterClick }) => {
     const objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true }
@@ -16,7 +17,7 @@ const Login = ({ handleNavigateToHome, handleRegisterClick }) => {
         }
     }
 
-    return <div className="login">
+    return <div className="main-container">
         <h1>Login</h1>
         <Form inputsArray={[objectEmail, objectPassword, objectRemember]} submitButtonText={'Register'} onSubmitCallback={onLoginUser} />
         <div className="login__register">

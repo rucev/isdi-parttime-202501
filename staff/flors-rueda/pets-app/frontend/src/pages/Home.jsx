@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import PostList from "../components/PostList"
 import Btn from "../components/lib/Btn"
 import CreatePostModal from "../components/CreatePostModal"
+import './Home.css'
 
 const Home = () => {
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
@@ -30,7 +31,7 @@ const Home = () => {
         };
     }, [showNewPostForm])
 
-    return <div className="home" ref={pageRef}>
+    return <div className="main-container" ref={pageRef}>
         <PostList refreshPosts={refreshPosts} setRefreshPosts={setRefreshPosts} />
         <Btn btnClassnames={'home__new-post-button'} btnContent={'+'} btnCallback={() => setShowNewPostForm(!showNewPostForm)} />
         <dialog ref={dialogRef}>
