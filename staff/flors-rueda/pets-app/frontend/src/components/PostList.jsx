@@ -1,0 +1,26 @@
+import { useState, useEffect } from "react"
+import logics from "../logic"
+import Post from "./Post"
+
+const PostList = ({ refreshPosts, setRefreshPosts }) => {
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+        try {
+            const retrivedPosts = logics.posts.getAllPosts()
+            setPosts(retrivedPosts)
+        } catch (error) {
+            console.error(error)
+        }
+    }, [refreshPosts])
+
+    return <div className="posts">
+        {
+            posts.map((post, index) => {
+                return <Post key={index} postData={post} onLikePost={setRefreshPosts} />
+            })
+        }
+    </div>
+}
+
+export default PostList
