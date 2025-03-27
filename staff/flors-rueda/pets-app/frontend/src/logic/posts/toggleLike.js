@@ -1,14 +1,16 @@
 import data from "../../data";
+import { ExistenceError } from "../../utils/errors";
+import validator from "../../utils/validators";
+import getLoggedUserId from "../helpers/getLoggedUserId";
 
 const toggleLike = (postId) => {
-    let loggedUserId;
-    if (localStorage.id) {
-        loggedUserId = JSON.parse(localStorage.getItem('id'));
-    } else {
-        loggedUserId = JSON.parse(sessionStorage.getItem('id')); //comprobar si se ha guardado el id de un usuario loggeado
-    }
+    const loggedUserId = getLoggedUserId()
+
+    validator.id(loggedUserId)
 
     const post = data.posts.findPostById(postId)
+
+    if (!post) throw new ExistenceError('post not found')
 
     if (!post.likes) post.likes = [];
 

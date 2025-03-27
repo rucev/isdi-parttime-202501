@@ -1,3 +1,4 @@
+import getLoggedUserAvatar from "./getLoggedUserAvatar";
 import getLoggedUserUsername from "./getLoggedUserUsername";
 import isUserLoggedIn from "./isUserLoggedIn";
 import loginUser from "./loginUser";
@@ -15,7 +16,8 @@ const users = {
     registerUser,
     updateAvatar,
     updateBio,
-    updateUsername
+    updateUsername,
+    getLoggedUserAvatar
 }
 
 export default users

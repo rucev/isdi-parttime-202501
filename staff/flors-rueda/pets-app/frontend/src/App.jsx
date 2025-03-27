@@ -7,6 +7,7 @@ const { Landing, Home, Login, Register, MyProfile } = pages
 
 const App = () => {
     const [view, setView] = useState(logics.users.isUserLoggedIn() ? 'home' : 'landing') //register, login, home
+    const [refreshHeader, setRefreshHeader] = useState(Date.now())
 
     const navigateToLogin = () => setView('login')
     const navigateToRegister = () => setView('register')
@@ -22,6 +23,7 @@ const App = () => {
     return <div className={view}>
         <Header
             currentView={view}
+            refreshHeader={refreshHeader}
             handleRegisterClick={navigateToRegister}
             handleLandingClick={navigateToLanding}
             handleAccountClick={navigateToMyProfile}
@@ -31,7 +33,7 @@ const App = () => {
         {view === 'register' && <Register handleNavigateToHome={navigateToHome} handleLoginClick={navigateToLogin} />}
         {view === 'login' && <Login handleNavigateToHome={navigateToHome} handleRegisterClick={navigateToRegister} />}
         {view === 'home' && <Home />}
-        {view === 'account' && <MyProfile />}
+        {view === 'account' && <MyProfile updateHeader={setRefreshHeader} />}
     </div>
 }
 

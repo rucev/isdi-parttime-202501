@@ -11,6 +11,7 @@ const PostList = ({ refreshPosts, setRefreshPosts }) => {
             const retrivedPosts = logics.posts.getAllPosts()
             setPosts(retrivedPosts)
         } catch (error) {
+            alert('ups, something is not working!')
             console.error(error)
         }
     }, [refreshPosts])

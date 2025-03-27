@@ -13,6 +13,7 @@ const Login = ({ handleNavigateToHome, handleRegisterClick }) => {
             logics.users.loginUser(formData)
             handleNavigateToHome()
         } catch (error) {
+            alert('something went wrong, check your credentials')
             console.error(error)
         }
     }

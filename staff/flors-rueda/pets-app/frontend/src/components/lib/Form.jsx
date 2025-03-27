@@ -38,6 +38,12 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText }) => { //inputs
                         <input className="form__input-checkbox" type={inputElement.inputType} id={inputElement.inputId} required={inputElement.isRequired} value={inputElement.value} />
                         <label htmlFor={inputElement.inputId}>{inputElement.label}</label>
                     </fieldset>
+                } else if (inputElement.inputType === 'text-area') {
+                    return <div className="form__input" key={index}>
+                        <label htmlFor={inputElement.inputId}>{inputElement.label}</label>
+                        <textarea className="form__input-text" id={inputElement.inputId} required={inputElement.isRequired} placeholder={inputElement.inputPlaceholder} />
+                    </div>
+
                 } else {
                     return <div className="form__input" key={index}>
                         <label htmlFor={inputElement.inputId}>{inputElement.label}</label>

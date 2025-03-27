@@ -1,15 +1,17 @@
 import data from "../../data"
+import { ExistenceError } from "../../utils/errors";
+import validator from "../../utils/validators";
+import getLoggedUserId from "../helpers/getLoggedUserId";
 
 const updateUsername = (newUsername) => {
-    let loggedUserId;
-    if (localStorage.id) {
-        loggedUserId = JSON.parse(localStorage.getItem('id'));
-    } else {
-        loggedUserId = JSON.parse(sessionStorage.getItem('id')); //comprobar si se ha guardado el id de un usuario loggeado
-    }
+    validator.username(newUsername)
+
+    const loggedUserId = getLoggedUserId()
+
+    validator.id(loggedUserId)
 
     const user = data.users.findUserById(loggedUserId)
-    if (user) return
+    if (!user) throw new ExistenceError('user not found')
     user.username = newUsername
     data.users.updateUserById(loggedUserId, user)
 }

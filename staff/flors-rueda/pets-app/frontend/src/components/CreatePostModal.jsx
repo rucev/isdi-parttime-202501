@@ -13,6 +13,7 @@ const CreatePostModal = ({ setRefreshPosts, closeModal }) => {
             setRefreshPosts(Date.now())
             closeModal()
         } catch (error) {
+            alert('ups, something is not working!')
             console.error(error)
         }
     }

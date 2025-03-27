@@ -12,6 +12,7 @@ const Register = ({ handleNavigateToHome, handleLoginClick }) => {
             logics.users.registerUser(formData)
             handleNavigateToHome()
         } catch (error) {
+            alert('check your form data, something went wrong')
             console.error(error)
         }
 

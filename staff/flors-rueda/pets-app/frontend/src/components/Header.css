@@ -37,6 +37,31 @@
     height: 1.75rem;
     padding-top: 0.35rem;
     cursor: pointer;
+    overflow: hidden;
+}
+
+.header__user-button-with-image {
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.header__user-button-with-image:focus {
+    border: none;
+}
+
+.header__user-button--image {
+    top: 0;
+    object-fit: cover;
+    width: 3rem;
+    aspect-ratio: 1/1;
 }
 
 .header__join-button:hover,

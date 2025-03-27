@@ -1,29 +1,22 @@
 import data from "../../data"
+import { ContentError, ExistenceError } from "../../utils/errors"
 import validator from "../../utils/validators"
 
 const registerUser = (registerData) => { //registerData = {'email': '', 'password': '', 'confirmation-password': ''}
     validator.email(registerData['email'])
     validator.password(registerData['password'])
+    validator.password(registerData['confirmation-password'])
     const username = registerData['email'].split('@')[0]
     validator.username(username)
 
 
-    if (!registerData['email'] && !registerData['password'] && !registerData['confirmation-password']) { //!registerData['email'] => registerData['email'] === undefined && registerData['email'] === null
-        alert('Register Data Incomplete')
-        return;
-    }
     if (registerData['password'] !== registerData['confirmation-password']) {
-        alert('Password and confirmation password are not the same')
-        return
+        throw new ContentError('password and confirmation password are not the same')
     }
-    /*Podriamos longitud, y caracteres de la contraseñar, validar que el mail no esta en uso, etc*/
-
-    //comprobar si el user ya existe
 
     const doesUserExist = data.users.findUserByEmail(registerData['email'])
     if (doesUserExist) {
-        alert('Something went wrong, try again with new credentials')
-        return
+        throw new ExistenceError('something went wrong, try again with new credentials')
     }
 
     const userCreated = { email: registerData['email'], password: registerData['password'], username, id: Date.now() }

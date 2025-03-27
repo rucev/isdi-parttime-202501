@@ -1,12 +1,12 @@
 import data from "../../data";
+import { ExistenceError } from "../../utils/errors";
+import validator from "../../utils/validators";
+import getLoggedUserId from "../helpers/getLoggedUserId";
 
 const getAllPosts = () => {
-    let loggedUserId;
-    if (localStorage.id) {
-        loggedUserId = JSON.parse(localStorage.getItem('id'));
-    } else {
-        loggedUserId = JSON.parse(sessionStorage.getItem('id')); //comprobar si se ha guardado el id de un usuario loggeado
-    }
+    const loggedUserId = getLoggedUserId()
+
+    validator.id(loggedUserId)
 
     const posts = data.posts.retrievePosts()
 
@@ -14,6 +14,7 @@ const getAllPosts = () => {
 
     for (let i = 0; i < posts.length; i++) {
         const author = data.users.findUserById(posts[i].author)
+        if (!author) throw new ExistenceError('author not found')
         posts[i].author = author.username
         const date = new Date(posts[i].createdOn)
         posts[i].createdOn = date.toLocaleString()

@@ -7,6 +7,7 @@ const Post = ({ postData, onLikePost }) => {
             logics.posts.toggleLike(id)
             onLikePost(Date.now())
         } catch (error) {
+            alert('ups, something is not working!')
             console.error(error)
         }
 
