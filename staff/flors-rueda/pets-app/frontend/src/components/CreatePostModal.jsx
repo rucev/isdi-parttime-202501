@@ -10,8 +10,8 @@ const CreatePostModal = ({ setRefreshPosts, closeModal }) => {
     const handlePublishPost = (formData) => {
         try {
             logics.posts.publishPost(formData)
-            setRefreshPosts(Date.now())
             closeModal()
+            setRefreshPosts(Date.now())
         } catch (error) {
             alert('ups, something is not working!')
             console.error(error)

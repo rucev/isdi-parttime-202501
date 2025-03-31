@@ -3,6 +3,7 @@ import Landing from "./Landing";
 import Login from "./Login";
 import MyProfile from "./MyProfile";
 import Register from "./Register";
+import UserProfile from "./UserProfile";
 
 
 const pages = {
@@ -10,7 +11,8 @@ const pages = {
     Login,
     Register,
     Home,
-    MyProfile
+    MyProfile,
+    UserProfile
 }
 
 export default pages

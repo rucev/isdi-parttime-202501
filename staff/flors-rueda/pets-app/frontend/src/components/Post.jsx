@@ -1,7 +1,8 @@
 import logics from "../logic"
 import './Post.css'
+import UserAvatar from "./UserAvatar"
 
-const Post = ({ postData, onLikePost }) => {
+const Post = ({ postData, onLikePost, handleNavigateToUserProfile }) => {
     const handleLikePost = (id) => {
         try {
             logics.posts.toggleLike(id)
@@ -14,8 +15,12 @@ const Post = ({ postData, onLikePost }) => {
     }
 
     return <div className="post-card">
-        <p className="post-card__author">
-            {`${postData.author} said on ${postData.createdOn}`}
+        <p className="post-card__creation-info">
+            <span className="post-card__author">
+                {postData.authorId && <UserAvatar userId={postData.authorId} size='md' buttonCallback={() => handleNavigateToUserProfile(postData.authorId)} />}
+                {postData.author}
+            </span>
+            {postData.createdOn}
         </p>
         <h3 className="post-card__title">{postData.title}</h3>
         <p className="post-card__description">{postData.description}</p>

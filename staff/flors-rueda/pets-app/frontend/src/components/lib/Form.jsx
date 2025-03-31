@@ -22,6 +22,7 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText }) => { //inputs
 
         try {
             onSubmitCallback(formData)
+            form.reset()
         } catch (error) {
             console.error(error)
             if (error.name === 'FormatError' || error.name === 'RangeError' || error.name === 'TypeError') {

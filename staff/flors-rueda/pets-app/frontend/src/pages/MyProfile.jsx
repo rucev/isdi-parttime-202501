@@ -2,11 +2,14 @@ import { useEffect, useState } from "react"
 import Form from "../components/lib/Form"
 import logics from "../logic/index"
 import './MyProfile.css'
+import UserCard from "../components/UserCard"
+import getLoggedUserId from "../logic/helpers/getLoggedUserId"
 
 const MyProfile = ({ updateHeader }) => {
     const [showUsernameForm, setShowUsernameForm] = useState(false)
     const [showAvatarForm, setShowAvatarForm] = useState(false)
     const [showBioForm, setShowBioForm] = useState(false)
+    const [refreshUserCard, setRefreshUserCard] = useState(Date.now())
 
     const usernameObject = { label: 'Username', inputType: 'text', inputPlaceholder: 'myNewUserName', inputId: 'username', isRequired: true }
     const avatarObject = { label: 'Avatar', inputType: 'url', inputPlaceholder: 'https/new.com/avatar.png', inputId: 'avatar', isRequired: true }
@@ -16,6 +19,7 @@ const MyProfile = ({ updateHeader }) => {
         try {
             logics.users.updateUsername(formData['username'])
             updateHeader(Date.now())
+            setRefreshUserCard(Date.now())
             setShowUsernameForm(false)
         } catch (error) {
             alert('ups! try again!')
@@ -27,6 +31,7 @@ const MyProfile = ({ updateHeader }) => {
         try {
             logics.users.updateAvatar(formData['avatar'])
             updateHeader(Date.now())
+            setRefreshUserCard(Date.now())
             setShowAvatarForm(false)
         } catch (error) {
             alert('ups! try again!')
@@ -38,6 +43,7 @@ const MyProfile = ({ updateHeader }) => {
         try {
             logics.users.updateBio(formData['bio'])
             updateHeader(Date.now())
+            setRefreshUserCard(Date.now())
             setShowBioForm(false)
         } catch (error) {
             alert('ups! try again!')
@@ -46,9 +52,7 @@ const MyProfile = ({ updateHeader }) => {
     }
 
     return <div className="main-container">
-        <div>
-            Username: { }
-        </div>
+        <UserCard userId={getLoggedUserId()} refreshSelf={refreshUserCard} />
         <div className="account__section-title" onClick={() => setShowUsernameForm(!showUsernameForm)}>
             <h2>Change my username</h2>
             <i className={`bi bi-chevron-compact-${showUsernameForm ? 'up' : 'down'}`}></i>
