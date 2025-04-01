@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router"
 import logics from "../logic"
 import './Post.css'
 import UserAvatar from "./UserAvatar"
 
 const Post = ({ postData, onLikePost, handleNavigateToUserProfile }) => {
+    const navigate = useNavigate()
 
     const handleLikePost = (id) => {
         try {
@@ -21,7 +23,7 @@ const Post = ({ postData, onLikePost, handleNavigateToUserProfile }) => {
                     size='md'
                     avatar={postData.author.avatar}
                     letter={postData.author.username[0]}
-                    buttonCallback={() => handleNavigateToUserProfile(postData.author.id)}
+                    buttonCallback={() => navigate(`/profile/${postData.author.username}`)}
                 />
                 }
                 {postData.author.username}

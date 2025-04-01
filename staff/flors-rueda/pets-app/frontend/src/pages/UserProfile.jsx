@@ -2,15 +2,20 @@ import { useEffect, useState } from "react"
 import UserCard from "../components/UserCard"
 import PostList from "../components/PostList"
 import logics from "../logic"
+import { useParams } from "react-router"
 
-const UserProfile = ({ userId }) => {
-    const [posts, setPosts] = useState([])
+const UserProfile = () => {
+    const [posts, setPosts] = useState()
+    const [userId, setUserId] = useState()
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
+    const { username } = useParams()
 
 
     useEffect(() => {
         try {
-            const retrivedPosts = logics.posts.getPostsByAuthor(userId)
+            const retrivedId = logics.users.getUserIdByUsername(username)
+            setUserId(retrivedId)
+            const retrivedPosts = logics.posts.getPostsByAuthor(retrivedId)
             setPosts(retrivedPosts)
         } catch (error) {
             alert('ups, something is not working!')
@@ -19,8 +24,12 @@ const UserProfile = ({ userId }) => {
     }, [refreshPosts])
 
     return <div className="main-container">
-        <UserCard userId={userId} />
-        <PostList posts={posts} setRefreshPosts={setRefreshPosts} handleNavigateToUserProfile={setRefreshPosts} />
+        {
+            userId && <UserCard userId={userId} />
+        }
+        {
+            posts && <PostList posts={posts} setRefreshPosts={setRefreshPosts} handleNavigateToUserProfile={setRefreshPosts} />
+        }
     </div>
 
 }

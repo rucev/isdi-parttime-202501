@@ -12,12 +12,21 @@ body {
     font-size: medium;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}
+
 .landing,
 .login,
 .register,
 .home,
-.account,
-.user-profile {
+.my-profile,
+.user-profile,
+.not-found {
     display: flex;
     flex-direction: column;
     align-items: center;

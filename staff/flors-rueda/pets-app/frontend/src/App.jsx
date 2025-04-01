@@ -2,44 +2,49 @@ import { useState, useEffect } from "react"
 import pages from "./pages/index"
 import logics from "./logic/index"
 import Header from "./components/Header"
+import { Routes, Route, useLocation } from "react-router"
 
-const { Landing, Home, Login, Register, MyProfile, UserProfile } = pages
+const { Landing, Home, Login, Register, MyProfile, UserProfile, NotFound } = pages
 
 const App = () => {
-    const [view, setView] = useState(logics.users.isUserLoggedIn() ? 'home' : 'landing') //register, login, home
     const [refreshHeader, setRefreshHeader] = useState(Date.now())
-    const [selectedUserId, setSelectedUserId] = useState()
-
-    const navigateToLogin = () => setView('login')
-    const navigateToRegister = () => setView('register')
-    const navigateToHome = () => setView('home')
-    const navigateToLanding = () => setView('landing')
-    const navigateToMyProfile = () => setView('account')
-    const navigateToUserProfile = (userId) => {
-        setSelectedUserId(userId)
-        setView('user-profile')
-    }
-
+    const [view, setView] = useState('')
+    const location = useLocation()
+    const views = ['landing', 'login', 'register', 'my-profile', 'user-profile', 'home'] //TODO: not use this
 
     useEffect(() => {
-    }, [view])
+        const path = location.pathname
+
+        const pathArray = path.split("")
+        pathArray.shift()
+
+        if (pathArray.length === 0) {
+            setView(logics.users.isUserLoggedIn() ? 'home' : 'landing')
+        } else {
+            const cleanPath = pathArray.join("")
+            if (cleanPath.includes("/")) setView("user-profile")
+            else if ((cleanPath === "login" || cleanPath === "register") && logics.users.isUserLoggedIn()) setView('not-found')
+            else if (views.includes(cleanPath)) setView(cleanPath)
+            else setView('not-found')
+        }
+
+        console.log(view)
+    }, [location.pathname])
 
 
     return <div className={view}>
         <Header
             currentView={view}
             refreshHeader={refreshHeader}
-            handleRegisterClick={navigateToRegister}
-            handleLandingClick={navigateToLanding}
-            handleAccountClick={navigateToMyProfile}
-            handleHomeClick={navigateToHome}
         />
-        {view === 'landing' && <Landing />}
-        {view === 'register' && <Register handleNavigateToHome={navigateToHome} handleLoginClick={navigateToLogin} />}
-        {view === 'login' && <Login handleNavigateToHome={navigateToHome} handleRegisterClick={navigateToRegister} />}
-        {view === 'home' && <Home handleNavigateToUserProfile={navigateToUserProfile} />}
-        {view === 'account' && <MyProfile updateHeader={setRefreshHeader} />}
-        {view === 'user-profile' && <UserProfile userId={selectedUserId} />}
+        <Routes>
+            <Route path="/" element={logics.users.isUserLoggedIn() ? <Home /> : <Landing />} />
+            <Route path="/login" element={logics.users.isUserLoggedIn() ? <NotFound /> : <Login />} />
+            <Route path="/register" element={logics.users.isUserLoggedIn() ? <NotFound /> : <Register />} />
+            <Route path="/my-profile" element={logics.users.isUserLoggedIn() ? <MyProfile updateHeader={setRefreshHeader} /> : <NotFound />} />
+            <Route path="/profile/:username" element={logics.users.isUserLoggedIn() ? <UserProfile /> : <NotFound />} />
+            <Route path="/*" element={<NotFound />} />
+        </Routes>
     </div>
 }
 

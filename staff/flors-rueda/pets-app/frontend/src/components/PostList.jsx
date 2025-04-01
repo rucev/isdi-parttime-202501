@@ -8,7 +8,7 @@ const PostList = ({ posts, setRefreshPosts, handleNavigateToUserProfile }) => {
     return <div className="posts">
         {
             (posts && posts.length > 0) && posts.map((post, index) => {
-                return <Post key={index} postData={post} onLikePost={setRefreshPosts} handleNavigateToUserProfile={handleNavigateToUserProfile} />
+                return <Post key={index} postData={post} onLikePost={setRefreshPosts} />
             })
         }
         {

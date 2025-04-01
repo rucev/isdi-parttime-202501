@@ -1,5 +1,6 @@
 import getUserAvatarById from "./getUserAvatarById";
 import getUserBioById from "./getUserBiobyId";
+import getUserIdByUsername from "./getUserIdByUsername";
 import getUserUsernameById from "./getUserUsernameById";
 import isUserLoggedIn from "./isUserLoggedIn";
 import loginUser from "./loginUser";
@@ -19,7 +20,8 @@ const users = {
     updateBio,
     updateUsername,
     getUserAvatarById,
-    getUserBioById
+    getUserBioById,
+    getUserIdByUsername
 }
 
 export default users

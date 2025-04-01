@@ -5,7 +5,7 @@ import CreatePostModal from "../components/CreatePostModal"
 import './Home.css'
 import logics from "../logic"
 
-const Home = ({ handleNavigateToUserProfile }) => {
+const Home = () => {
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
     const [showNewPostForm, setShowNewPostForm] = useState(false)
     const [posts, setPosts] = useState([])
@@ -44,7 +44,7 @@ const Home = ({ handleNavigateToUserProfile }) => {
     }, [showNewPostForm, refreshPosts])
 
     return <div className="main-container" ref={pageRef}>
-        <PostList posts={posts} refreshPosts={refreshPosts} setRefreshPosts={setRefreshPosts} handleNavigateToUserProfile={handleNavigateToUserProfile} />
+        <PostList posts={posts} refreshPosts={refreshPosts} setRefreshPosts={setRefreshPosts} />
         <Btn btnClassnames={'home__new-post-button'} btnContent={'+'} btnCallback={() => setShowNewPostForm(!showNewPostForm)} />
         <dialog ref={dialogRef}>
             <div ref={formRef}>
