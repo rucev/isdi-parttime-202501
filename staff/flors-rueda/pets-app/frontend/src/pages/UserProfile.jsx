@@ -9,10 +9,8 @@ const UserProfile = ({ userId }) => {
 
 
     useEffect(() => {
-        setPosts([])
         try {
             const retrivedPosts = logics.posts.getPostsByAuthor(userId)
-            console.log(retrivedPosts)
             setPosts(retrivedPosts)
         } catch (error) {
             alert('ups, something is not working!')

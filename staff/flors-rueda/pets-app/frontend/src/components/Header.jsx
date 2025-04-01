@@ -10,12 +10,15 @@ const Header = ({ currentView, handleRegisterClick, handleLandingClick, handleAc
     const [username, setUsername] = useState('')
     const [isUserMenuOpen, setUserMenuOpen] = useState(false)
     const [isUserLogged, setIsUserLogged] = useState(logics.users.isUserLoggedIn())
+    const [avatar, setAvatar] = useState('')
 
     useEffect(() => {
         setIsUserLogged(logics.users.isUserLoggedIn())
         if (currentView === 'home' || currentView === 'account') {
             const retrivedUsername = logics.users.getUserUsernameById(getLoggedUserId())
             setUsername(retrivedUsername)
+            const retrivedAvatar = logics.users.getUserAvatarById(getLoggedUserId())
+            setAvatar(retrivedAvatar)
         }
     }, [currentView, refreshHeader])
 
@@ -45,10 +48,11 @@ const Header = ({ currentView, handleRegisterClick, handleLandingClick, handleAc
             (isUserLogged && username.length > 0) && <p>{`Welcome, ${username}`}</p>
         }
         {
-            (isUserLogged &&
+            ((isUserLogged && (username || avatar)) &&
                 <UserAvatar
                     size={'sm'}
-                    userId={getLoggedUserId()}
+                    avatar={avatar}
+                    letter={username[0]}
                     buttonCallback={() => setUserMenuOpen(!isUserMenuOpen)}
                 />)
         }

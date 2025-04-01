@@ -13,13 +13,9 @@ const Home = ({ handleNavigateToUserProfile }) => {
     const pageRef = useRef(null)
     const formRef = useRef(null)
 
-
-
     useEffect(() => {
-        setPosts([])
         try {
             const retrivedPosts = logics.posts.getAllPosts()
-            console.log(retrivedPosts)
             setPosts(retrivedPosts)
         } catch (error) {
             alert('ups, something is not working!')
@@ -45,7 +41,7 @@ const Home = ({ handleNavigateToUserProfile }) => {
         return () => {
             if (pageRef.current) pageRef.current.removeEventListener("click", handleOutsideModalClick);
         };
-    }, [showNewPostForm])
+    }, [showNewPostForm, refreshPosts])
 
     return <div className="main-container" ref={pageRef}>
         <PostList posts={posts} refreshPosts={refreshPosts} setRefreshPosts={setRefreshPosts} handleNavigateToUserProfile={handleNavigateToUserProfile} />

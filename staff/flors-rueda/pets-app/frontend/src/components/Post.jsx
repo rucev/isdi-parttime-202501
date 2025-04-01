@@ -3,6 +3,7 @@ import './Post.css'
 import UserAvatar from "./UserAvatar"
 
 const Post = ({ postData, onLikePost, handleNavigateToUserProfile }) => {
+
     const handleLikePost = (id) => {
         try {
             logics.posts.toggleLike(id)
@@ -11,17 +12,22 @@ const Post = ({ postData, onLikePost, handleNavigateToUserProfile }) => {
             alert('ups, something is not working!')
             console.error(error)
         }
-
     }
 
     return <div className="post-card">
-        <p className="post-card__creation-info">
+        <div className="post-card__creation-info">
             <span className="post-card__author">
-                {postData.authorId && <UserAvatar userId={postData.authorId} size='md' buttonCallback={() => handleNavigateToUserProfile(postData.authorId)} />}
-                {postData.author}
+                {postData.author && <UserAvatar
+                    size='md'
+                    avatar={postData.author.avatar}
+                    letter={postData.author.username[0]}
+                    buttonCallback={() => handleNavigateToUserProfile(postData.author.id)}
+                />
+                }
+                {postData.author.username}
             </span>
             {postData.createdOn}
-        </p>
+        </div>
         <h3 className="post-card__title">{postData.title}</h3>
         <p className="post-card__description">{postData.description}</p>
         {
