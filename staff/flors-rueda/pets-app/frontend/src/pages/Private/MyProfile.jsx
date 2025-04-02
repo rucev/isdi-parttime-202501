@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import Form from "../components/lib/Form"
-import logics from "../logic/index"
-import './MyProfile.css'
-import UserCard from "../components/UserCard"
-import getLoggedUserId from "../logic/helpers/getLoggedUserId"
+import Form from "../../components/lib/Form"
+import logics from "../../logic/index"
+import './MyProfileSettings.css'
+import UserCard from "../../components/UserCard"
+import getLoggedUserId from "../../logic/helpers/getLoggedUserId"
 
 const MyProfile = ({ updateHeader }) => {
     const [showUsernameForm, setShowUsernameForm] = useState(false)

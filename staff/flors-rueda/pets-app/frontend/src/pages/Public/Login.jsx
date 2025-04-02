@@ -1,10 +1,9 @@
 import { Link, useNavigate } from "react-router"
-import Btn from "../components/lib/Btn"
-import Form from "../components/lib/Form"
-import logics from "../logic"
+import Form from "../../components/lib/Form"
+import logics from "../../logic"
 import "./LoginRegister.css"
 
-const Login = () => {
+const Login = ({ setRefreshHeader }) => {
     const objectEmail = { label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email', isRequired: true }
     const objectPassword = { label: 'Password', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
     const objectRemember = { label: 'Remember me', inputType: 'checkbox', inputValue: 'remember', inputId: 'remember', isRequired: false }
@@ -13,6 +12,7 @@ const Login = () => {
     const onLoginUser = (formData) => {
         try {
             logics.users.loginUser(formData)
+            setRefreshHeader(Date.now())
             navigate('/')
         } catch (error) {
             alert('something went wrong, check your credentials')

@@ -8,6 +8,8 @@ import logoutUser from "./logoutUser";
 import registerUser from "./registerUser";
 import updateAvatar from "./updateAvatar";
 import updateBio from "./updateBio";
+import updateEmail from "./updateEmail";
+import updatePassword from "./updatePassword";
 import updateUsername from "./updateUsername";
 
 const users = {
@@ -21,7 +23,9 @@ const users = {
     updateUsername,
     getUserAvatarById,
     getUserBioById,
-    getUserIdByUsername
+    getUserIdByUsername,
+    updatePassword,
+    updateEmail
 }
 
 export default users

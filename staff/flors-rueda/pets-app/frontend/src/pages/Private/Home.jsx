@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react"
-import PostList from "../components/PostList"
-import Btn from "../components/lib/Btn"
-import CreatePostModal from "../components/CreatePostModal"
+import PostList from "../../components/PostList"
+import Btn from "../../components/lib/Btn"
+import CreatePostModal from "../../components/CreatePostModal"
 import './Home.css'
-import logics from "../logic"
+import logics from "../../logic"
 
 const Home = () => {
     const [refreshPosts, setRefreshPosts] = useState(Date.now())

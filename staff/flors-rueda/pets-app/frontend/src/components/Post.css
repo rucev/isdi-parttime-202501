@@ -10,6 +10,17 @@
     overflow: hidden;
 }
 
+.post-card__delete-button {
+    align-self: flex-end;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.post-card__delete-button:hover {
+    color: #FFAC46;
+}
+
 .post-card__author {
     margin: 0;
     display: flex;
