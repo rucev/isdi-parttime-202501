@@ -1,5 +1,5 @@
 import data from "../../data"
-import { AuthEror, ContentError, ExistenceError } from "../../utils/errors"
+import { AuthError, ContentError, ExistenceError } from "../../utils/errors"
 import validator from "../../utils/validators"
 import getLoggedUserId from "../helpers/getLoggedUserId"
 
@@ -17,7 +17,7 @@ const updatePassword = (newPassword, confirmationNewPassword, oldPassword) => {
     const user = data.users.findUserById(loggedUserId)
 
     if (!user) throw new ExistenceError('user not found')
-    if (user.password !== oldPassword) throw new AuthEror('incorrect password')
+    if (user.password !== oldPassword) throw new AuthError('incorrect password')
     user.password = newPassword
     data.users.updateUserById(loggedUserId, user)
 }

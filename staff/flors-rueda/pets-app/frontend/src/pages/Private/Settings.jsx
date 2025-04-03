@@ -2,17 +2,22 @@ import { useState } from 'react'
 import './MyProfileSettings.css'
 import logics from '../../logic'
 import Form from '../../components/lib/Form'
+import getLoggedUserId from '../../logic/helpers/getLoggedUserId'
+import { useNavigate } from "react-router"
 
 const Settings = () => {
     const [showNewEmailForm, setShowNewEmailForm] = useState(false)
     const [showNewPasswordForm, setShowNewPasswordForm] = useState(false)
     const [showDeleteAccountForm, setShowDeleteAccountForm] = useState(false)
+    const navigate = useNavigate()
 
     const emailObject = { label: 'Email', inputType: 'email', inputPlaceholder: 'my_new@email.com', inputId: 'email', isRequired: true }
 
     const oldPasswordObject = { label: 'Enter your current password', inputType: 'password', inputPlaceholder: '·········', inputId: 'old-password', isRequired: true }
     const newPasswordObject = { label: 'New password', inputType: 'password', inputPlaceholder: '·········', inputId: 'new-password', isRequired: true }
     const newPasswordConfirmObject = { label: 'Confirm your new password', inputType: 'password', inputPlaceholder: '·········', inputId: 'confirm-password', isRequired: true }
+
+    const passwordObject = { label: 'Enter your password to delete your account', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
 
     const onUpdateEmail = (formData) => {
         const newEmail = formData.email
@@ -34,6 +39,20 @@ const Settings = () => {
             logics.users.updatePassword(newPassword, confirmPassword, oldPassword)
         } catch (error) {
             alert('ups! try again!')
+            console.error(error)
+        }
+    }
+
+    const onDeleteAccount = (formData) => {
+        try {
+            const doesUserAgree = confirm("If you delete your account you will delete all your post and everything you ever 'liked'. Continue?")
+            if (doesUserAgree) {
+                logics.users.deleteUserById(getLoggedUserId(), formData.password)
+                logics.users.logoutUser()
+                navigate('/register')
+            }
+        } catch (error) {
+            alert(error)
             console.error(error)
         }
     }
@@ -66,7 +85,11 @@ const Settings = () => {
             <i className={`bi bi-chevron-compact-${showDeleteAccountForm ? 'up' : 'down'}`}></i>
         </div>
         {
-            showDeleteAccountForm && <h2>aqui va un form</h2>
+            showDeleteAccountForm && <Form
+                inputsArray={[passwordObject]}
+                submitButtonText={'Delete my account'}
+                onSubmitCallback={onDeleteAccount}
+            />
         }
     </div>
 }

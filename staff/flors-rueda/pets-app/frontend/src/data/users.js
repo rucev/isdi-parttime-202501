@@ -53,6 +53,17 @@ const users = {
 
         localStorage.users = JSON.stringify(users)
     },
+    deleteUserById: (id) => {
+        const users = localStorage.users ? JSON.parse(localStorage.getItem("users")) : [];
+        const userIndex = users.findIndex(user => user.id === id)
+        if (userIndex === -1) {
+            return
+        }
+
+        users.splice(userIndex, 1)
+
+        localStorage.users = JSON.stringify(users)
+    }
 }
 
 export default users

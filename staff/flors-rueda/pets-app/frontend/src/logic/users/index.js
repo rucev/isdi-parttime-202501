@@ -1,3 +1,4 @@
+import deleteUserById from "./deleteUserById";
 import getUserAvatarById from "./getUserAvatarById";
 import getUserBioById from "./getUserBiobyId";
 import getUserIdByUsername from "./getUserIdByUsername";
@@ -25,7 +26,8 @@ const users = {
     getUserBioById,
     getUserIdByUsername,
     updatePassword,
-    updateEmail
+    updateEmail,
+    deleteUserById
 }
 
 export default users
