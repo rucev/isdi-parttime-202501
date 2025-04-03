@@ -4,7 +4,7 @@ import getLoggedUserId from "../logic/helpers/getLoggedUserId"
 import UserAvatar from "./UserAvatar"
 import './UserCard.css'
 
-const UserCard = ({ userId, refreshSelf }) => {
+const UserCard = ({ userId, refreshSelf, tempAvatar }) => {
     const [user, setUser] = useState()
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const UserCard = ({ userId, refreshSelf }) => {
     return <div className="user-card">
         {
             user && <div className="user-card__username-avatar">
-                <UserAvatar avatar={user.avatar} letter={user.username[0]} size={'lg'} />
+                <UserAvatar avatar={tempAvatar ? tempAvatar : user.avatar} letter={user.username[0]} size={'lg'} />
                 <h2>{user.username}</h2>
 
             </div>

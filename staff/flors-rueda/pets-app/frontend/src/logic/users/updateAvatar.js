@@ -4,7 +4,7 @@ import validator from "../../utils/validators"
 import getLoggedUserId from "../helpers/getLoggedUserId"
 
 const updateAvatar = (newAvatar) => {
-    validator.imgUrl(newAvatar)
+    //validator.imgUrl(newAvatar)
 
     const loggedUserId = getLoggedUserId()
 
