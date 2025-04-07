@@ -5,12 +5,15 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onChangeCallbac
         event.preventDefault()
 
         if (onChangeCallback) {
-            const avatar = event.target.files[0];
+            let avatar;
+            if (!event.target.files) return onChangeCallback(event.target.value, false)
+
+            avatar = event.target.files[0];
 
             const image = new FileReader();
             image.onloadend = () => {
                 const base64 = image.result;
-                onChangeCallback(base64);
+                onChangeCallback(base64, true);
             };
             image.readAsDataURL(avatar)
         }

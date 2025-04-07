@@ -17,7 +17,17 @@ const deleteUserById = (id, password) => {
         data.posts.deletePostById(post.id)
     });
 
-    //TODO: Delete likes gived by the user
+    const allPosts = data.posts.retrievePosts()
+
+    allPosts.forEach(post => {
+        const likeIndex = post.likes.indexOf(id)
+        if (likeIndex !== -1) {
+            const newPost = post
+            newPost.likes.splice(likeIndex, 1)
+
+            data.posts.updatePostById(post.id, newPost)
+        }
+    })
 
     data.users.deleteUserById(id)
 }
