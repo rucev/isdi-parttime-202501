@@ -75,8 +75,21 @@ const MyProfile = ({ updateHeader }) => {
         setTempAvatar(newTempAvatar)
     }
 
-    const saveRandomBio = () => {
-        /*TODO */
+    const saveRandomBio = (error, newBio) => {
+        if (error) alert(error)
+        else {
+            logics.users.updateBio(newBio)
+            setRefreshUserCard(Date.now())
+        }
+    }
+
+    const onRandomBioClick = () => {
+        try {
+            logics.users.getRandomBio(saveRandomBio)
+        } catch (error) {
+            alert('ups, something went wrong')
+            console.error(error)
+        }
     }
 
     return <div className="main-container">
@@ -96,7 +109,7 @@ const MyProfile = ({ updateHeader }) => {
             <i className={`bi bi-chevron-compact-${showBioForm ? 'up' : 'down'}`}></i>
         </div>
         {showBioForm && <Form inputsArray={[bioObject]} onSubmitCallback={onUpdateBio} submitButtonText={"Save new bio"} />}
-        {showBioForm && <div>No ideas? Generate a random bio: <Btn btnContent={'Randomize!'} btnCallback={saveRandomBio} btnClassnames={''} /></div>}
+        {showBioForm && <div className="account__bio"><b>No ideas?</b><p>Generate a random bio:</p><Btn btnContent={'Randomize!'} btnCallback={onRandomBioClick} btnClassnames={'account__random-bio-btn'} /></div>}
     </div>
 }
 

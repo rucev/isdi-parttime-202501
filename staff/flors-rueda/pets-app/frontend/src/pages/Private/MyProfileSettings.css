@@ -8,3 +8,24 @@
     align-items: center;
     cursor: pointer;
 }
+
+.account__bio {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    width: 15rem;
+    border: solid 0.09rem #d9d9d9;
+    padding: 1rem;
+    border-radius: 0.5rem
+}
+
+.account__random-bio-btn {
+    margin: 0;
+    background-color: black;
+    color: white;
+    padding: 0.5rem 0.4rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-family: "Josefin Sans", sans-serif;
+}
