@@ -25,3 +25,10 @@ export class ContentError extends Error {
         this.name = ContentError
     }
 }
+
+export class DuplicityError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = DuplicityError
+    }
+}
