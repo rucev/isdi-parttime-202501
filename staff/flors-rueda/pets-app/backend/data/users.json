@@ -1,7 +1,14 @@
 [
     {
-        "email": "percy1@mail.com",
+        "email": "cosmo@mail.com",
         "password": "12345Aa!",
-        "id": 1744225089140
+        "username": "cosmo",
+        "id": 1744310237075
+    },
+    {
+        "email": "percy@mail.com",
+        "password": "12345Aa!",
+        "username": "percy",
+        "id": 1744311957077
     }
 ]

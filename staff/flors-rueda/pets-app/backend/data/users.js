@@ -31,6 +31,19 @@ const users = {
                 callback(null, userFound)
             }
         })
+    },
+    findUserById: (id, callback) => {
+        fs.readFile('./data/users.json', (error, data) => {
+            if (error) callback(error)
+            else {
+                let users = JSON.parse(data)
+                if (!users) users = []
+
+                const userFound = users.find(user => user.id === id)
+
+                callback(null, userFound)
+            }
+        })
     }
 }
 

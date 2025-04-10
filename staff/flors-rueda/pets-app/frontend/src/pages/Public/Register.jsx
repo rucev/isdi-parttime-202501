@@ -10,9 +10,16 @@ const Register = ({ setRefreshHeader }) => {
 
     const onRegisterUser = (formData) => {
         try {
-            logics.users.registerUser(formData)
-            setRefreshHeader(Date.now())
-            navigate('/')
+            logics.users.registerUser(formData, (error) => {
+                if (error) alert(error)
+                else {
+                    logics.users.loginUser(formData, (error) => {
+                        if (error) alert(error)
+                        setRefreshHeader(Date.now())
+                        navigate('/')
+                    })
+                }
+            })
         } catch (error) {
             alert('check your form data, something went wrong')
             console.error(error)

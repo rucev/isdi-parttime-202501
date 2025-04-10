@@ -2,26 +2,44 @@ import data from "../../data"
 import { AuthError, ExistenceError } from "common/errors"
 import validator from "common"
 
-const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
+const loginUser = (loginData, callback) => { //{'email': 'patata@mail.com'}
     //comprobamos si el email que ha puesto el usuario esta en la bbdd y si no lo esta, lanzamos un alert
     validator.password(loginData['password'])
     validator.email(loginData['email'])
 
-    const userLoginCheckout = data.users.findUserByEmail(loginData['email'])
+    const xhr = new XMLHttpRequest()
 
-    //comprueba que el usuario loggeado esta en nuestra ddbb(si es que tenemos una base de datos)
-    //si esta en la base de datos, comprobamos que la cotnraseña coincide con la del usuario, sino, lanzamos un alert
-    if (!userLoginCheckout) throw new ExistenceError('user not found')
+    xhr.open('POST', `${import.meta.env.VITE_PETS_API}/users/auth`, true)
 
-    if (userLoginCheckout['password'] !== loginData['password']) {
-        throw new AuthError("wrong credentials")
+    const user = { email: loginData.email, password: loginData.password }
+
+
+    xhr.setRequestHeader('Content-Type', 'application/json')
+
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const id = xhr.response
+
+                if (loginData['remember']) {
+                    localStorage.id = id
+                } else {
+                    sessionStorage.id = id
+                }
+                callback(null)
+            } else {
+                callback(xhr.response)
+            }
+        }
     }
 
-    if (loginData['remember']) {
-        localStorage.id = userLoginCheckout.id
-    } else {
-        sessionStorage.id = userLoginCheckout.id
-    }
+    xhr.send(JSON.stringify(user))
+
+
+
+
+
+
 
     //y si se cumple todo, guardamos el id en el session storage y navegamos a home*/
 
