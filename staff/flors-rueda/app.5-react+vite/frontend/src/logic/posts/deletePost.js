@@ -1,6 +1,6 @@
 import data from "../../data"
 import { AuthError, ExistenceError } from "../../utils/errors"
-import validator from "common"
+import validator from "../../utils/validators"
 
 const deletePost = (userId, postId) => {
     validator.id(userId)
