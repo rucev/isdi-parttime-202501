@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import './Form.css'
+import PasswordFeedback from './PasswordFeedback'
 
-const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onChangeCallback }) => { //inputsArray = [{label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email'}, {label: 'Password....}]
+const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onChangeCallback, securityPasswordErrors }) => { //inputsArray = [{label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email'}, {label: 'Password....}]
 
     const handleInputChange = (event) => {
         event.preventDefault()
@@ -80,6 +81,7 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onChangeCallbac
                 }
             })
         }
+        {(securityPasswordErrors && securityPasswordErrors.length > 0) && <PasswordFeedback securityPasswordErrors={securityPasswordErrors} />}
         <input className="form__submit-button" type="submit" value={submitButtonText} />
     </form>
 }

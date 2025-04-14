@@ -1,18 +1,21 @@
 import data from "../../data"
-import { ContentError, ExistenceError } from "../../utils/errors"
+import { ContentError, ExistenceError, FormatError } from "../../utils/errors"
 import validator from "../../utils/validators"
 
 const registerUser = (registerData) => { //registerData = {'email': '', 'password': '', 'confirmation-password': ''}
+    const securityErrors = validator.passwordSecurity(registerData['password'])
+
+    if (securityErrors.length > 0) throw new FormatError(securityErrors.join(','))
+
+    if (registerData['password'] !== registerData['confirmation-password']) {
+        throw new ContentError('password and confirmation password are not the same')
+    }
+
     validator.email(registerData['email'])
     validator.password(registerData['password'])
     validator.password(registerData['confirmation-password'])
     const username = registerData['email'].split('@')[0]
     validator.username(username)
-
-
-    if (registerData['password'] !== registerData['confirmation-password']) {
-        throw new ContentError('password and confirmation password are not the same')
-    }
 
     const doesUserExist = data.users.findUserByEmail(registerData['email'])
     if (doesUserExist) {

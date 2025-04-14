@@ -13,6 +13,38 @@ const validator = {
             throw new FormatError('Email format not valid')
         }
     },
+    passwordSecurity: (password) => {
+        const securityErrors = []
+        const numbers = "0123456789"
+        let hasANumber = false
+        for (let i = 0; i < numbers.length; i++) {
+            if (password.includes(numbers[i])) {
+                hasANumber = true
+                i = numbers.length
+            }
+        }
+        if (!hasANumber) securityErrors.push('needs a number')
+
+        if (password.toLowerCase() === password) securityErrors.push('needs an upper case letter')
+
+        if (password.toUpperCase() === password) securityErrors.push('needs a lower case letter')
+
+        if (password.length < 8) securityErrors.push('needs at least 8 characters')
+
+        const specialChars = '$&!@=*^ñ?¿¡/#ªº¬'
+        let hasSpecial = false
+
+        for (let i = 0; i < specialChars.length; i++) {
+            if (password.includes(specialChars[i])) {
+                hasSpecial = true
+                i = specialChars.length
+            }
+        }
+
+        if (!hasSpecial) securityErrors.push('needs a special character ($&!@=*^ñ?¿¡/#ªº¬)')
+
+        return securityErrors
+    },
     password: (password) => {
         if (typeof password !== 'string') {
             throw new TypeError('Email is not a string')
@@ -20,8 +52,8 @@ const validator = {
         if (password.length === 0) {
             throw new RangeError('Password is empty')
         }
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$&!@=*^ñ?¿¡/#ªº¬])[A-Za-z\d$&!@=*^ñ?¿¡/#ªº¬]{8,}$/ //minimo una mayuscula, minuscula, numero, caracter especial y 8 de length
-        if (!passwordRegex.test(password)) {
+        const formatErrors = validator.passwordSecurity(password)
+        if (formatErrors.length > 0) {
             throw new FormatError('Password format not valid')
         }
     },
