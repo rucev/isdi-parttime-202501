@@ -24,7 +24,7 @@ const UserCard = ({ userId, refreshSelf, tempAvatar }) => {
 
             </div>
         }
-        {(user && user.bio) && <p className="user-card__bio"><i className="bi bi-info-circle"></i>{user.bio}</p>}
+        {(user && user.bio) && <p className="user-card__bio"><i className="bi bi-person-circle"></i>{user.bio}</p>}
     </div>
 }
 

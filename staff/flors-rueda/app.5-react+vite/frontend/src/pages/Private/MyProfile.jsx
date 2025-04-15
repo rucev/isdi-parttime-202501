@@ -103,7 +103,7 @@ const MyProfile = ({ updateHeader }) => {
             <h2>Change my avatar</h2>
             <i className={`bi bi-chevron-compact-${showAvatarForm ? 'up' : 'down'}`}></i>
         </div>
-        {showAvatarForm && <Form inputsArray={[avatarObject, avatarObject2]} onSubmitCallback={onUpdateAvatar} submitButtonText={"Save new avatar"} onChangeCallback={onChangeTemporal} />}
+        {showAvatarForm && <Form inputsArray={[avatarObject, avatarObject2]} onSubmitCallback={onUpdateAvatar} submitButtonText={"Save new avatar"} onFileChangeCallback={onChangeTemporal} />}
         <div className="account__section-title" onClick={() => setShowBioForm(!showBioForm)}>
             <h2>Change my bio</h2>
             <i className={`bi bi-chevron-compact-${showBioForm ? 'up' : 'down'}`}></i>

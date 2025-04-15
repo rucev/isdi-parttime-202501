@@ -4,18 +4,20 @@ import logics from '../../logic'
 import Form from '../../components/lib/Form'
 import getLoggedUserId from '../../logic/helpers/getLoggedUserId'
 import { useNavigate } from "react-router"
+import checkPasswordSecurity from '../../logic/helpers/checkPasswordSecurity'
 
 const Settings = () => {
     const [showNewEmailForm, setShowNewEmailForm] = useState(false)
     const [showNewPasswordForm, setShowNewPasswordForm] = useState(false)
     const [showDeleteAccountForm, setShowDeleteAccountForm] = useState(false)
+    const [securityErrors, setSecurityErrors] = useState(null)
     const navigate = useNavigate()
 
     const emailObject = { label: 'Email', inputType: 'email', inputPlaceholder: 'my_new@email.com', inputId: 'email', isRequired: true }
 
     const oldPasswordObject = { label: 'Enter your current password', inputType: 'password', inputPlaceholder: '·········', inputId: 'old-password', isRequired: true }
-    const newPasswordObject = { label: 'New password', inputType: 'password', inputPlaceholder: '·········', inputId: 'new-password', isRequired: true }
-    const newPasswordConfirmObject = { label: 'Confirm your new password', inputType: 'password', inputPlaceholder: '·········', inputId: 'confirm-password', isRequired: true }
+    const newPasswordObject = { label: 'New password', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
+    const newPasswordConfirmObject = { label: 'Confirm your new password', inputType: 'password', inputPlaceholder: '·········', inputId: 'confirmation-password', isRequired: true }
 
     const passwordObject = { label: 'Enter your password to delete your account', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
 
@@ -32,15 +34,23 @@ const Settings = () => {
 
     const onUpdatePassword = (formData) => {
         const oldPassword = formData['old-password']
-        const newPassword = formData['new-password']
-        const confirmPassword = formData['confirm-password']
+        const newPassword = formData['password']
+        const confirmPassword = formData['confirmation-password']
 
         try {
             logics.users.updatePassword(newPassword, confirmPassword, oldPassword)
         } catch (error) {
-            alert('ups! try again!')
-            console.error(error)
+            if (error instanceof FormatError) {
+                setSecurityErrors((error.message).split(','))
+            } else {
+                alert('check your form data, something went wrong')
+                console.error(error.message)
+            }
         }
+    }
+
+    const onPasswordInputChange = (password) => {
+        setSecurityErrors(checkPasswordSecurity(password))
     }
 
     const onDeleteAccount = (formData) => {
@@ -78,6 +88,8 @@ const Settings = () => {
                 inputsArray={[oldPasswordObject, newPasswordObject, newPasswordConfirmObject]}
                 submitButtonText={'Save new password'}
                 onSubmitCallback={onUpdatePassword}
+                onPasswordChangeCallback={onPasswordInputChange}
+                securityPasswordErrors={securityErrors}
             />
         }
         <div className='settings__section-title' onClick={() => setShowDeleteAccountForm(!showDeleteAccountForm)}>

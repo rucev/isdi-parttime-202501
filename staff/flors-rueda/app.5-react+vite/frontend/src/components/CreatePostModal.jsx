@@ -55,7 +55,7 @@ const CreatePostModal = ({ setRefreshPosts, closeModal }) => {
         {tempImg && <img className="home__create-post--image-preview" src={tempImg} />}
 
 
-        <Form inputsArray={[titleInput, descriptionInput, imgFileInput, imgInput]} submitButtonText={'Publish'} onSubmitCallback={handlePublishPost} onChangeCallback={handleImageChange} />
+        <Form inputsArray={[titleInput, descriptionInput, imgFileInput, imgInput]} submitButtonText={'Publish'} onSubmitCallback={handlePublishPost} onFileChangeCallback={handleImageChange} />
     </div>
 }
 
