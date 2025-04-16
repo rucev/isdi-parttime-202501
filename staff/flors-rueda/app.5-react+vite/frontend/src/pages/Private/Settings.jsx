@@ -1,25 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './MyProfileSettings.css'
 import logics from '../../logic'
 import Form from '../../components/lib/Form'
 import getLoggedUserId from '../../logic/helpers/getLoggedUserId'
 import { useNavigate } from "react-router"
 import checkPasswordSecurity from '../../logic/helpers/checkPasswordSecurity'
+import locales from '../../locales'
 
-const Settings = () => {
+const Settings = ({ locale }) => {
     const [showNewEmailForm, setShowNewEmailForm] = useState(false)
     const [showNewPasswordForm, setShowNewPasswordForm] = useState(false)
     const [showDeleteAccountForm, setShowDeleteAccountForm] = useState(false)
     const [securityErrors, setSecurityErrors] = useState(null)
     const navigate = useNavigate()
+    const [translations, setTranslations] = useState(locales[locale]['settings'])
+    const [formTranslations, setFormTranslations] = useState(locales[locale]['forms'])
 
-    const emailObject = { label: 'Email', inputType: 'email', inputPlaceholder: 'my_new@email.com', inputId: 'email', isRequired: true }
+    useEffect(() => {
+        setTranslations(locales[locale]['settings'])
+        setFormTranslations(locales[locale]['forms'])
+    }, [locale])
 
-    const oldPasswordObject = { label: 'Enter your current password', inputType: 'password', inputPlaceholder: '·········', inputId: 'old-password', isRequired: true }
-    const newPasswordObject = { label: 'New password', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
-    const newPasswordConfirmObject = { label: 'Confirm your new password', inputType: 'password', inputPlaceholder: '·········', inputId: 'confirmation-password', isRequired: true }
+    const emailObject = { label: formTranslations.emailLabel, inputType: 'email', inputPlaceholder: formTranslations.emailPlaceholder, inputId: 'email', isRequired: true }
 
-    const passwordObject = { label: 'Enter your password to delete your account', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
+    const oldPasswordObject = { label: formTranslations.currentPswrLabel, inputType: 'password', inputPlaceholder: '·········', inputId: 'old-password', isRequired: true }
+    const newPasswordObject = { label: formTranslations.newPasswordLabel, inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
+    const newPasswordConfirmObject = { label: formTranslations.confirmPasswordLabel, inputType: 'password', inputPlaceholder: '·········', inputId: 'confirmation-password', isRequired: true }
+
+    const passwordObject = { label: formTranslations.deleteAccountLabel, inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
 
     const onUpdateEmail = (formData, onSuccess) => {
         const newEmail = formData.email
@@ -28,7 +36,7 @@ const Settings = () => {
             logics.users.updateEmail(newEmail)
             onSuccess()
         } catch (error) {
-            alert('ups! try again!')
+            alert(formTranslations.errorMsg)
             console.error(error)
         }
     }
@@ -46,7 +54,7 @@ const Settings = () => {
             if (error instanceof FormatError) {
                 setSecurityErrors((error.message).split(','))
             } else {
-                alert('check your form data, something went wrong')
+                alert(formTranslations.errorMsg)
                 console.error(error.message)
             }
         }
@@ -58,7 +66,7 @@ const Settings = () => {
 
     const onDeleteAccount = (formData, onSuccess) => {
         try {
-            const doesUserAgree = confirm("If you delete your account you will delete all your post and everything you ever 'liked'. Continue?")
+            const doesUserAgree = confirm(translations.confirmDelete)
             if (doesUserAgree) {
                 logics.users.deleteUserById(getLoggedUserId(), formData.password)
                 logics.users.logoutUser()
@@ -73,37 +81,37 @@ const Settings = () => {
 
     return <div className='main-container'>
         <div className='settings__section-title' onClick={() => setShowNewEmailForm(!showNewEmailForm)}>
-            <h2>Update my email</h2>
+            <h2>{translations.emailTitle}</h2>
             <i className={`bi bi-chevron-compact-${showNewEmailForm ? 'up' : 'down'}`}></i>
         </div>
         {
             showNewEmailForm && <Form
                 inputsArray={[emailObject]}
-                submitButtonText={'Save new email'}
+                submitButtonText={formTranslations.updateSubmit}
                 onSubmitCallback={onUpdateEmail}
             />
         }
         <div className='settings__section-title' onClick={() => setShowNewPasswordForm(!showNewPasswordForm)}>
-            <h2>Update my password</h2>
+            <h2>{translations.passwordTitle}</h2>
             <i className={`bi bi-chevron-compact-${showNewPasswordForm ? 'up' : 'down'}`}></i>
         </div>
         {
             showNewPasswordForm && <Form
                 inputsArray={[oldPasswordObject, newPasswordObject, newPasswordConfirmObject]}
-                submitButtonText={'Save new password'}
+                submitButtonText={formTranslations.updateSubmit}
                 onSubmitCallback={onUpdatePassword}
                 onPasswordChangeCallback={onPasswordInputChange}
                 securityPasswordErrors={securityErrors}
             />
         }
         <div className='settings__section-title' onClick={() => setShowDeleteAccountForm(!showDeleteAccountForm)}>
-            <h2>Delete my account</h2>
+            <h2>{translations.deleteTitle}</h2>
             <i className={`bi bi-chevron-compact-${showDeleteAccountForm ? 'up' : 'down'}`}></i>
         </div>
         {
             showDeleteAccountForm && <Form
                 inputsArray={[passwordObject]}
-                submitButtonText={'Delete my account'}
+                submitButtonText={translations.deleteTitle}
                 onSubmitCallback={onDeleteAccount}
             />
         }
