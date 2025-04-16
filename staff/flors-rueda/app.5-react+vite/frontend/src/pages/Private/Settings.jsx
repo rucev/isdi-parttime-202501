@@ -21,24 +21,27 @@ const Settings = () => {
 
     const passwordObject = { label: 'Enter your password to delete your account', inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
 
-    const onUpdateEmail = (formData) => {
+    const onUpdateEmail = (formData, onSuccess) => {
         const newEmail = formData.email
 
         try {
             logics.users.updateEmail(newEmail)
+            onSuccess()
         } catch (error) {
             alert('ups! try again!')
             console.error(error)
         }
     }
 
-    const onUpdatePassword = (formData) => {
+    const onUpdatePassword = (formData, onSuccess) => {
         const oldPassword = formData['old-password']
         const newPassword = formData['password']
         const confirmPassword = formData['confirmation-password']
 
         try {
             logics.users.updatePassword(newPassword, confirmPassword, oldPassword)
+            onSuccess()
+            setSecurityErrors(null)
         } catch (error) {
             if (error instanceof FormatError) {
                 setSecurityErrors((error.message).split(','))
@@ -53,12 +56,13 @@ const Settings = () => {
         setSecurityErrors(checkPasswordSecurity(password))
     }
 
-    const onDeleteAccount = (formData) => {
+    const onDeleteAccount = (formData, onSuccess) => {
         try {
             const doesUserAgree = confirm("If you delete your account you will delete all your post and everything you ever 'liked'. Continue?")
             if (doesUserAgree) {
                 logics.users.deleteUserById(getLoggedUserId(), formData.password)
                 logics.users.logoutUser()
+                onSuccess()
                 navigate('/register')
             }
         } catch (error) {

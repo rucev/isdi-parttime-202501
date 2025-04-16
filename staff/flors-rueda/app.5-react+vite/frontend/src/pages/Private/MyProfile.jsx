@@ -19,9 +19,10 @@ const MyProfile = ({ updateHeader }) => {
     const avatarObject2 = { label: 'Use a public url image', inputType: 'url', inputPlaceholder: 'https/new.com/avatar.png', inputId: 'avatar-url', isRequired: false }
     const bioObject = { label: 'Bio', inputType: 'text-area', inputPlaceholder: 'More about me here!', inputId: 'bio', isRequired: true }
 
-    const onUpdateUsername = (formData) => {
+    const onUpdateUsername = (formData, onSuccess) => {
         try {
             logics.users.updateUsername(formData['username'])
+            onSuccess()
             updateHeader(Date.now())
             setRefreshUserCard(Date.now())
             setShowUsernameForm(false)
@@ -31,7 +32,7 @@ const MyProfile = ({ updateHeader }) => {
         }
     }
 
-    const onUpdateAvatar = (formData) => {
+    const onUpdateAvatar = (formData, onSuccess) => {
         setIsLocalAvatar(formData['avatar-64'] ? true : false)
         try {
             if (isLocalAvatar) {
@@ -48,6 +49,7 @@ const MyProfile = ({ updateHeader }) => {
 
 
             logics.users.updateAvatar(tempAvatar)
+            onSuccess()
             updateHeader(Date.now())
             setRefreshUserCard(Date.now())
             setShowAvatarForm(false)
@@ -58,9 +60,10 @@ const MyProfile = ({ updateHeader }) => {
         }
     }
 
-    const onUpdateBio = (formData) => {
+    const onUpdateBio = (formData, onSuccess) => {
         try {
             logics.users.updateBio(formData['bio'])
+            onSuccess()
             updateHeader(Date.now())
             setRefreshUserCard(Date.now())
             setShowBioForm(false)

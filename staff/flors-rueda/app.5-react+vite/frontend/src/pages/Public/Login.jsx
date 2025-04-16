@@ -9,9 +9,10 @@ const Login = ({ setRefreshHeader }) => {
     const objectRemember = { label: 'Remember me', inputType: 'checkbox', inputValue: 'remember', inputId: 'remember', isRequired: false }
     const navigate = useNavigate()
 
-    const onLoginUser = (formData) => {
+    const onLoginUser = (formData, onSuccess) => {
         try {
             logics.users.loginUser(formData)
+            onSuccess()
             setRefreshHeader(Date.now())
             navigate('/')
         } catch (error) {

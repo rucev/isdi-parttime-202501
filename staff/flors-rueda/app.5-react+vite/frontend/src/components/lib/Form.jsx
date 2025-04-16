@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './Form.css'
 import PasswordFeedback from './PasswordFeedback'
-import Btn from './Btn'
 import PasswordInput from './PasswordInput'
 
 const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onFileChangeCallback, onPasswordChangeCallback, securityPasswordErrors }) => { //inputsArray = [{label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email'}, {label: 'Password....}]
     const [tempPassword, setTempPassword] = useState()
     const [arePasswordsEqual, setArePasswordsEqual] = useState(null)
-    const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false)
 
     const handleFileInputChange = (event) => {
         event.preventDefault()
@@ -28,23 +25,20 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onFileChangeCal
         }
     }
 
-    const handlePasswordInputChange = (event) => {
+    const handlePasswordInputChange = (event, inputId) => {
         event.preventDefault()
 
         const password = event.target.value
 
         if (onPasswordChangeCallback) {
-            setTempPassword(password)
-            onPasswordChangeCallback(password)
+            if (inputId === 'password') {
+                setTempPassword(password)
+                onPasswordChangeCallback(password)
+            }
+            if (inputId === 'confirmation-password') {
+                setArePasswordsEqual(password === tempPassword)
+            }
         }
-    }
-
-    const handleConfirmationPasswordInputChange = (event) => {
-        event.preventDefault()
-
-        const confirmationPassword = event.target.value
-
-        if (onPasswordChangeCallback) setArePasswordsEqual(confirmationPassword === tempPassword)
     }
 
 
@@ -70,8 +64,7 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onFileChangeCal
         }
 
         try {
-            onSubmitCallback(formData)
-            form.reset()
+            onSubmitCallback(formData, () => form.reset())
         } catch (error) {
             console.error(error)
             if (error.name === 'FormatError' || error.name === 'RangeError' || error.name === 'TypeError') {
@@ -103,7 +96,7 @@ const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onFileChangeCal
                     return <div className="form__input" key={index} >
                         <label htmlFor={inputElement.inputId}>{inputElement.label}</label>
                         <PasswordInput inputElement={inputElement}
-                            onChangeCallback={inputElement.inputId === 'password' ? handlePasswordInputChange : inputElement.inputId === 'confirmation-password' ? handleConfirmationPasswordInputChange : null} />
+                            onChangeCallback={(inputElement.inputId === 'password' || inputElement.inputId === 'confirmation-password') ? handlePasswordInputChange : null} />
 
                     </div>
                 } else {

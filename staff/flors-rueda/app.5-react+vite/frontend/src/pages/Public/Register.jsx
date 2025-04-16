@@ -12,9 +12,10 @@ const Register = ({ setRefreshHeader }) => {
     const navigate = useNavigate()
     const [securityErrors, setSecurityErrors] = useState(null)
 
-    const onRegisterUser = (formData) => {
+    const onRegisterUser = (formData, onSuccess) => {
         try {
             logics.users.registerUser(formData)
+            onSuccess()
             setRefreshHeader(Date.now())
             navigate('/')
         } catch (error) {

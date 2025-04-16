@@ -11,7 +11,7 @@ const CreatePostModal = ({ setRefreshPosts, closeModal }) => {
     const imgFileInput = { label: 'Load an image', inputType: 'file', inputPlaceholder: '', inputId: 'img-64', isRequired: false }
     const imgInput = { label: 'Or use a public image url', inputType: 'url', inputPlaceholder: '.png, .jpg, etc', inputId: 'img-url', isRequired: false }
 
-    const handlePublishPost = (formData) => {
+    const handlePublishPost = (formData, onSuccess) => {
         try {
             if (isLocalImage) {
                 const img = formData['img-64']
@@ -27,6 +27,7 @@ const CreatePostModal = ({ setRefreshPosts, closeModal }) => {
             }
 
             logics.posts.publishPost(formData['title'], formData['description'], tempImg)
+            onSuccess()
             setIsLocalImage(null)
             setTempImg(null)
             closeModal()
