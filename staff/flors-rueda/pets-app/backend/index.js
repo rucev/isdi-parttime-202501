@@ -117,6 +117,8 @@ api.get('/users/avatar', (req, res) => {
     }
 })
 
+api.path('')
+
 api.listen(port, () => {
     console.info(`API listening to PORT: ${port}`)
 })
