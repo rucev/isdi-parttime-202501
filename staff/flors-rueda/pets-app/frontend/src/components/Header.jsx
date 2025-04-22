@@ -34,10 +34,25 @@ const Header = ({ refreshHeader, logout, isUserLogged, locale }) => {
 
         if (logics.users.isUserLoggedIn()) {
             setJustifyItems('between')
-            const retrivedUsername = logics.users.getUserUsernameById(getLoggedUserId())
-            setUsername(retrivedUsername)
-            const retrivedAvatar = logics.users.getUserAvatarById(getLoggedUserId())
-            setAvatar(retrivedAvatar)
+            logics.users.getUserUsername((error, retrivedUsername) => {
+                if (error) {
+                    alert('error!')
+                    console.error(error)
+                }
+                else {
+                    setUsername(retrivedUsername)
+                    logics.users.getUserAvatar((error, retrivedAvatar) => {
+                        if (error) {
+                            alert('error!')
+                            console.error(error)
+                        } else {
+                            setAvatar(retrivedAvatar)
+                        }
+                    })
+                }
+            })
+
+
         } else {
             if (pathname === '/login' || pathname === '/register') {
                 setJustifyItems('start')

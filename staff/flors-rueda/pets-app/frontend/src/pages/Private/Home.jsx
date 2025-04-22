@@ -14,13 +14,14 @@ const Home = ({ locale }) => {
     const formRef = useRef(null)
 
     useEffect(() => {
+        /*
         try {
             const retrivedPosts = logics.posts.getAllPosts()
             setPosts(retrivedPosts)
         } catch (error) {
             alert('ups, something is not working!')
             console.error(error)
-        }
+        }*/
     }, [refreshPosts])
 
     const handleOutsideModalClick = (event) => {

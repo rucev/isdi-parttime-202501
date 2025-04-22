@@ -1,14 +1,9 @@
 [
     {
-        "email": "cosmo@mail.com",
+        "email": "hiro@mail.com",
         "password": "12345Aa!",
-        "username": "cosmo",
-        "id": 1744310237075
-    },
-    {
-        "email": "percy@mail.com",
-        "password": "12345Aa!",
-        "username": "percy",
-        "id": 1744311957077
+        "username": "hiro",
+        "id": 1745347771309,
+        "avatar": "https://www.goodvinilos.com/4608/pegatina-pokemon-charmander.jpg"
     }
 ]

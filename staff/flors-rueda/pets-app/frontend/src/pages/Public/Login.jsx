@@ -21,10 +21,17 @@ const Login = ({ setRefreshHeader, locale }) => {
 
     const onLoginUser = (formData, onSuccess) => {
         try {
-            logics.users.loginUser(formData)
-            onSuccess()
-            setRefreshHeader(Date.now())
-            navigate('/')
+            logics.users.loginUser(formData, (error) => {
+                if (error) {
+                    alert(translations.errorMsg)
+                    console.error(error)
+                } else {
+                    onSuccess()
+                    setRefreshHeader(Date.now())
+                    navigate('/')
+                }
+
+            })
         } catch (error) {
             alert(translations.errorMsg)
             console.error(error)

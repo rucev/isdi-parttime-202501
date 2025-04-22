@@ -23,10 +23,23 @@ const Register = ({ setRefreshHeader, locale }) => {
 
     const onRegisterUser = (formData, onSuccess) => {
         try {
-            logics.users.registerUser(formData)
-            onSuccess()
-            setRefreshHeader(Date.now())
-            navigate('/')
+            logics.users.registerUser(formData, (error) => {
+                if (error) {
+                    alert(formTranslations.errorMsg)
+                    console.log(error)
+                } else {
+                    onSuccess()
+                    logics.users.loginUser(formData, (error) => {
+                        if (error) {
+                            alert(formTranslations.errorMsg)
+                            console.log(error)
+                        } else {
+                            setRefreshHeader(Date.now())
+                            navigate('/')
+                        }
+                    })
+                }
+            })
         } catch (error) {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))
@@ -35,7 +48,6 @@ const Register = ({ setRefreshHeader, locale }) => {
                 console.error(error.message)
             }
         }
-
     }
 
     const onPasswordInputChange = (password) => {

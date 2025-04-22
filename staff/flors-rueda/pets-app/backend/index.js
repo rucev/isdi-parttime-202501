@@ -1,9 +1,10 @@
 import express from 'express';
 import { json } from 'express';
 import { data } from './data/index.js';
-import validator from 'common';
-import { FormatError } from 'common/errors.js';
+import { validator, errors } from 'common';
 import cors from 'cors'
+
+const { FormatError } = errors
 
 const port = 4321 //localhost:4321/
 
@@ -27,11 +28,11 @@ api.post('/users', jsonBodyParser, (req, res) => {
         const username = email.split('@')[0]
 
         data.users.findUserByEmail(email, (error, user) => {
-            if (error) res.status(500).send(error.message)
-            else if (user) res.status(409).send('Duplicity error.')
+            if (error) res.status(500).send({ name: error.name, message: error.message })
+            else if (user) res.status(409).send({ name: 'DuplicityError', message: 'User already exists' })
             else {
                 data.users.createUser({ email, password, username }, (error, user) => {
-                    if (error) res.status(500).send(error.message)
+                    if (error) res.status(500).send({ name: error.name, message: error.message })
                     else if (user) res.status(201).send()
                     else {
                         res.status(500).send('something went wrong')
@@ -41,9 +42,9 @@ api.post('/users', jsonBodyParser, (req, res) => {
         })
     } catch (error) {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
-            res.status(400).send(error.message)
+            res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send(error.message)
+            res.status(500).send({ name: error.name, message: error.message })
         }
     }
 })
@@ -56,8 +57,8 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
         validator.password(password)
 
         data.users.findUserByEmail(email, (error, user) => {
-            if (error) res.status(500).send(error.message)
-            else if (!user) res.status(404).send('user not found')
+            if (error) res.status(500).send({ name: error.name, message: error.message })
+            else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
             else {
                 if (user.password !== password) res.status(401).send('invalid credentials')
                 else {
@@ -67,9 +68,9 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
         })
     } catch (error) {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
-            res.status(400).send(error.message)
+            res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send(error.message)
+            res.status(500).send({ name: error.name, message: error.message })
         }
     }
 })
@@ -83,14 +84,14 @@ api.get('/users/username', (req, res) => {
         validator.id(id)
         data.users.findUserById(id, (error, user) => {
             if (error) res.status(500).send(error.message)
-            else if (!user) res.status(404).send('user not found')
+            else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
             else res.status(200).send(user.username)
         })
     } catch (error) {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
-            res.status(400).send(error.message)
+            res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send(error.message)
+            res.status(500).send({ name: error.name, message: error.message })
         }
     }
 })
@@ -103,15 +104,15 @@ api.get('/users/avatar', (req, res) => {
     try {
         validator.id(id)
         data.users.findUserById(id, (error, user) => {
-            if (error) res.status(500).send(error.message)
-            else if (!user) res.status(404).send('user not found')
+            if (error) res.status(500).send({ name: error.name, message: error.message })
+            else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
             else res.status(200).send(user.avatar)
         })
     } catch (error) {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
-            res.status(400).send(error.message)
+            res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send(error.message)
+            res.status(500).send({ name: error.name, message: error.message })
         }
     }
 })
