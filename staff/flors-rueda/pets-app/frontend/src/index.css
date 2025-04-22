@@ -47,6 +47,23 @@ input {
     font-size: medium;
 }
 
+.translate-btn {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    background-color: ghostwhite;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    color: slategray;
+}
+
+.translate-btn:hover {
+    background-color: silver;
+    color: black
+}
+
 @media (min-width: 720px) {}
 
 

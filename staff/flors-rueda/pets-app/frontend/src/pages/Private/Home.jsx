@@ -5,7 +5,7 @@ import CreatePostModal from "../../components/CreatePostModal"
 import './Home.css'
 import logics from "../../logic"
 
-const Home = () => {
+const Home = ({ locale }) => {
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
     const [showNewPostForm, setShowNewPostForm] = useState(false)
     const [posts, setPosts] = useState([])
@@ -48,7 +48,7 @@ const Home = () => {
         <Btn btnClassnames={'home__new-post-button'} btnContent={'+'} btnCallback={() => setShowNewPostForm(!showNewPostForm)} />
         <dialog ref={dialogRef}>
             <div ref={formRef}>
-                <CreatePostModal setRefreshPosts={setRefreshPosts} closeModal={() => setShowNewPostForm(false)} />
+                <CreatePostModal locale={locale} setRefreshPosts={setRefreshPosts} closeModal={() => setShowNewPostForm(false)} />
             </div>
         </dialog>
     </div>
