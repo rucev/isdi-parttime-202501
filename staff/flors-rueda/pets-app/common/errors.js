@@ -33,6 +33,13 @@ class DuplicityError extends Error {
     }
 }
 
+class ServerError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = ServerError
+    }
+}
+
 export default {
-    ExistenceError, DuplicityError, ContentError, AuthError, FormatError
+    ExistenceError, DuplicityError, ContentError, AuthError, FormatError, ServerError
 }

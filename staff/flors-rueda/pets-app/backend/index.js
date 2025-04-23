@@ -28,14 +28,14 @@ api.post('/users', jsonBodyParser, (req, res) => {
         const username = email.split('@')[0]
 
         data.users.findUserByEmail(email, (error, user) => {
-            if (error) res.status(500).send({ name: error.name, message: error.message })
+            if (error) res.status(500).send({ name: 'ServerError', message: error.message })
             else if (user) res.status(409).send({ name: 'DuplicityError', message: 'User already exists' })
             else {
                 data.users.createUser({ email, password, username }, (error, user) => {
-                    if (error) res.status(500).send({ name: error.name, message: error.message })
+                    if (error) res.status(500).send({ name: 'ServerError', message: error.message })
                     else if (user) res.status(201).send()
                     else {
-                        res.status(500).send('something went wrong')
+                        res.status(500).send({ name: 'ServerError', message: error.message })
                     }
                 })
             }
@@ -44,7 +44,7 @@ api.post('/users', jsonBodyParser, (req, res) => {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
             res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send({ name: error.name, message: error.message })
+            res.status(500).send({ name: 'ServerError', message: error.message })
         }
     }
 })
@@ -57,7 +57,7 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
         validator.password(password)
 
         data.users.findUserByEmail(email, (error, user) => {
-            if (error) res.status(500).send({ name: error.name, message: error.message })
+            if (error) res.status(500).send({ name: 'ServerError', message: error.message })
             else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
             else {
                 if (user.password !== password) res.status(401).send('invalid credentials')
@@ -70,7 +70,7 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
             res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send({ name: error.name, message: error.message })
+            res.status(500).send({ name: 'ServerError', message: error.message })
         }
     }
 })
@@ -83,7 +83,7 @@ api.get('/users/username', (req, res) => {
     try {
         validator.id(id)
         data.users.findUserById(id, (error, user) => {
-            if (error) res.status(500).send(error.message)
+            if (error) res.status(500).send({ name: 'ServerError', message: error.message })
             else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
             else res.status(200).send(user.username)
         })
@@ -91,9 +91,49 @@ api.get('/users/username', (req, res) => {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
             res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send({ name: error.name, message: error.message })
+            res.status(500).send({ name: 'ServerError', message: error.message })
         }
     }
+})
+
+api.patch('/users/username', jsonBodyParser, (req, res) => {
+    const authHeader = req.headers.authorization
+
+    const id = Number(authHeader.split(' ')[1])
+
+    const { username } = req.body
+
+    try {
+        validator.username(username)
+        data.users.findUserById(id, (error, user) => {
+            if (error) {
+                res.status(500).send({ name: 'ServerError', message: error.message })
+            } else {
+                if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
+                else {
+                    user.username = username
+                    data.users.updateUserById(id, user, (error, user) => {
+                        if (error) {
+                            res.status(500).send({ name: 'ServerError', message: error.message })
+                        } else {
+                            if (!user) res.status(500).send({ name: 'ServerError', message: error })
+                            else {
+                                res.status(200).send()
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    } catch (error) {
+        if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
+            res.status(400).send({ name: error.name, message: error.message })
+        } else {
+            res.status(500).send({ name: 'ServerError', message: error.message })
+        }
+    }
+
+
 })
 
 api.get('/users/avatar', (req, res) => {
@@ -104,7 +144,7 @@ api.get('/users/avatar', (req, res) => {
     try {
         validator.id(id)
         data.users.findUserById(id, (error, user) => {
-            if (error) res.status(500).send({ name: error.name, message: error.message })
+            if (error) res.status(500).send({ name: 'ServerError', message: error.message })
             else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
             else res.status(200).send(user.avatar)
         })
@@ -112,12 +152,10 @@ api.get('/users/avatar', (req, res) => {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
             res.status(400).send({ name: error.name, message: error.message })
         } else {
-            res.status(500).send({ name: error.name, message: error.message })
+            res.status(500).send({ name: 'ServerError', message: error.message })
         }
     }
 })
-
-api.path('')
 
 api.listen(port, () => {
     console.info(`API listening to PORT: ${port}`)

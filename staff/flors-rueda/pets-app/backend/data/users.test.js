@@ -5,12 +5,11 @@ const testCallback = (error, response) => {
     else console.log(response)
 }
 
-users.createUser({ email: "percy1@mail.com", password: "percy1@mail.com", username: "percy1" }, (error, user) => testCallback(error, user))
+//users.createUser({ email: "percy1@mail.com", password: "percy1@mail.com", username: "percy1" }, (error, user) => testCallback(error, user))
 
-users.updateUserById(1745347771309, {
-    "email": "hiro@mail.com",
-    "password": "12345Aa!",
-    "username": "hirito",
-    "id": 1745347771309,
-    "avatar": "https://www.goodvinilos.com/4608/pegatina-pokemon-charmander.jpg"
+users.updateUserById(1745433875083, {
+    "email": "percy1@mail.com",
+    "password": "percy1@mail.com",
+    "username": "PercyElMejor",
+    "id": 1745433875083
 }, (error, user) => testCallback(error, user))

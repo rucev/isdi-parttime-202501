@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "inspect": "node --inspect-brk .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test-data-users": "node ./data/users.test.js"
   },
   "dependencies": {
     "common": "file:../common",
