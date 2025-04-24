@@ -1,10 +1,8 @@
 import express from 'express';
-import { json } from 'express';
-import { data } from './data/index.js';
-import { validator, errors } from 'common';
 import cors from 'cors'
+import errorHandler from './middlewares/errorHandler.js';
+import userRouter from './routes/users/index.js';
 
-const { FormatError } = errors
 
 const port = 4321 //localhost:4321/
 
@@ -12,89 +10,26 @@ const api = express()
 
 api.use(cors())
 
-const jsonBodyParser = json()
 
 api.get('/api', (req, res) => {
     res.status(200)
     res.send('Hello World!')
 })
 
-api.post('/users', jsonBodyParser, (req, res) => {
-    const { email, password } = req.body
+api.use('/users', userRouter)
 
-    try {
-        validator.email(email)
-        validator.password(password)
-        const username = email.split('@')[0]
+api.use(errorHandler)
 
-        data.users.findUserByEmail(email, (error, user) => {
-            if (error) res.status(500).send({ name: 'ServerError', message: error.message })
-            else if (user) res.status(409).send({ name: 'DuplicityError', message: 'User already exists' })
-            else {
-                data.users.createUser({ email, password, username }, (error, user) => {
-                    if (error) res.status(500).send({ name: 'ServerError', message: error.message })
-                    else if (user) res.status(201).send()
-                    else {
-                        res.status(500).send({ name: 'ServerError', message: error.message })
-                    }
-                })
-            }
-        })
-    } catch (error) {
-        if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
-            res.status(400).send({ name: error.name, message: error.message })
-        } else {
-            res.status(500).send({ name: 'ServerError', message: error.message })
-        }
-    }
+api.listen(port, () => {
+    console.info(`API listening to PORT: ${port}`)
 })
 
-api.post('/users/auth', jsonBodyParser, (req, res) => {
-    const { email, password } = req.body
 
-    try {
-        validator.email(email)
-        validator.password(password)
 
-        data.users.findUserByEmail(email, (error, user) => {
-            if (error) res.status(500).send({ name: 'ServerError', message: error.message })
-            else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
-            else {
-                if (user.password !== password) res.status(401).send('invalid credentials')
-                else {
-                    res.status(200).send(user.id)
-                }
-            }
-        })
-    } catch (error) {
-        if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
-            res.status(400).send({ name: error.name, message: error.message })
-        } else {
-            res.status(500).send({ name: 'ServerError', message: error.message })
-        }
-    }
-})
 
-api.get('/users/username', (req, res) => {
-    const auhtHeader = req.headers.authorization
 
-    const id = Number(auhtHeader.split(" ")[1])
+/*
 
-    try {
-        validator.id(id)
-        data.users.findUserById(id, (error, user) => {
-            if (error) res.status(500).send({ name: 'ServerError', message: error.message })
-            else if (!user) res.status(404).send({ name: 'ExistenceError', message: 'user not found' })
-            else res.status(200).send(user.username)
-        })
-    } catch (error) {
-        if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError) {
-            res.status(400).send({ name: error.name, message: error.message })
-        } else {
-            res.status(500).send({ name: 'ServerError', message: error.message })
-        }
-    }
-})
 
 api.patch('/users/username', jsonBodyParser, (req, res) => {
     const authHeader = req.headers.authorization
@@ -156,7 +91,4 @@ api.get('/users/avatar', (req, res) => {
         }
     }
 })
-
-api.listen(port, () => {
-    console.info(`API listening to PORT: ${port}`)
-})
+*/
