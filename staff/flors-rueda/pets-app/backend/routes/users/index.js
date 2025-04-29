@@ -9,7 +9,9 @@ const userRouter = Router()
 userRouter.post('/', jsonBodyParser, handlers.registerUser)
 userRouter.post('/auth', jsonBodyParser, handlers.loginUser)
 
-userRouter.get('/username', jsonBodyParser, extractId, handlers.getUsername)
+userRouter.get('/username', extractId, handlers.getUsername)
+userRouter.get('/avatar', extractId, handlers.getAvatar)
+
 
 userRouter.patch('/username', jsonBodyParser, extractId, handlers.updateUsername)
 

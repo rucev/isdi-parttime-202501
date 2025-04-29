@@ -35,12 +35,16 @@ const CreatePostModal = ({ setRefreshPosts, closeModal, locale }) => {
                 setTempImg(formData['img-url'])
             }
 
-            logics.posts.publishPost(formData['title'], formData['description'], tempImg)
-            onSuccess()
-            setIsLocalImage(null)
-            setTempImg(null)
-            closeModal()
-            setRefreshPosts(Date.now())
+            logics.posts.publishPost(formData['title'], formData['description'], tempImg, (error) => {
+                if (error) alert(error)
+                else {
+                    onSuccess()
+                    setIsLocalImage(null)
+                    setTempImg(null)
+                    closeModal()
+                    setRefreshPosts(Date.now())
+                }
+            })
         } catch (error) {
             alert(translations.errorMsg)
             console.error(error)

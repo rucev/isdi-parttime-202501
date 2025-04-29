@@ -3,7 +3,8 @@
         "email": "percy1@mail.com",
         "password": "percy1A@mail.com",
         "username": "Percito",
-        "id": 1745433875083
+        "id": 1745433875083,
+        "avatar": "https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/134.png"
     },
     {
         "email": "hiro@mail.com",
