@@ -4,6 +4,7 @@ import Btn from "../../components/lib/Btn"
 import CreatePostModal from "../../components/CreatePostModal"
 import './Home.css'
 import logics from "../../logic"
+import errors from "common/errors"
 
 const Home = ({ locale }) => {
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
@@ -14,14 +15,17 @@ const Home = ({ locale }) => {
     const formRef = useRef(null)
 
     useEffect(() => {
-        /*
         try {
-            const retrivedPosts = logics.posts.getAllPosts()
-            setPosts(retrivedPosts)
+            logics.posts.getAllPosts().then(retrivedPosts => setPosts(retrivedPosts))
+                .catch(error => {
+                    alert('ups, something is not working!')
+                    setPosts([])
+                    console.error(error)
+                })
         } catch (error) {
             alert('ups, something is not working!')
             console.error(error)
-        }*/
+        }
     }, [refreshPosts])
 
     const handleOutsideModalClick = (event) => {

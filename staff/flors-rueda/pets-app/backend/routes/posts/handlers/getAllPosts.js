@@ -1,5 +1,5 @@
 import { validator } from "common"
-import logic from "../../../logic"
+import logic from "../../../logic/index.js"
 
 const getAllPosts = (req, res, next) => {
     const id = req.userId
@@ -12,6 +12,8 @@ const getAllPosts = (req, res, next) => {
             else res.status(200).send(JSON.stringify({ posts }))
         })
     } catch (error) {
-
+        next(error)
     }
 }
+
+export default getAllPosts

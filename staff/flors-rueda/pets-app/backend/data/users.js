@@ -46,6 +46,17 @@ const users = {
             }
         })
     },
+    getAllUsers: (callback) => {
+        fs.readFile('./data/users.json', (error, data) => {
+            if (error) callback(error)
+            else {
+                let users = JSON.parse(data)
+                if (!users) users = []
+
+                callback(null, users)
+            }
+        })
+    },
     updateUserById: (id, newUserData, callback) => {
         fs.readFile('./data/users.json', (error, data) => {
             if (error) callback(error)
