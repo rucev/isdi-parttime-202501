@@ -2,20 +2,15 @@ import { errors } from "common"
 import { data } from "../data/index.js"
 
 
-const registerUser = (email, password, username, callback) => {
-    data.users.findUserByEmail(email, (error, user) => {
-        if (error) callback(error)
-        else if (user) callback(new errors.DuplicityError('user already exists'))
-        else {
-            data.users.createUser({ email, password, username }, (error, user) => {
-                if (error) callback(error)
-                else if (user) callback(null)
-                else {
-                    callback(new errors.ServerError('unexpected error on registerUser'))
-                }
-            })
-        }
-    })
+const registerUser = (email, password, username) => {
+    return data.users.findOne({ email: email })
+        .catch(error => { throw new errors.ServerError(error.message) })
+        .then((user) => {
+            if (user) { throw new errors.DuplicityError('user already exists') }
+
+            return data.users.insertOne({ email, password, username })
+                .catch(error => { throw new errors.ServerError(error.message) })
+        })
 }
 
 export default registerUser

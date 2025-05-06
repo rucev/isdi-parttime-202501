@@ -4,6 +4,7 @@ import getAvatar from "./getAvatar.js";
 import getUsername from "./getUsername.js";
 import loginUser from "./loginUser.js";
 import registerUser from "./registerUser.js";
+import updateAvatar from "./updateAvatar.js";
 import updateUsername from "./updateUsername.js";
 
 export default {
@@ -12,6 +13,7 @@ export default {
     getUsername,
     updateUsername,
     getAvatar,
+    updateAvatar,
     createPost,
     getAllPosts
 }

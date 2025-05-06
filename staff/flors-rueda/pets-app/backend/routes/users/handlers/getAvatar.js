@@ -6,11 +6,9 @@ const getAvatar = (req, res, next) => {
 
     try {
         validator.id(id)
-
-        logic.getAvatar(id, (error, retrivedAvatar) => {
-            if (error) next(error)
-            else res.status(200).send(retrivedAvatar)
-        })
+        return logic.getAvatar(id)
+            .then(avatar => { res.status(200).send(avatar) })
+            .catch(error => next(error))
     } catch (error) {
         next(error)
     }

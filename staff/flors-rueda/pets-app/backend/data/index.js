@@ -1,28 +1,22 @@
-import posts from "./posts.js";
-import users from "./users.js";
+import { MongoClient, ObjectId } from "mongodb";
+
+const url = 'mongodb://localhost:27017'
+const dbName = 'pets-app'
 
 export const data = {
-    users, posts
+    users: null, posts: null,
+    ObjectId,
+    connect: () => {
+        const mongoClient = new MongoClient(url)
+
+        return mongoClient.connect()
+            .catch(error => console.error(error))
+            .then(() => {
+                const db = mongoClient.db(dbName)
+                console.info(`Connected to Mongo Server ${url}/${dbName}`)
+
+                data.users = db.collection('users')
+                data.posts = db.collection('posts')
+            })
+    }
 }
-
-
-/*
-
-import fs from 'fs';
-
-const object = { test: 'hola' }
-
-const json = JSON.stringify(object)
-
-//escribir en el json
-fs.writeFile('./test.json', json, (error) => {
-    if (error) console.error
-    else console.log('data saved')
-})
-
-//leer datos
-fs.readFile('./test.json', (error, data) => {
-    if (error) console.error(error)
-    else console.log(JSON.parse(data))
-})
-*/

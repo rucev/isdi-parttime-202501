@@ -1,7 +1,7 @@
 const extractId = (req, res, next) => {
     const auhtHeader = req.headers.authorization
 
-    const id = Number(auhtHeader.split(" ")[1])
+    const id = auhtHeader.split(" ")[1]
 
     req.userId = id
 

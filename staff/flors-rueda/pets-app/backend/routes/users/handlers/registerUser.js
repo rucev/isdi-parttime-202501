@@ -11,14 +11,10 @@ const registerUser = (req, res, next) => {
         const username = email.split('@')[0]
         validator.username(username)
 
-        logic.registerUser(email, password, username, (error) => {
-            if (error) {
-                next(error)
-            } else {
-                res.status(201).send()
-            }
+        return logic.registerUser(email, password, username)
+            .then(() => res.status(201).send())
+            .catch(error => next(error))
 
-        })
     } catch (error) {
         next(error)
     }

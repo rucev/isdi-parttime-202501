@@ -9,10 +9,9 @@ const updateUsername = (req, res, next) => {
         validator.id(id)
         validator.username(username)
 
-        logic.updateUsername(id, username, (error) => {
-            if (error) next(error)
-            else res.status(200).send()
-        })
+        return logic.updateUsername(id, username)
+            .then(() => res.status(200).send())
+            .catch(error => next(error))
     } catch (error) {
         next(error)
     }

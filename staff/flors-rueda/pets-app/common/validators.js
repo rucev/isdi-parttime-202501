@@ -73,8 +73,8 @@ const _validator = {
         */
     },
     id: (id) => {
-        if (typeof id !== 'number') {
-            throw new TypeError('ID is not a number')
+        if (typeof id !== 'string') {
+            throw new TypeError('ID is not a string')
         }
     },
     text: (text, maxLength, minLength, explain) => {

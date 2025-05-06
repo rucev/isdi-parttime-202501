@@ -14,5 +14,6 @@ userRouter.get('/avatar', extractId, handlers.getAvatar)
 
 
 userRouter.patch('/username', jsonBodyParser, extractId, handlers.updateUsername)
+userRouter.patch('/avatar', jsonBodyParser, extractId, handlers.updateAvatar)
 
 export default userRouter
