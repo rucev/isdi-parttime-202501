@@ -1,0 +1,59 @@
+.home__new-post-button {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #FFAC46;
+    border-radius: 50%;
+    font-size: 3rem;
+    padding: 0 0.75rem;
+}
+
+.home__new-post-button:hover {
+    background-color: #FFAC46;
+}
+
+.home__create-post-dialog {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem
+}
+
+.home__close-form-button {
+    border: none;
+    background: none;
+    font-family: "Josefin Sans", sans-serif;
+    align-self: flex-end;
+}
+
+.home__close-form-button:hover {
+    cursor: pointer;
+    color: #FFAC46
+}
+
+.home__create-post--image-preview {
+    width: 5rem;
+    height: auto;
+}
+
+.home__create-post--delete-image {
+    align-self: end;
+    margin-right: 5rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+dialog {
+    background: none;
+    border: none;
+}
+
+::backdrop {
+    background-color: rgba(74, 48, 3, 0.53);
+}
