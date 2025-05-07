@@ -1,29 +1,26 @@
 import { errors } from "common"
 import getLoggedUserId from "../helpers/getLoggedUserId"
 
-const getUserAvatar = (callback) => {
-    const xhr = new XMLHttpRequest()
+const getUserAvatar = () => {
 
-    xhr.open('GET', `${import.meta.env.VITE_API_APP}/users/avatar`, true)
-
-    xhr.setRequestHeader('Authorization', `Basic ${getLoggedUserId()}`)
-
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                const avatar = xhr.response
-                callback(null, avatar)
-            } else {
-                const response = JSON.parse(xhr.response)
-                if (errors[response.name]) callback(new errors[response.name](response.message))
-                else callback(new Error(`${response.name}: ${response.message}`))
-                callback(new errors[response.name](response.message))
-            }
+    return fetch(`${import.meta.env.VITE_API_APP}/users/avatar`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Basic ${getLoggedUserId()}`
         }
-    }
-
-
-    xhr.send()
+    }).then((response) => {
+        if (response.status === 200) {
+            return response.json().then(body => {
+                return body.avatar
+            })
+        } else {
+            return response.json().then(body => {
+                throw new Error(body.message)
+            })
+        }
+    }).catch(error => {
+        throw new Error(error)
+    })
 
 }
 

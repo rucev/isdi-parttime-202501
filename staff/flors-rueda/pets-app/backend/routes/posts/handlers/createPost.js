@@ -11,10 +11,10 @@ const createPost = (req, res, next) => {
         validator.text(description, 210, 1, 'Post-Description')
         //validar imagen con url y base64
 
-        logic.createPost(authorId, title, description, img, (error) => {
-            if (error) next(error)
-            else res.status(201).send()
-        })
+        logic.createPost(authorId, title, description, img)
+            .then(() => res.status(201).send())
+            .catch((error) => next(error))
+
     } catch (error) {
         next(error)
     }

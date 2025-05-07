@@ -7,7 +7,7 @@ const getUsername = (req, res, next) => {
     try {
         validator.id(id)
         return logic.getUsername(id)
-            .then(username => { res.status(200).send(username) })
+            .then(username => { res.status(200).send({ username }) })
             .catch(error => next(error))
     } catch (error) {
         next(error)

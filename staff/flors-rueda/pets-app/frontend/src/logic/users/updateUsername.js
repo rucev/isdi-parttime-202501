@@ -7,27 +7,26 @@ import getLoggedUserId from "../helpers/getLoggedUserId";
 const updateUsername = (newUsername, callback) => {
     validator.username(newUsername)
 
-    const xhr = new XMLHttpRequest()
-
-    xhr.open('PATCH', `${import.meta.env.VITE_API_APP}/users/username`, true)
-
-    xhr.setRequestHeader('Authorization', `Basic ${getLoggedUserId()}`)
-    xhr.setRequestHeader('Content-Type', 'application/json')
-
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                callback(null)
+    return fetch(`${import.meta.env.VITE_API_APP}/users/username`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${getLoggedUserId()}`
+        },
+        body: JSON.stringify({ username: newUsername })
+    })
+        .then((response) => {
+            if (response.status === 200) {
+                return
             } else {
-                const response = JSON.parse(xhr.response)
-                if (errors[response.name]) callback(new errors[response.name](response.message))
-                else callback(new Error(`${response.name}: ${response.message}`))
+                return response.json().then(body => {
+                    throw new Error(body.message)
+                })
             }
+        }).catch(error => {
+            throw new Error(error)
+        })
 
-        }
-    }
-
-    xhr.send(JSON.stringify({ username: newUsername }))
 }
 
 export default updateUsername

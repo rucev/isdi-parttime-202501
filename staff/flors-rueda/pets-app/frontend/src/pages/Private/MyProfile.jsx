@@ -29,15 +29,14 @@ const MyProfile = ({ updateHeader, locale }) => {
 
     const onUpdateUsername = (formData, onSuccess) => {
         try {
-            logics.users.updateUsername(formData['username'], (error) => {
-                if (error) alert(error)
-                else {
+            logics.users.updateUsername(formData['username'])
+                .catch(error => console.error(error))
+                .then(() => {
                     onSuccess()
                     updateHeader(Date.now())
                     setRefreshUserCard(Date.now())
                     setShowUsernameForm(false)
-                }
-            })
+                })
         } catch (error) {
             alert(formTranslations.errorMsg)
             console.error(error)

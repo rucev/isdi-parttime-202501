@@ -8,22 +8,14 @@ const UserCard = ({ userId, refreshSelf, tempAvatar }) => {
     const [user, setUser] = useState()
 
     useEffect(() => {
-        logics.users.getUserUsername((error, retrivedUsername) => {
-            if (error) {
-                alert(error)
-                console.error(error)
-            } else {
-                logics.users.getUserAvatar((error, retrivedAvatar) => {
-                    if (error) {
-                        alert(error)
-                        console.error(error)
-                    } else {
-                        //TODO retrieve bio
-                        setUser({ avatar: retrivedAvatar, username: retrivedUsername, bio: '' })
-                    }
-                })
-            }
-        })
+        logics.users.getUserUsername()
+            .catch(error => console.error(error))
+            .then((retrivedUsername) => {
+                logics.users.getUserAvatar()
+                    .catch(error => console.error(error))
+                    .then(retrivedAvatar => setUser({ avatar: retrivedAvatar, username: retrivedUsername }))
+                //TODO: retrive bio
+            })
     }, [refreshSelf])
 
 

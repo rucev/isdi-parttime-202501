@@ -7,7 +7,7 @@ const loginUser = (req, res, next) => {
         validator.email(email)
         validator.password(password)
         return logic.loginUser(email, password)
-            .then((id) => res.status(200).send(id))
+            .then((id) => res.status(200).send({ id }))
             .catch((error) => next(error))
     } catch (error) {
         next(error)

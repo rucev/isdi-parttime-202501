@@ -1,36 +1,38 @@
 import { errors, validator } from "common"
 
-const loginUser = (loginData, callback) => { //{'email': 'patata@mail.com'}
+const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
     //comprobamos si el email que ha puesto el usuario esta en la bbdd y si no lo esta, lanzamos un alert
     validator.password(loginData['password'])
     validator.email(loginData['email'])
 
     const user = { email: loginData.email, password: loginData.password }
 
-    const xhr = new XMLHttpRequest()
-
-    xhr.open('POST', `${import.meta.env.VITE_API_APP}/users/auth`, true)
-
-    xhr.setRequestHeader('Content-Type', 'application/json')
-
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4)
-            if (xhr.status === 200) {
+    return fetch(`${import.meta.env.VITE_API_APP}/users/auth`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    })
+        .then((response) => {
+            if (response.status === 200) {
                 if (loginData['remember']) {
-                    localStorage.id = xhr.response
+                    return response.json().then(body => {
+                        localStorage.id = body.id
+                    })
                 } else {
-                    sessionStorage.id = xhr.response
+                    return response.json().then(body => {
+                        sessionStorage.id = body.id
+                    })
                 }
-                callback(null)
             } else {
-                const response = JSON.parse(xhr.response)
-                if (errors[response.name]) callback(new errors[response.name](response.message))
-                else callback(new Error(`${response.name}: ${response.message}`))
-                callback(new errors[response.name](response.message))
+                return response.json().then(body => {
+                    throw new Error(body.message)
+                })
             }
-    }
-
-    xhr.send(JSON.stringify(user))
+        }).catch(error => {
+            throw new Error(error)
+        })
 }
 
 export default loginUser
