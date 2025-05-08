@@ -58,12 +58,14 @@ const MyProfile = ({ updateHeader, locale }) => {
                 setTempAvatar(formData['avatar-url'])
             }
 
-
             logics.users.updateAvatar(tempAvatar)
-            onSuccess()
-            updateHeader(Date.now())
-            setRefreshUserCard(Date.now())
-            setShowAvatarForm(false)
+                .then(() => {
+                    onSuccess()
+                    updateHeader(Date.now())
+                    setRefreshUserCard(Date.now())
+                    setShowAvatarForm(false)
+                })
+                .catch(error => alert(error.message))
 
         } catch (error) {
             alert(formTranslations.errorMsg)

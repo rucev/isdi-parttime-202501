@@ -11,7 +11,10 @@ const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
     const handleLikePost = (id) => {
         try {
             logics.posts.toggleLike(id)
-            setRefreshPosts(Date.now())
+                .then(() => {
+                    setRefreshPosts(Date.now())
+                })
+                .catch(error => alert(error.message))
         } catch (error) {
             alert('ups, something is not working!')
             console.error(error)
@@ -22,8 +25,9 @@ const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
         try {
             const isUserSure = confirm('you sure you want to delete?')
             if (isUserSure) {
-                logics.posts.deletePost(getLoggedUserId(), id)
-                setRefreshPosts(Date.now())
+                logics.posts.deletePost(id)
+                    .then(() => setRefreshPosts(Date.now()))
+                    .catch((error) => alert(error))
             }
         } catch (error) {
             alert('ups, something is not working!')

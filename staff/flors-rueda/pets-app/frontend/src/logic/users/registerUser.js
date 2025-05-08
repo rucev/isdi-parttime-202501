@@ -1,6 +1,6 @@
 import { errors, validator } from "common"
 
-const registerUser = (registerData, callback) => { //registerData = {'email': '', 'password': '', 'confirmation-password': ''}
+const registerUser = (registerData) => { //registerData = {'email': '', 'password': '', 'confirmation-password': ''}
     const securityErrors = validator.passwordSecurity(registerData['password'])
 
     if (securityErrors.length > 0) throw new errors.FormatError(securityErrors.join(','))
@@ -15,26 +15,22 @@ const registerUser = (registerData, callback) => { //registerData = {'email': ''
 
     const user = { email: registerData['email'], password: registerData['password'] }
 
-    const xhr = new XMLHttpRequest()
-
-    xhr.open('POST', `${import.meta.env.VITE_API_APP}/users`, true)
-
-    xhr.setRequestHeader('Content-Type', 'application/json')
-
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 201) {
-                callback(null)
-            } else {
-                const response = JSON.parse(xhr.response)
-                if (errors[response.name]) callback(new errors[response.name](response.message)) //new errors.ExistenceError('user not found')
-                else callback(new Error(`${response.name}: ${response.message}`))
-                callback(new errors[response.name](response.message)) //new errors.ExistenceError('user not found')
+    return fetch(`${import.meta.env.VITE_API_APP}/users`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    })
+        .then(response => {
+            if (response.status === 201) return
+            else {
+                return response.json().then(body => {
+                    throw new Error(body.message)
+                })
             }
-        }
-    }
-
-    xhr.send(JSON.stringify(user))
+        })
+        .catch((error) => { throw new Error(error.message) })
 
 }
 

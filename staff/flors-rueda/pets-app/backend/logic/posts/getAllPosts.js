@@ -1,5 +1,5 @@
 import { errors } from "common"
-import { data } from "../data/index.js"
+import { data } from "../../data/index.js"
 
 const getAllPosts = (userId) => {
     return data.users.findOne({ _id: new data.ObjectId(userId) })
@@ -42,7 +42,7 @@ const getAllPosts = (userId) => {
                     const formatedPosts = posts.map((post) => {
                         const date = new Date(post.createdOn)
                         post.createdOn = date.toLocaleString()
-                        if (post.likes.length > 0 && post.likes.includes(new data.ObjectId(userId))) {
+                        if (post.likes.length > 0 && post.likes.includes(userId)) {
                             post.isLiked = true
                         } else {
                             post.isLiked = false

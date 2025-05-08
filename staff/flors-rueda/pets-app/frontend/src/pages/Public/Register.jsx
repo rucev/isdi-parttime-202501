@@ -23,23 +23,17 @@ const Register = ({ setRefreshHeader, locale }) => {
 
     const onRegisterUser = (formData, onSuccess) => {
         try {
-            logics.users.registerUser(formData, (error) => {
-                if (error) {
-                    alert(formTranslations.errorMsg)
-                    console.log(error)
-                } else {
+            logics.users.registerUser(formData)
+                .then(() => {
                     onSuccess()
-                    logics.users.loginUser(formData, (error) => {
-                        if (error) {
-                            alert(formTranslations.errorMsg)
-                            console.log(error)
-                        } else {
+                    logics.users.loginUser(formData)
+                        .then(() => {
                             setRefreshHeader(Date.now())
                             navigate('/')
-                        }
-                    })
-                }
-            })
+                        })
+                        .catch(error => alert(error.message))
+                })
+                .catch(error => alert(error.message))
         } catch (error) {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))

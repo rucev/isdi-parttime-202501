@@ -9,6 +9,7 @@
     "test-data-users": "node ./data/users.test.js"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "common": "file:../common",
     "cors": "^2.8.5",
     "express": "^5.1.0",

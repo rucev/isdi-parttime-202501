@@ -1,5 +1,5 @@
 import { errors } from "common"
-import { data } from "../data/index.js"
+import { data } from "../../data/index.js"
 
 const createPost = (authorId, title, description, img, callback) => {
     return data.users.findOne({ _id: new data.ObjectId(authorId) })

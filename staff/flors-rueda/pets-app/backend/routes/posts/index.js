@@ -6,6 +6,11 @@ const jsonBodyParser = json()
 const postRouter = Router()
 
 postRouter.post('/', jsonBodyParser, extractId, handlers.createPost)
+
 postRouter.get('/', extractId, handlers.getAllPosts)
+
+postRouter.patch('/like/:postId', extractId, handlers.toggleLike)
+
+postRouter.delete('/:postId', extractId, handlers.deletePost)
 
 export default postRouter

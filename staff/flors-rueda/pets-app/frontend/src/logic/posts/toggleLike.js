@@ -1,28 +1,23 @@
-import data from "../../data";
 import { errors, validator } from "common"
 import getLoggedUserId from "../helpers/getLoggedUserId";
 
 const toggleLike = (postId) => {
-    const loggedUserId = getLoggedUserId()
-
-    validator.id(loggedUserId)
-
-    const post = data.posts.findPostById(postId)
-
-    if (!post) throw new errors.ExistenceError('post not found')
-
-    if (!post.likes) post.likes = [];
-
-    const userIndex = post.likes.indexOf(loggedUserId)
-
-    if (userIndex !== -1) {
-        post.likes.splice(userIndex, 1);
-    } else {
-        post.likes.push(loggedUserId)
-    }
-
-    data.posts.updatePostById(postId, post)
-
+    validator.id(postId)
+    return fetch(`${import.meta.env.VITE_API_APP}/posts/like/${postId}`, {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Basic ${getLoggedUserId()}`
+        }
+    })
+        .then((response) => {
+            if (response.status === 200) return
+            else {
+                response.json().then(body => {
+                    throw new Error(body.message)
+                })
+            }
+        })
+        .catch(error => { throw new Error(error.message) })
 }
 
 export default toggleLike

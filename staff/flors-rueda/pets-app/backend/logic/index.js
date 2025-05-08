@@ -1,11 +1,13 @@
-import createPost from "./createPost.js";
-import getAllPosts from "./getAllPosts.js";
-import getAvatar from "./getAvatar.js";
-import getUsername from "./getUsername.js";
-import loginUser from "./loginUser.js";
-import registerUser from "./registerUser.js";
-import updateAvatar from "./updateAvatar.js";
-import updateUsername from "./updateUsername.js";
+import createPost from "./posts/createPost.js";
+import deletePost from "./posts/deletePost.js";
+import getAllPosts from "./posts/getAllPosts.js";
+import getAvatar from "./users/getAvatar.js";
+import getUsername from "./users/getUsername.js";
+import loginUser from "./users/loginUser.js";
+import registerUser from "./users/registerUser.js";
+import toggleLike from "./users/toggleLike.js";
+import updateAvatar from "./users/updateAvatar.js";
+import updateUsername from "./users/updateUsername.js";
 
 export default {
     registerUser,
@@ -15,5 +17,8 @@ export default {
     getAvatar,
     updateAvatar,
     createPost,
-    getAllPosts
+    getAllPosts,
+    toggleLike,
+    deletePost
+
 }
