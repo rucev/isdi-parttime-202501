@@ -1,15 +1,6 @@
 import { errors } from "common"
 import { data } from "../data/index.js"
 
-const populateAuthor = (authorId) => {
-    return data.users.findOne({ _id: new data.ObjectId(authorId) })
-        .catch((error) => { throw new errors.ServerError(error.message) })
-        .then((user) => {
-            if (!user) { throw new errors.ExistenceError('user not found') }
-            return { id: authorId, avatar: user.avatar, username: user.username }
-        })
-}
-
 const getAllPosts = (userId) => {
     return data.users.findOne({ _id: new data.ObjectId(userId) })
         .catch((error) => { throw new errors.ServerError(error.message) })
