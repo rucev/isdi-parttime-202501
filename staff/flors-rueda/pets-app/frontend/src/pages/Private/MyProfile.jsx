@@ -76,10 +76,15 @@ const MyProfile = ({ updateHeader, locale }) => {
     const onUpdateBio = (formData, onSuccess) => {
         try {
             logics.users.updateBio(formData['bio'])
-            onSuccess()
-            updateHeader(Date.now())
-            setRefreshUserCard(Date.now())
-            setShowBioForm(false)
+                .then(() => {
+                    onSuccess()
+                    setRefreshUserCard(Date.now())
+                    setShowBioForm(false)
+                })
+                .catch(error => {
+                    alert(error)
+                })
+
         } catch (error) {
             alert(formTranslations.errorMsg)
             console.error(error)
@@ -91,17 +96,20 @@ const MyProfile = ({ updateHeader, locale }) => {
         setTempAvatar(newTempAvatar)
     }
 
-    const saveRandomBio = (error, newBio) => {
-        if (error) alert(error)
-        else {
-            logics.users.updateBio(newBio)
-            setRefreshUserCard(Date.now())
-        }
-    }
-
     const onRandomBioClick = () => {
         try {
-            logics.users.getRandomBio(saveRandomBio)
+            logics.users.getRandomBio()
+                .then((randomBio) => {
+                    logics.users.updateBio(randomBio)
+                        .then(() => {
+                            setRefreshUserCard(Date.now())
+                            setShowBioForm(false)
+                        })
+                        .catch(error => {
+                            alert(error)
+                        })
+                })
+                .catch(error => alert(error))
         } catch (error) {
             alert(formTranslations.errorMsg)
             console.error(error)

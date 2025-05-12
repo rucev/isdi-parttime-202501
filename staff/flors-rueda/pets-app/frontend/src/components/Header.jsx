@@ -34,11 +34,11 @@ const Header = ({ refreshHeader, logout, isUserLogged, locale }) => {
 
         if (logics.users.isUserLoggedIn()) {
             setJustifyItems('between')
-            logics.users.getUserUsername()
+            logics.users.getUserUsername(getLoggedUserId())
                 .catch(error => console.error(error))
                 .then((retrivedUsername) => {
                     setUsername(retrivedUsername)
-                    logics.users.getUserAvatar()
+                    logics.users.getUserAvatar(getLoggedUserId())
                         .catch(error => console.error(error))
                         .then(retrivedAvatar => setAvatar(retrivedAvatar))
                 })

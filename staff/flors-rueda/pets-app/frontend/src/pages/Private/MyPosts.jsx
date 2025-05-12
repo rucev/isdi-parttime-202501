@@ -10,9 +10,11 @@ const MyPosts = () => {
 
     useEffect(() => {
         try {
-            const retrivedPosts = logics.posts.getPostsByAuthor(getLoggedUserId())
-            setPosts(retrivedPosts)
-
+            logics.posts.getPostsByAuthor(getLoggedUserId())
+                .then(retrivedPosts => {
+                    setPosts(retrivedPosts)
+                })
+                .catch(error => alert(error))
         } catch (error) {
             alert(error)
         }

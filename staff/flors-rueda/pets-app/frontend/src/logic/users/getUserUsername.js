@@ -1,8 +1,10 @@
-import { errors } from "common"
+import { errors, validator } from "common"
 import getLoggedUserId from "../helpers/getLoggedUserId";
 
-const getUserUsername = () => {
-    return fetch(`${import.meta.env.VITE_API_APP}/users/username`, {
+const getUserUsername = (userId) => {
+    validator.id(userId)
+
+    return fetch(`${import.meta.env.VITE_API_APP}/users/username/${userId}`, {
         method: 'GET',
         headers: {
             'Authorization': `Basic ${getLoggedUserId()}`

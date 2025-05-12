@@ -1,32 +1,34 @@
 /*import data from "../../data"
 import getLoggedUserId from "../helpers/getLoggedUserId"*/
 
-const getRandomBio = (callback) => {
-    const xhr = new XMLHttpRequest()
+const getRandomBio = () => {
 
-    xhr.open('GET', import.meta.env.VITE_JOKE_API_URL, true)
-
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
+    return fetch(`${import.meta.env.VITE_JOKE_API_URL}`, {
+        method: 'GET'
+    })
+        .then((response) => {
             let randomBio = ''
-            if (xhr.status === 200) {
-                const res = JSON.parse(xhr.response)
-                if (res.type === 'single') {
-                    randomBio = res.joke
-                }
-                if (res.type === 'twopart') {
-                    randomBio = `+ ${res.setup} \n- ${res.delivery}`
-                }
-
-                callback(null, randomBio)
-
+            if (response.status !== 200) {
+                return response.json().then(body => {
+                    throw new Error(body.message)
+                })
             } else {
-                callback('External Api Not Working')
-            }
-        }
-    }
+                return response.json()
+                    .then(body => {
+                        if (body.type === 'single') {
+                            randomBio = body.joke
+                        }
+                        if (body.type === 'twopart') {
+                            randomBio = `+ ${body.setup} \n- ${body.delivery}`
+                        }
 
-    xhr.send()
+                        return randomBio
+                    })
+            }
+        })
+        .catch((error) => {
+            throw new Error(error.message)
+        })
 }
 
 export default getRandomBio

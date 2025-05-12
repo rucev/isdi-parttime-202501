@@ -9,11 +9,14 @@ const userRouter = Router()
 userRouter.post('/', jsonBodyParser, handlers.registerUser)
 userRouter.post('/auth', jsonBodyParser, handlers.loginUser)
 
-userRouter.get('/username', extractId, handlers.getUsername)
-userRouter.get('/avatar', extractId, handlers.getAvatar)
+userRouter.get('/username/:userId', extractId, handlers.getUsername)
+userRouter.get('/avatar/:userId', extractId, handlers.getAvatar)
+userRouter.get('/bio/:userId', extractId, handlers.getBio)
+userRouter.get('/id/:username', extractId, handlers.getUserId)
 
 
 userRouter.patch('/username', jsonBodyParser, extractId, handlers.updateUsername)
 userRouter.patch('/avatar', jsonBodyParser, extractId, handlers.updateAvatar)
+userRouter.patch('/bio', jsonBodyParser, extractId, handlers.updateBio)
 
 export default userRouter

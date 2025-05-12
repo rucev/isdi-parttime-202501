@@ -2,9 +2,8 @@ import data from "../../data"
 import { errors, validator } from "common"
 import getLoggedUserId from "../helpers/getLoggedUserId";
 
-//TODO Add ID validators to everywhere
 
-const updateUsername = (newUsername, callback) => {
+const updateUsername = (newUsername) => {
     validator.username(newUsername)
 
     return fetch(`${import.meta.env.VITE_API_APP}/users/username`, {

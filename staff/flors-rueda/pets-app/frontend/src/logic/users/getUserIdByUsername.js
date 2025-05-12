@@ -1,13 +1,27 @@
-import data from "../../data";
-import { errors, validator } from "common"
+import { validator } from "common"
+import getLoggedUserId from "../helpers/getLoggedUserId";
 
 const getUserIdByUsername = (username) => {
     validator.username(username)
 
-    const user = data.users.findUserByUsername(username)
-
-    if (!user) throw new errors.ExistenceError('user not found')
-    return user.id
+    return fetch(`${import.meta.env.VITE_API_APP}/users/id/${username}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Basic ${getLoggedUserId()}`
+        }
+    }).then((response) => {
+        if (response.status === 200) {
+            return response.json().then(body => {
+                return body.id
+            })
+        } else {
+            return response.json().then(body => {
+                throw new Error(body.message)
+            })
+        }
+    }).catch(error => {
+        throw new Error(error)
+    })
 }
 
 export default getUserIdByUsername

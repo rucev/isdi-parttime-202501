@@ -1,7 +1,7 @@
 import { errors } from "common"
 import { data } from "../../data/index.js"
 
-const getUsername = (id, userId) => {
+const getBio = (id, userId) => {
     return data.users.findOne({ _id: new data.ObjectId(id) })
         .catch(error => { throw new errors.ServerError(error.message) })
         .then((user) => {
@@ -10,9 +10,9 @@ const getUsername = (id, userId) => {
                 .catch(error => { throw new errors.ServerError(error.message) })
                 .then((retrivedUser) => {
                     if (!retrivedUser) { throw new errors.ExistenceError('user not found') }
-                    return retrivedUser.username
+                    return retrivedUser.bio
                 })
         })
 }
 
-export default getUsername
+export default getBio

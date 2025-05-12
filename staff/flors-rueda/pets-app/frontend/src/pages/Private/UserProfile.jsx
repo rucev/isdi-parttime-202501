@@ -14,17 +14,23 @@ const UserProfile = () => {
 
     useEffect(() => {
         try {
-            const retrivedId = logics.users.getUserIdByUsername(username)
-            setUserId(retrivedId)
-            const retrivedPosts = logics.posts.getPostsByAuthor(retrivedId)
-            setPosts(retrivedPosts)
+            logics.users.getUserIdByUsername(username)
+                .then(id => {
+                    setUserId(id)
+                    logics.posts.getPostsByAuthor(id)
+                        .then(retrivedPosts => setPosts(retrivedPosts))
+                        .catch(error => alert(error))
+                })
+                .catch(error => {
+                    if (error.message === 'Error: user not found') {
+                        setUserId('not-found')
+                    } else {
+                        alert('hola', error)
+                    }
+                })
         } catch (error) {
-            if (error instanceof errors.ExistenceError) {
-                setUserId('not-found')
-            } else {
-                alert('ups, something is not working!')
-                console.error(error)
-            }
+            alert('ups, something is not working!')
+            console.error(error)
         }
     }, [refreshPosts])
 

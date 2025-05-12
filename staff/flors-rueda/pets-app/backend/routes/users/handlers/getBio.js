@@ -1,19 +1,20 @@
 import { validator } from "common"
 import logic from "../../../logic/index.js"
 
-const getAvatar = (req, res, next) => {
+const getBio = (req, res, next) => {
     const id = req.userId
     const { userId } = req.params
 
     try {
         validator.id(id)
         validator.id(userId)
-        return logic.getAvatar(id, userId)
-            .then(avatar => { res.status(200).send({ avatar }) })
+        return logic.getBio(id, userId)
+            .then(bio => { res.status(200).send({ bio }) })
             .catch(error => next(error))
     } catch (error) {
         next(error)
     }
+
 }
 
-export default getAvatar
+export default getBio

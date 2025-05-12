@@ -1,10 +1,11 @@
+import data from "../../data";
 import { errors, validator } from "common"
-import getLoggedUserId from "../helpers/getLoggedUserId"
+import getLoggedUserId from "../helpers/getLoggedUserId";
 
-const getUserAvatar = (userId) => {
+const getUserBio = (userId) => {
     validator.id(userId)
 
-    return fetch(`${import.meta.env.VITE_API_APP}/users/avatar/${userId}`, {
+    return fetch(`${import.meta.env.VITE_API_APP}/users/bio/${userId}`, {
         method: 'GET',
         headers: {
             'Authorization': `Basic ${getLoggedUserId()}`
@@ -12,7 +13,7 @@ const getUserAvatar = (userId) => {
     }).then((response) => {
         if (response.status === 200) {
             return response.json().then(body => {
-                return body.avatar
+                return body.bio
             })
         } else {
             return response.json().then(body => {
@@ -22,7 +23,6 @@ const getUserAvatar = (userId) => {
     }).catch(error => {
         throw new Error(error)
     })
-
 }
 
-export default getUserAvatar
+export default getUserBio

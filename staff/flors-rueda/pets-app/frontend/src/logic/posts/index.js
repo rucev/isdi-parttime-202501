@@ -10,7 +10,7 @@ const posts = {
     publishPost,
     toggleLike,
     getPostsByAuthor,
-    deletePost
+    deletePost,
 }
 
 export default posts

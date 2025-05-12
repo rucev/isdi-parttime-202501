@@ -3,10 +3,12 @@ import logic from "../../../logic/index.js"
 
 const getUsername = (req, res, next) => {
     const id = req.userId
+    const { userId } = req.params
 
     try {
         validator.id(id)
-        return logic.getUsername(id)
+        validator.id(userId)
+        return logic.getUsername(id, userId)
             .then(username => { res.status(200).send({ username }) })
             .catch(error => next(error))
     } catch (error) {
