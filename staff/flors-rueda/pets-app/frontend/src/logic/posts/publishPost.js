@@ -17,6 +17,9 @@ const publishPost = (title, description, img) => {
         },
         body: JSON.stringify(postData)
     })
+        .catch(error => {
+            throw new Error(error)
+        })
         .then((response) => {
             if (response.status === 201) {
                 return
@@ -25,8 +28,6 @@ const publishPost = (title, description, img) => {
                     throw new Error(body.message)
                 })
             }
-        }).catch(error => {
-            throw new Error(error)
         })
 }
 

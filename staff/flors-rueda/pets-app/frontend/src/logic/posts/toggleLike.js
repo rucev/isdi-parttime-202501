@@ -9,6 +9,7 @@ const toggleLike = (postId) => {
             'Authorization': `Basic ${getLoggedUserId()}`
         }
     })
+        .catch(error => { throw new Error(error.message) })
         .then((response) => {
             if (response.status === 200) return
             else {
@@ -17,7 +18,7 @@ const toggleLike = (postId) => {
                 })
             }
         })
-        .catch(error => { throw new Error(error.message) })
+
 }
 
 export default toggleLike

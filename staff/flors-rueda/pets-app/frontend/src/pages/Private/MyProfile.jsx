@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import Form from "../../components/lib/Form"
 import logics from "../../logic/index"
-import './MyProfileSettings.css'
 import UserCard from "../../components/UserCard"
 import getLoggedUserId from "../../logic/helpers/getLoggedUserId"
 import Btn from "../../components/lib/Btn"
@@ -30,7 +29,7 @@ const MyProfile = ({ updateHeader, locale }) => {
     const onUpdateUsername = (formData, onSuccess) => {
         try {
             logics.users.updateUsername(formData['username'])
-                .catch(error => console.error(error))
+                .catch(error => alert(error))
                 .then(() => {
                     onSuccess()
                     updateHeader(Date.now())
@@ -38,8 +37,7 @@ const MyProfile = ({ updateHeader, locale }) => {
                     setShowUsernameForm(false)
                 })
         } catch (error) {
-            alert(formTranslations.errorMsg)
-            console.error(error)
+            alert(error)
         }
     }
 
@@ -69,7 +67,7 @@ const MyProfile = ({ updateHeader, locale }) => {
 
         } catch (error) {
             alert(formTranslations.errorMsg)
-            console.error(error)
+            alert(error)
         }
     }
 
@@ -87,7 +85,7 @@ const MyProfile = ({ updateHeader, locale }) => {
 
         } catch (error) {
             alert(formTranslations.errorMsg)
-            console.error(error)
+            alert(error)
         }
     }
 
@@ -111,8 +109,7 @@ const MyProfile = ({ updateHeader, locale }) => {
                 })
                 .catch(error => alert(error))
         } catch (error) {
-            alert(formTranslations.errorMsg)
-            console.error(error)
+            alert(error)
         }
     }
 

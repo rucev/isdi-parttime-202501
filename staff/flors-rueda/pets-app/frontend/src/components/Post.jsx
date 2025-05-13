@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router"
 import logics from "../logic"
-import './Post.css'
 import UserAvatar from "./UserAvatar"
 import Btn from "./lib/Btn"
-import getLoggedUserId from "../logic/helpers/getLoggedUserId"
 
 const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
     const navigate = useNavigate()
@@ -17,7 +15,7 @@ const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
                 .catch(error => alert(error.message))
         } catch (error) {
             alert('ups, something is not working!')
-            console.error(error)
+            alert(error)
         }
     }
 
@@ -31,7 +29,7 @@ const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
             }
         } catch (error) {
             alert('ups, something is not working!')
-            console.error(error)
+            alert(error)
         }
     }
 

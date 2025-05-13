@@ -22,6 +22,7 @@ const registerUser = (registerData) => { //registerData = {'email': '', 'passwor
         },
         body: JSON.stringify(user)
     })
+        .catch((error) => { throw new Error(error.message) })
         .then(response => {
             if (response.status === 201) return
             else {
@@ -30,7 +31,7 @@ const registerUser = (registerData) => { //registerData = {'email': '', 'passwor
                 })
             }
         })
-        .catch((error) => { throw new Error(error.message) })
+
 
 }
 

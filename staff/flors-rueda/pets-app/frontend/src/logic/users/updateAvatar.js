@@ -13,6 +13,7 @@ const updateAvatar = (newAvatar) => {
         },
         body: JSON.stringify(avatar)
     })
+        .catch(error => { throw new Error(error.message) })
         .then((response) => {
             if (response.status === 200) return
             else {
@@ -21,7 +22,7 @@ const updateAvatar = (newAvatar) => {
                 })
             }
         })
-        .catch(error => { throw new Error(error.message) })
+
 }
 
 export default updateAvatar

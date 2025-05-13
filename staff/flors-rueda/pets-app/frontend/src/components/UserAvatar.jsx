@@ -1,5 +1,4 @@
 import Btn from "./lib/Btn"
-import './UserAvatar.css'
 
 const UserAvatar = ({ buttonCallback, size, avatar, letter }) => {
     return <div>

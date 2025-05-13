@@ -3,7 +3,6 @@ import NotFound from "./NotFound"
 import Landing from "./Public/Landing"
 import Login from "./Public/Login"
 import Register from "./Public/Register"
-import { useEffect } from "react"
 
 
 

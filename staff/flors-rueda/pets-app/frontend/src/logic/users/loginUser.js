@@ -1,7 +1,6 @@
 import { errors, validator } from "common"
 
 const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
-    //comprobamos si el email que ha puesto el usuario esta en la bbdd y si no lo esta, lanzamos un alert
     validator.password(loginData['password'])
     validator.email(loginData['email'])
 
@@ -14,6 +13,9 @@ const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
         },
         body: JSON.stringify(user)
     })
+        .catch(error => {
+            throw new Error('error conexión', error)
+        })
         .then((response) => {
             if (response.status === 200) {
                 if (loginData['remember']) {
@@ -30,8 +32,6 @@ const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
                     throw new Error(body.message)
                 })
             }
-        }).catch(error => {
-            throw new Error(error)
         })
 }
 

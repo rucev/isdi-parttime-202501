@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router"
 import Form from "../../components/lib/Form"
 import logics from "../../logic"
-import "./LoginRegister.css"
 import locales from "../../locales"
 import { useEffect, useState } from "react"
 
@@ -27,10 +26,9 @@ const Login = ({ setRefreshHeader, locale }) => {
                     setRefreshHeader(Date.now())
                     navigate('/')
                 })
-                .catch(error => console.error(error))
+                .catch(error => alert(error))
         } catch (error) {
-            alert(translations.errorMsg)
-            console.error(error)
+            alert(error)
         }
     }
 

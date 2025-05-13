@@ -9,19 +9,21 @@ const getUserIdByUsername = (username) => {
         headers: {
             'Authorization': `Basic ${getLoggedUserId()}`
         }
-    }).then((response) => {
-        if (response.status === 200) {
-            return response.json().then(body => {
-                return body.id
-            })
-        } else {
-            return response.json().then(body => {
-                throw new Error(body.message)
-            })
-        }
-    }).catch(error => {
-        throw new Error(error)
     })
+        .catch(error => {
+            throw new Error(error)
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                return response.json().then(body => {
+                    return body.id
+                })
+            } else {
+                return response.json().then(body => {
+                    throw new Error(body.message)
+                })
+            }
+        })
 }
 
 export default getUserIdByUsername

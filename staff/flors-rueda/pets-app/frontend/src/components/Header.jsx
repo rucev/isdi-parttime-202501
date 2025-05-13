@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import Btn from "./lib/Btn"
 import Logo from "./lib/Logo"
 import logics from "../logic"
-import './Header.css'
 import getLoggedUserId from "../logic/helpers/getLoggedUserId"
 import UserAvatar from "./UserAvatar"
 import { useLocation, useNavigate } from "react-router"
@@ -33,22 +32,26 @@ const Header = ({ refreshHeader, logout, isUserLogged, locale }) => {
         setPath(pathname)
 
         if (logics.users.isUserLoggedIn()) {
-            setJustifyItems('between')
-            logics.users.getUserUsername(getLoggedUserId())
-                .catch(error => console.error(error))
-                .then((retrivedUsername) => {
-                    setUsername(retrivedUsername)
-                    logics.users.getUserAvatar(getLoggedUserId())
-                        .catch(error => console.error(error))
-                        .then(retrivedAvatar => setAvatar(retrivedAvatar))
-                })
+            setJustifyItems('justify-between')
+            try {
+                logics.users.getUserUsername(getLoggedUserId())
+                    .catch(error => alert(error))
+                    .then((retrivedUsername) => {
+                        setUsername(retrivedUsername)
+                        logics.users.getUserAvatar(getLoggedUserId())
+                            .catch(error => alert(error))
+                            .then(retrivedAvatar => setAvatar(retrivedAvatar))
+                    })
+            } catch (error) {
+                alert(error)
+            }
         } else {
             if (pathname === '/login' || pathname === '/register') {
-                setJustifyItems('start')
+                setJustifyItems('justify-start')
             } else if (pathname === "/") {
-                setJustifyItems('end')
+                setJustifyItems('justify-end')
             } else {
-                setJustifyItems('not-found')
+                setJustifyItems('justify-between')
             }
         }
     }, [refreshHeader, location])

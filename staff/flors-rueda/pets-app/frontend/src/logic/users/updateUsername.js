@@ -14,6 +14,9 @@ const updateUsername = (newUsername) => {
         },
         body: JSON.stringify({ username: newUsername })
     })
+        .catch(error => {
+            throw new Error(error)
+        })
         .then((response) => {
             if (response.status === 200) {
                 return
@@ -22,8 +25,6 @@ const updateUsername = (newUsername) => {
                     throw new Error(body.message)
                 })
             }
-        }).catch(error => {
-            throw new Error(error)
         })
 
 }

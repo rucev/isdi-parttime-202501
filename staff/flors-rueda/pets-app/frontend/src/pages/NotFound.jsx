@@ -1,5 +1,5 @@
 const NotFound = () => {
-    return <img className="not-found-page" src="/not-found.png" />
+    return <img className="max-w-5/6" src="/not-found.png" />
 }
 
 export default NotFound

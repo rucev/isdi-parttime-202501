@@ -1,6 +1,5 @@
 import { useState } from "react"
 import Btn from "./Btn"
-import "./PasswordFeedback.css"
 
 const PasswordFeedback = ({ securityPasswordErrors, arePasswordsEqual }) => {
     const [showCompleteFeedback, setShowCompleteFeedback] = useState(false)

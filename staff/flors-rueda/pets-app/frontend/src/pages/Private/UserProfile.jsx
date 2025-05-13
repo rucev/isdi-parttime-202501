@@ -3,7 +3,6 @@ import UserCard from "../../components/UserCard"
 import PostList from "../../components/PostList"
 import logics from "../../logic"
 import { useParams } from "react-router"
-import { errors } from "common"
 import NotFound from "../NotFound"
 
 const UserProfile = () => {
@@ -29,8 +28,7 @@ const UserProfile = () => {
                     }
                 })
         } catch (error) {
-            alert('ups, something is not working!')
-            console.error(error)
+            alert(error)
         }
     }, [refreshPosts])
 

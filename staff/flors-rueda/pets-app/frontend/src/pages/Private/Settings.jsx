@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import './MyProfileSettings.css'
 import logics from '../../logic'
 import Form from '../../components/lib/Form'
 import getLoggedUserId from '../../logic/helpers/getLoggedUserId'
@@ -38,7 +37,7 @@ const Settings = ({ locale }) => {
             onSuccess()
         } catch (error) {
             alert(formTranslations.errorMsg)
-            console.error(error)
+            alert(error)
         }
     }
 
@@ -55,8 +54,7 @@ const Settings = ({ locale }) => {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))
             } else {
-                alert(formTranslations.errorMsg)
-                console.error(error.message)
+                alert(error.message)
             }
         }
     }
@@ -76,7 +74,6 @@ const Settings = ({ locale }) => {
             }
         } catch (error) {
             alert(error)
-            console.error(error)
         }
     }
 

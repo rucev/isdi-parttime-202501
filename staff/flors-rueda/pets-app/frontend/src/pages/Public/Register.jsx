@@ -38,8 +38,7 @@ const Register = ({ setRefreshHeader, locale }) => {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))
             } else {
-                alert(formTranslations.errorMsg)
-                console.error(error.message)
+                alert(error.message)
             }
         }
     }

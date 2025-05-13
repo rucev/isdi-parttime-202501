@@ -2,9 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import PostList from "../../components/PostList"
 import Btn from "../../components/lib/Btn"
 import CreatePostModal from "../../components/CreatePostModal"
-import './Home.css'
 import logics from "../../logic"
-import errors from "common/errors"
 
 const Home = ({ locale }) => {
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
@@ -20,11 +18,11 @@ const Home = ({ locale }) => {
                 .catch(error => {
                     alert('ups, something is not working!')
                     setPosts([])
-                    console.error(error)
+                    alert(error)
                 })
         } catch (error) {
             alert('ups, something is not working!')
-            console.error(error)
+            alert(error)
         }
     }, [refreshPosts])
 

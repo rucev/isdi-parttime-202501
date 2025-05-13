@@ -13,6 +13,9 @@ const updateBio = (newBio) => {
         },
         body: JSON.stringify({ bio: newBio })
     })
+        .catch(error => {
+            throw new Error(error)
+        })
         .then((response) => {
             if (response.status === 200) {
                 return
@@ -21,8 +24,6 @@ const updateBio = (newBio) => {
                     throw new Error(body.message)
                 })
             }
-        }).catch(error => {
-            throw new Error(error)
         })
 }
 
