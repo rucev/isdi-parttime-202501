@@ -3,16 +3,28 @@ import { errors } from "common"
 const { FormatError, ExistenceError, AuthError, DuplicityError, ContentError } = errors
 
 const errorHandler = (error, req, res, next) => {
+    const response = {}
+
     if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError || error instanceof ContentError) {
-        res.status(400).send({ name: error.name, message: error.message })
+        response.name = error.name
+        response.message = error.message
+        res.status(400).send(JSON.stringify(response))
     } else if (error instanceof AuthError) {
-        res.status(401).send({ name: error.name, message: error.message })
+        response.name = error.name
+        response.message = error.message
+        res.status(401).send(JSON.stringify(response))
     } else if (error instanceof ExistenceError) {
-        res.status(404).send({ name: error.name, message: error.message })
+        response.name = error.name
+        response.message = error.message
+        res.status(404).send(JSON.stringify(response))
     } else if (error instanceof DuplicityError) {
-        res.status(409).send({ name: error.name, message: error.message })
+        response.name = error.name
+        response.message = error.message
+        res.status(409).send(JSON.stringify(response))
     } else {
-        res.status(500).send({ name: 'ServerError', message: error.message })
+        response.name = 'ServerError'
+        response.message = error.message
+        res.status(500).send(JSON.stringify(response))
     }
 }
 

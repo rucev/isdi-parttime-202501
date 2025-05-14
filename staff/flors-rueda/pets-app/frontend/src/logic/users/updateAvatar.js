@@ -13,7 +13,7 @@ const updateAvatar = (newAvatar) => {
         },
         body: JSON.stringify(avatar)
     })
-        .catch(error => { throw new Error(error.message) })
+        .catch(error => { throw new errors.ConnectionError(error.message) })
         .then((response) => {
             if (response.status === 200) return
             else {

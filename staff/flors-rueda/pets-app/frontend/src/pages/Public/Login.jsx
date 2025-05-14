@@ -3,6 +3,7 @@ import Form from "../../components/lib/Form"
 import logics from "../../logic"
 import locales from "../../locales"
 import { useEffect, useState } from "react"
+import useCustomContext from "../../hooks/useCustomContext"
 
 const Login = ({ setRefreshHeader, locale }) => {
     const [translations, setTranslations] = useState(locales[locale]['login'])
@@ -11,6 +12,8 @@ const Login = ({ setRefreshHeader, locale }) => {
     const objectPassword = { label: formTranslations.passwordLabel, inputType: 'password', inputPlaceholder: '·········', inputId: 'password', isRequired: true }
     const objectRemember = { label: formTranslations.remember, inputType: 'checkbox', inputValue: 'remember', inputId: 'remember', isRequired: false }
     const navigate = useNavigate()
+
+    const { alert } = useCustomContext()
 
 
     useEffect(() => {

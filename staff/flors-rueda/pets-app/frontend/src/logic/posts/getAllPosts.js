@@ -8,9 +8,7 @@ const getAllPosts = () => {
         method: 'GET',
         headers: { Authorization: `Basic ${getLoggedUserId()}` }
     })
-        .catch(error => {
-            throw new Error(error)
-        })
+        .catch(error => { throw new errors.ConnectionError(error.message) })
         .then(response => {
             if (response.status === 200) {
                 return response.json().then(body => {
@@ -18,7 +16,7 @@ const getAllPosts = () => {
                 })
             } else {
                 return response.json().then(body => {
-                    throw new Error(body.message)
+                    throw new errors[body.name](body.message)
                 })
             }
         })

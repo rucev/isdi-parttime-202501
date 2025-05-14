@@ -13,9 +13,7 @@ const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
         },
         body: JSON.stringify(user)
     })
-        .catch(error => {
-            throw new Error('error conexión', error)
-        })
+        .catch(error => { throw new errors.ConnectionError(error.message) })
         .then((response) => {
             if (response.status === 200) {
                 if (loginData['remember']) {
@@ -29,7 +27,7 @@ const loginUser = (loginData) => { //{'email': 'patata@mail.com'}
                 }
             } else {
                 return response.json().then(body => {
-                    throw new Error(body.message)
+                    throw new errors[body.name](body.message)
                 })
             }
         })

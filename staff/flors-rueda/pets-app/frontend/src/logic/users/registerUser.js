@@ -22,12 +22,12 @@ const registerUser = (registerData) => { //registerData = {'email': '', 'passwor
         },
         body: JSON.stringify(user)
     })
-        .catch((error) => { throw new Error(error.message) })
+        .catch(error => { throw new errors.ConnectionError(error.message) })
         .then(response => {
             if (response.status === 201) return
             else {
                 return response.json().then(body => {
-                    throw new Error(body.message)
+                    throw new errors[body.name](body.message)
                 })
             }
         })

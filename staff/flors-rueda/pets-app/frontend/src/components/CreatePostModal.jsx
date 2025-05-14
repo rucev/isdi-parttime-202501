@@ -3,11 +3,14 @@ import logics from "../logic"
 import Btn from "./lib/Btn"
 import Form from "./lib/Form"
 import locales from "../locales"
+import useCustomContext from "../hooks/useCustomContext"
 
 const CreatePostModal = ({ setRefreshPosts, closeModal, locale }) => {
     const [tempImg, setTempImg] = useState()
     const [isLocalImage, setIsLocalImage] = useState()
     const [translations, setTranslations] = useState(locales[locale]['forms'])
+
+    const { alert } = useCustomContext()
 
 
     const titleInput = { label: translations.postTitleLabel, inputType: 'text', inputPlaceholder: translations.postTitlePlaceholder, inputId: 'title', isRequired: true }

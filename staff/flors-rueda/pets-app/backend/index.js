@@ -29,7 +29,6 @@ try {
             api.use(errorHandler)
 
             api.listen(port, () => {
-                console.log('TODO: maneja mejor los errores en el front!!')
                 console.info(`API listening to PORT: ${port}`)
             })
         })

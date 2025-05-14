@@ -4,12 +4,15 @@ import PostList from "../../components/PostList"
 import logics from "../../logic"
 import { useParams } from "react-router"
 import NotFound from "../NotFound"
+import useCustomContext from "../../hooks/useCustomContext"
 
 const UserProfile = () => {
     const [posts, setPosts] = useState()
     const [userId, setUserId] = useState()
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
     const { username } = useParams()
+
+    const { alert } = useCustomContext()
 
     useEffect(() => {
         try {

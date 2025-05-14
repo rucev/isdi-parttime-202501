@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import PasswordFeedback from './PasswordFeedback'
 import PasswordInput from './PasswordInput'
+import useCustomContext from '../../hooks/useCustomContext'
 
 const Form = ({ inputsArray, onSubmitCallback, submitButtonText, onFileChangeCallback, onPasswordChangeCallback, securityPasswordErrors }) => { //inputsArray = [{label: 'Email', inputType: 'email', inputPlaceholder: 'my@email.com', inputId: 'email'}, {label: 'Password....}]
     const [tempPassword, setTempPassword] = useState()
     const [arePasswordsEqual, setArePasswordsEqual] = useState(null)
+
+    const { alert } = useCustomContext()
 
     const handleFileInputChange = (event) => {
         event.preventDefault()

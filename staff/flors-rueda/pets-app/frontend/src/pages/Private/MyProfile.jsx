@@ -5,6 +5,7 @@ import UserCard from "../../components/UserCard"
 import getLoggedUserId from "../../logic/helpers/getLoggedUserId"
 import Btn from "../../components/lib/Btn"
 import locales from "../../locales"
+import useCustomContext from "../../hooks/useCustomContext"
 
 const MyProfile = ({ updateHeader, locale }) => {
     const [showUsernameForm, setShowUsernameForm] = useState(false)
@@ -15,6 +16,8 @@ const MyProfile = ({ updateHeader, locale }) => {
     const [isLocalAvatar, setIsLocalAvatar] = useState(false)
     const [translations, setTranslations] = useState(locales[locale]['myProfile'])
     const [formTranslations, setFormTranslations] = useState(locales[locale]['forms'])
+
+    const { alert } = useCustomContext()
 
     useEffect(() => {
         setTranslations(locales[locale]['myProfile'])
@@ -63,7 +66,7 @@ const MyProfile = ({ updateHeader, locale }) => {
                     setRefreshUserCard(Date.now())
                     setShowAvatarForm(false)
                 })
-                .catch(error => alert(error.message))
+                .catch(error => alert(error))
 
         } catch (error) {
             alert(formTranslations.errorMsg)

@@ -3,8 +3,8 @@
     min-width: 95%;
     max-width: 100%;
     flex-direction: row;
-    padding-top: .25rem;
     height: 2rem;
+    padding: 0.25rem 1rem;
 }
 
 .header__join-button {

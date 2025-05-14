@@ -13,15 +13,13 @@ const updateBio = (newBio) => {
         },
         body: JSON.stringify({ bio: newBio })
     })
-        .catch(error => {
-            throw new Error(error)
-        })
+        .catch(error => { throw new errors.ConnectionError(error.message) })
         .then((response) => {
             if (response.status === 200) {
                 return
             } else {
                 return response.json().then(body => {
-                    throw new Error(body.message)
+                    throw new errors[body.name](body.message)
                 })
             }
         })

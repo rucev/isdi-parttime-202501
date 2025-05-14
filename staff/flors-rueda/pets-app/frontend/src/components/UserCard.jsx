@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import logics from "../logic"
 import UserAvatar from "./UserAvatar"
+import useCustomContext from "../hooks/useCustomContext"
 
 const UserCard = ({ userId, refreshSelf, tempAvatar }) => {
     const [user, setUser] = useState()
+
+    const { alert } = useCustomContext()
 
     useEffect(() => {
         try {

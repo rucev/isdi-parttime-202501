@@ -2,9 +2,12 @@ import { useNavigate } from "react-router"
 import logics from "../logic"
 import UserAvatar from "./UserAvatar"
 import Btn from "./lib/Btn"
+import useCustomContext from "../hooks/useCustomContext"
 
 const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
     const navigate = useNavigate()
+
+    const { alert } = useCustomContext()
 
     const handleLikePost = (id) => {
         try {
@@ -12,7 +15,7 @@ const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
                 .then(() => {
                     setRefreshPosts(Date.now())
                 })
-                .catch(error => alert(error.message))
+                .catch(error => alert(error))
         } catch (error) {
             alert('ups, something is not working!')
             alert(error)

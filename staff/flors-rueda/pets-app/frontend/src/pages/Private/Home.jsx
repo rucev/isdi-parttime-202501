@@ -3,6 +3,7 @@ import PostList from "../../components/PostList"
 import Btn from "../../components/lib/Btn"
 import CreatePostModal from "../../components/CreatePostModal"
 import logics from "../../logic"
+import useCustomContext from "../../hooks/useCustomContext"
 
 const Home = ({ locale }) => {
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
@@ -11,6 +12,8 @@ const Home = ({ locale }) => {
     const dialogRef = useRef(null)
     const pageRef = useRef(null)
     const formRef = useRef(null)
+
+    const { alert } = useCustomContext()
 
     useEffect(() => {
         try {

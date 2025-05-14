@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { errors } from "common"
 import checkPasswordSecurity from "../../logic/helpers/checkPasswordSecurity";
 import locales from "../../locales";
+import useCustomContext from "../../hooks/useCustomContext";
 
 const Register = ({ setRefreshHeader, locale }) => {
     const [translations, setTranslations] = useState(locales[locale]['register'])
@@ -15,6 +16,8 @@ const Register = ({ setRefreshHeader, locale }) => {
     const objectConfirmPassword = { label: formTranslations.confirmPasswordLabel, inputType: 'password', inputPlaceholder: '·········', inputId: 'confirmation-password', isRequired: true }
     const navigate = useNavigate()
     const [securityErrors, setSecurityErrors] = useState(null)
+
+    const { alert } = useCustomContext()
 
     useEffect(() => {
         setTranslations(locales[locale]['register'])
@@ -31,14 +34,14 @@ const Register = ({ setRefreshHeader, locale }) => {
                             setRefreshHeader(Date.now())
                             navigate('/')
                         })
-                        .catch(error => alert(error.message))
+                        .catch(error => alert(error))
                 })
-                .catch(error => alert(error.message))
+                .catch(error => alert(error))
         } catch (error) {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))
             } else {
-                alert(error.message)
+                alert(error)
             }
         }
     }

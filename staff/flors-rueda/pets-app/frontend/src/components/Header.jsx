@@ -6,6 +6,7 @@ import getLoggedUserId from "../logic/helpers/getLoggedUserId"
 import UserAvatar from "./UserAvatar"
 import { useLocation, useNavigate } from "react-router"
 import locales from "../locales"
+import useCustomContext from "../hooks/useCustomContext"
 
 const Header = ({ refreshHeader, logout, isUserLogged, locale }) => {
     const location = useLocation();
@@ -15,6 +16,8 @@ const Header = ({ refreshHeader, logout, isUserLogged, locale }) => {
     const [path, setPath] = useState('')
     const [justifyItems, setJustifyItems] = useState('')
     const navigate = useNavigate()
+
+    const { alert } = useCustomContext()
 
     const [translations, setTranslations] = useState(locales[locale]['header'])
 
@@ -71,7 +74,7 @@ const Header = ({ refreshHeader, logout, isUserLogged, locale }) => {
             ((path === '/register' || path === '/login' || justifyItems === 'not-found') || isUserLogged) && <Logo onClick={handleLogoClick} size="sm" />
         }
         {
-            (isUserLogged && username.length > 0) && <p>{`${translations.welcome}, ${username}`}</p>
+            (isUserLogged && username && username.length > 0) && <p>{`${translations.welcome}, ${username}`}</p>
         }
         {
             !isUserLogged && (path === '/' || justifyItems === 'not-found') && <Btn btnClassnames={"header__join-button"} btnContent={translations.joinBtn} btnCallback={() => navigate('/register')} />

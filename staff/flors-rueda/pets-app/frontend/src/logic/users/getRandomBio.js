@@ -6,14 +6,12 @@ const getRandomBio = () => {
     return fetch(`${import.meta.env.VITE_JOKE_API_URL}`, {
         method: 'GET'
     })
-        .catch((error) => {
-            throw new Error(error.message)
-        })
+        .catch(error => { throw new errors.ConnectionError(error.message) })
         .then((response) => {
             let randomBio = ''
             if (response.status !== 200) {
                 return response.json().then(body => {
-                    throw new Error(body.message)
+                    throw new errors[body.name](body.message)
                 })
             } else {
                 return response.json()

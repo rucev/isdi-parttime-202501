@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import logics from "../../logic"
 import getLoggedUserId from "../../logic/helpers/getLoggedUserId"
 import PostList from "../../components/PostList"
+import useCustomContext from "../../hooks/useCustomContext"
 
 const MyPosts = () => {
     const [posts, setPosts] = useState()
     const [refreshPosts, setRefreshPosts] = useState(Date.now())
 
+    const { alert } = useCustomContext()
 
     useEffect(() => {
         try {

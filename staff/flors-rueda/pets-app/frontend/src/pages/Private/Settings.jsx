@@ -6,6 +6,7 @@ import { useNavigate } from "react-router"
 import checkPasswordSecurity from '../../logic/helpers/checkPasswordSecurity'
 import locales from '../../locales'
 import { errors } from "common"
+import useCustomContext from '../../hooks/useCustomContext'
 
 const Settings = ({ locale }) => {
     const [showNewEmailForm, setShowNewEmailForm] = useState(false)
@@ -15,6 +16,8 @@ const Settings = ({ locale }) => {
     const navigate = useNavigate()
     const [translations, setTranslations] = useState(locales[locale]['settings'])
     const [formTranslations, setFormTranslations] = useState(locales[locale]['forms'])
+
+    const { alert } = useCustomContext()
 
     useEffect(() => {
         setTranslations(locales[locale]['settings'])
@@ -54,7 +57,7 @@ const Settings = ({ locale }) => {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))
             } else {
-                alert(error.message)
+                alert(error)
             }
         }
     }
