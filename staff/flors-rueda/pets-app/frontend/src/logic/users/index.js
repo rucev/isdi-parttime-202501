@@ -13,6 +13,8 @@ import updateEmail from "./updateEmail";
 import updatePassword from "./updatePassword";
 import updateUsername from "./updateUsername";
 import getUserBio from "./getUserBio";
+import getUserMainInfo from "./getUserMainInfo";
+import toggleFollow from "./toggleFollow";
 
 const users = {
     getUserUsername,
@@ -29,7 +31,9 @@ const users = {
     updatePassword,
     updateEmail,
     deleteUserById,
-    getRandomBio
+    getRandomBio,
+    getUserMainInfo,
+    toggleFollow
 }
 
 export default users

@@ -8,10 +8,13 @@ import getUserId from "./users/getUserId.js";
 import getUsername from "./users/getUsername.js";
 import loginUser from "./users/loginUser.js";
 import registerUser from "./users/registerUser.js";
-import toggleLike from "./users/toggleLike.js";
+import toggleLike from "./posts/toggleLike.js";
+import toggleFollow from "./users/toggleFollow.js";
 import updateAvatar from "./users/updateAvatar.js";
 import updateBio from "./users/updateBio.js";
 import updateUsername from "./users/updateUsername.js";
+import getUserMainInfo from "./users/getUserMainInfo.js";
+import getHomePosts from "./posts/getHomePosts.js";
 
 export default {
     registerUser,
@@ -27,5 +30,8 @@ export default {
     updateBio,
     getBio,
     getPostsByAuthor,
-    getUserId
+    getUserId,
+    toggleFollow,
+    getUserMainInfo,
+    getHomePosts
 }

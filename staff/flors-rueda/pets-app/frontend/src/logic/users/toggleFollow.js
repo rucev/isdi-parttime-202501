@@ -1,9 +1,10 @@
 import { errors, validator } from "common"
 import getLoggedUserId from "../helpers/getLoggedUserId";
 
-const toggleLike = (postId) => {
-    validator.id(postId)
-    return fetch(`${import.meta.env.VITE_API_APP}/posts/like/${postId}`, {
+const toggleFollow = (userId) => {
+    validator.id(userId)
+
+    return fetch(`${import.meta.env.VITE_API_APP}/users/follow/${userId}`, {
         method: 'PATCH',
         headers: {
             'Authorization': `Basic ${getLoggedUserId()}`
@@ -21,4 +22,4 @@ const toggleLike = (postId) => {
 
 }
 
-export default toggleLike
+export default toggleFollow

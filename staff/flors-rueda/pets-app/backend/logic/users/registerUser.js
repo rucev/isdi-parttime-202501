@@ -10,7 +10,7 @@ const registerUser = (email, password, username) => {
             if (user) { throw new errors.DuplicityError('user already exists') }
 
             return bcrypt.hash(password, 5).then(hashPassword => {
-                return data.users.insertOne({ email, password: hashPassword, username })
+                return data.users.insertOne({ email, password: hashPassword, username, following: [], followers: [] })
                     .catch(error => { throw new errors.ServerError(error.message) })
             })
                 .catch(error => { throw new errors.ServerError(error.message) });

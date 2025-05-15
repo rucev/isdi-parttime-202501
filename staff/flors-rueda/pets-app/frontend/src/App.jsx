@@ -8,6 +8,7 @@ import Public from "./pages/Public"
 import Btn from "./components/lib/Btn"
 import Alert from "./components/lib/Alert"
 import { customContext } from "./hooks/useCustomContext"
+import Confirm from "./components/lib/Confirm"
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
     const [isUserLogged, setIsUserLogged] = useState(logics.users.isUserLoggedIn())
     const [locale, setLocale] = useState('en')
     const [alertError, setAlertError] = useState(null)
+    const [isConfirmOn, setIsConfirmOn] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -33,8 +35,18 @@ const App = () => {
         setLocale(locale === 'en' ? 'es' : 'en')
     }
 
+    const onConfirmAccept = () => {
+        setIsConfirmOn(false)
+        return true
+    }
 
-    return <customContext.Provider value={{ alert: (error) => { setAlertError(error) } }} >
+    const handleConfirmClick = () => {
+        setIsConfirmOn(true)
+
+    }
+
+
+    return <customContext.Provider value={{ alert: (error) => { setAlertError(error) }, confirm: () => { } }} >
         <div className="flex flex-col gap-2 w-full">
             <Header
                 isUserLogged={isUserLogged}
@@ -46,6 +58,7 @@ const App = () => {
             <Btn btnCallback={onSetLocale} btnContent={locale === 'en' ? 'traducir' : 'translate'} btnClassnames={'translate-btn'} />
         </div>
         {alertError && <Alert error={alertError} onClose={() => setAlertError(null)} />}
+        {isConfirmOn && <Confirm onClose={() => setIsConfirmOn(false)} message="dfaldsf aslkefajsdf dagjakrgf" />}
     </customContext.Provider>
 }
 

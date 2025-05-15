@@ -20,15 +20,15 @@ const Alert = ({ error, onClose }) => {
         }
     }, [])
 
-    return <div className="z-30 absolute min-h-48 h-fit top-5 left-1/4 md:left-1/3 flex items-start flex-col justify-start w-1/2 md:w-1/3 p-4 text-gray-500 bg-white rounded-lg shadow-sm shadow-amber-600">
+    return <div className="z-30 absolute min-h-48 h-fit !px-2 top-5 left-1/4 md:left-1/3 flex items-start flex-col justify-start w-1/2 md:w-1/3 p-4 text-gray-500 bg-white rounded-lg shadow-sm shadow-amber-600">
         <div className="w-full flex items-center justify-between shrink-0 h-12 text-organge-500 bg-orange-100 rounded-t-lg">
             <i className="bi bi-exclamation-triangle text-3xl"></i>
             <button onClick={onClose} type="button" className="cursor-pointer text-gray-400 hover:text-gray-900 rounded-lg">
                 <i className="bi bi-x-lg"></i>
             </button>
         </div>
-        <div className="w-full min-h-24 h-fit flex flex-col justify-center items-center text-center">
-            <p className="text-lg w-full px-2">{message}</p>
+        <div className="w-full !pt-5 min-h-24 h-fit flex flex-col justify-center items-center text-center">
+            <p className="text-lg w-full !px-2">{message}</p>
         </div>
 
     </div>

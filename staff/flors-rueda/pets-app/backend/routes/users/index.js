@@ -13,10 +13,11 @@ userRouter.get('/username/:userId', extractId, handlers.getUsername)
 userRouter.get('/avatar/:userId', extractId, handlers.getAvatar)
 userRouter.get('/bio/:userId', extractId, handlers.getBio)
 userRouter.get('/id/:username', extractId, handlers.getUserId)
-
+userRouter.get('/info/:userId', extractId, handlers.getUserMainInfo)
 
 userRouter.patch('/username', jsonBodyParser, extractId, handlers.updateUsername)
 userRouter.patch('/avatar', jsonBodyParser, extractId, handlers.updateAvatar)
 userRouter.patch('/bio', jsonBodyParser, extractId, handlers.updateBio)
+userRouter.patch('/follow/:userId', extractId, handlers.toggleFollow)
 
 export default userRouter

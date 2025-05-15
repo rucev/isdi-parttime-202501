@@ -5,6 +5,7 @@ import UserProfile from "./Private/UserProfile"
 import NotFound from "./NotFound"
 import MyPosts from "./Private/MyPosts"
 import Settings from "./Private/Settings"
+import GlobalPosts from "./Private/GlobalPosts"
 
 const Private = ({ setRefreshHeader, locale }) => {
     return <Routes>
@@ -13,6 +14,7 @@ const Private = ({ setRefreshHeader, locale }) => {
         <Route path="/settings" element={<Settings locale={locale} />} />
         <Route path="/my-posts" element={<MyPosts />} />
         <Route path="/profile/:username" element={<UserProfile />} />
+        <Route path="/global" element={<GlobalPosts locale={locale} />} />
         <Route path="/*" element={<NotFound />} />
     </Routes>
 }

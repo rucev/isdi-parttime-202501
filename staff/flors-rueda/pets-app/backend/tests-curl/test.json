@@ -1,0 +1,20 @@
+{
+    "posts": [
+        {
+            "likes": [],
+            "createdOn": "15/5/2025, 18:20:08",
+            "title": "test fetch it",
+            "description": "fetchitfetchit :D",
+            "img": null,
+            "author": {
+                "username": "hiro",
+                "followers": [
+                    "681d025ca644d79dddf3e3f3"
+                ],
+                "id": "6824ee4057b584541776a2d0"
+            },
+            "id": "682614387a166b8758c74e72",
+            "isLiked": false
+        }
+    ]
+}*

@@ -8,6 +8,7 @@ const postRouter = Router()
 postRouter.post('/', jsonBodyParser, extractId, handlers.createPost)
 
 postRouter.get('/', extractId, handlers.getAllPosts)
+postRouter.get('/home', extractId, handlers.getHomePosts)
 postRouter.get('/author/:authorId', jsonBodyParser, extractId, handlers.getPostsByAuthor)
 
 postRouter.patch('/like/:postId', extractId, handlers.toggleLike)

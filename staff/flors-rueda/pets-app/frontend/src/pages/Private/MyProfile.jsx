@@ -117,7 +117,7 @@ const MyProfile = ({ updateHeader, locale }) => {
     }
 
     return <div className="main-container">
-        <UserCard userId={getLoggedUserId()} refreshSelf={refreshUserCard} tempAvatar={tempAvatar} />
+        <UserCard userId={getLoggedUserId()} refreshSelf={refreshUserCard} tempAvatar={tempAvatar} isMyProfile={true} />
         <div className="account__section-title" onClick={() => setShowUsernameForm(!showUsernameForm)}>
             <h2>{translations.usernameTitle}</h2>
             <i className={`bi bi-chevron-compact-${showUsernameForm ? 'up' : 'down'}`}></i>

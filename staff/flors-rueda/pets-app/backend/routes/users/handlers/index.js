@@ -7,6 +7,8 @@ import registerUser from "./registerUser.js";
 import updateAvatar from "./updateAvatar.js";
 import updateBio from "./updateBio.js";
 import updateUsername from "./updateUsername.js";
+import toggleFollow from "./toggleFollow.js";
+import getUserMainInfo from "./getUserMainInfo.js";
 
 export default {
     registerUser,
@@ -17,5 +19,7 @@ export default {
     updateAvatar,
     updateBio,
     getBio,
-    getUserId
+    getUserId,
+    toggleFollow,
+    getUserMainInfo
 }

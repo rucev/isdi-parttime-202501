@@ -5,6 +5,7 @@ import logics from "../../logic"
 import { useParams } from "react-router"
 import NotFound from "../NotFound"
 import useCustomContext from "../../hooks/useCustomContext"
+import getLoggedUserId from "../../logic/helpers/getLoggedUserId"
 
 const UserProfile = () => {
     const [posts, setPosts] = useState()
@@ -41,7 +42,7 @@ const UserProfile = () => {
                 :
                 <div className="main-container">
                     {
-                        userId && <UserCard userId={userId} />
+                        userId && <UserCard userId={userId} isMyProfile={userId === getLoggedUserId()} />
                     }
                     {
                         posts && <PostList posts={posts} setRefreshPosts={setRefreshPosts} handleNavigateToUserProfile={setRefreshPosts} />
