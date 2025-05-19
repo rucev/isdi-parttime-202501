@@ -17,7 +17,7 @@ const Home = ({ locale }) => {
 
     useEffect(() => {
         try {
-            logics.posts.getAllPosts().then(retrivedPosts => setPosts(retrivedPosts))
+            logics.posts.getHomePosts().then(retrivedPosts => setPosts(retrivedPosts))
                 .catch(error => {
                     alert('ups, something is not working!')
                     setPosts([])

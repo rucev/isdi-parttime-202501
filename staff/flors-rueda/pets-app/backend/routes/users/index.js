@@ -19,5 +19,9 @@ userRouter.patch('/username', jsonBodyParser, extractId, handlers.updateUsername
 userRouter.patch('/avatar', jsonBodyParser, extractId, handlers.updateAvatar)
 userRouter.patch('/bio', jsonBodyParser, extractId, handlers.updateBio)
 userRouter.patch('/follow/:userId', extractId, handlers.toggleFollow)
+userRouter.patch('/email', jsonBodyParser, extractId, handlers.updateEmail)
+userRouter.patch('/password', jsonBodyParser, extractId, handlers.updatePassword)
+
+userRouter.delete('/', jsonBodyParser, extractId, handlers.deleteUser)
 
 export default userRouter

@@ -14,7 +14,7 @@ const getHomePosts = (userId) => {
                 },
                 {
                     $match: {
-                        "tempId": { $in: user.following ? user.following : [] }
+                        $or: [{ "tempId": userId }, { "tempId": { $in: user.following ? user.following : [] } }]
                     }
                 },
                 {
@@ -44,7 +44,8 @@ const getHomePosts = (userId) => {
                         "author.email": 0,
                         "author._id": 0,
                         "tempId": 0,
-                        //Limpiar followers y following del author
+                        "author.following": 0,
+                        "author.followers": 0
                     }
                 }
             ]).toArray()

@@ -9,6 +9,9 @@ import updateBio from "./updateBio.js";
 import updateUsername from "./updateUsername.js";
 import toggleFollow from "./toggleFollow.js";
 import getUserMainInfo from "./getUserMainInfo.js";
+import updateEmail from "./updateEmail.js";
+import updatePassword from "./updatePassword.js";
+import deleteUser from "./deleteUser.js";
 
 export default {
     registerUser,
@@ -21,5 +24,8 @@ export default {
     getBio,
     getUserId,
     toggleFollow,
-    getUserMainInfo
+    getUserMainInfo,
+    updateEmail,
+    updatePassword,
+    deleteUser
 }

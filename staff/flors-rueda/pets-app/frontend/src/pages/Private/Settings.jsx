@@ -37,9 +37,9 @@ const Settings = ({ locale }) => {
 
         try {
             logics.users.updateEmail(newEmail)
-            onSuccess()
+                .then(() => onSuccess())
+                .catch(error => alert(error))
         } catch (error) {
-            alert(formTranslations.errorMsg)
             alert(error)
         }
     }
@@ -51,8 +51,11 @@ const Settings = ({ locale }) => {
 
         try {
             logics.users.updatePassword(newPassword, confirmPassword, oldPassword)
-            onSuccess()
-            setSecurityErrors(null)
+                .then(() => {
+                    onSuccess()
+                    setSecurityErrors(null)
+                })
+                .catch((error) => alert(error))
         } catch (error) {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))
@@ -70,10 +73,18 @@ const Settings = ({ locale }) => {
         try {
             confirm(translations.confirmDelete).then(doesUserAgree => {
                 if (doesUserAgree) {
-                    logics.users.deleteUserById(getLoggedUserId(), formData.password)
-                    logics.users.logoutUser()
-                    onSuccess()
-                    navigate('/register')
+                    try {
+                        logics.users.deleteUser(formData.password)
+                            .then(() => {
+                                logics.users.logoutUser()
+                                onSuccess()
+                                navigate('/register')
+                            })
+                            .catch(error => alert(error))
+                    } catch (error) {
+                        alert(error)
+                    }
+
                 }
             })
         } catch (error) {

@@ -32,7 +32,9 @@ const getAllPosts = (userId) => {
                         "_id": 0,
                         "author.password": 0,
                         "author.email": 0,
-                        "author._id": 0
+                        "author._id": 0,
+                        "author.following": 0,
+                        "author.followers": 0
                     }
                 }
             ]).toArray()

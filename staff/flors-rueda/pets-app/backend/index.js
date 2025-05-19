@@ -4,9 +4,9 @@ import errorHandler from './middlewares/errorHandler.js';
 import userRouter from './routes/users/index.js';
 import postRouter from './routes/posts/index.js';
 import { data } from './data/index.js';
+import 'dotenv/config'
 
-
-const port = 4321 //localhost:4321/
+const port = process.env.PORT
 
 
 try {

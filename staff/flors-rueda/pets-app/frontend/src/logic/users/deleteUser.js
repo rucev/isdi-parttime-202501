@@ -1,22 +1,16 @@
 import { errors, validator } from "common"
 import getLoggedUserId from "../helpers/getLoggedUserId"
 
-const updatePassword = (newPassword, confirmationNewPassword, oldPassword) => {
-    validator.password(newPassword)
-    validator.password(confirmationNewPassword)
-    validator.password(oldPassword)
+const deleteUser = (password) => {
+    validator.password(password)
 
-    if (newPassword !== confirmationNewPassword) {
-        throw new errors.ContentError('password and confirmation password are not the same')
-    }
-
-    return fetch(`${import.meta.env.VITE_API_APP}/users/password`, {
-        method: 'PATCH',
+    return fetch(`${import.meta.env.VITE_API_APP}/users`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Basic ${getLoggedUserId()}`
         },
-        body: JSON.stringify({ 'new-password': newPassword, 'old-password': oldPassword })
+        body: JSON.stringify({ password })
     })
         .catch(error => { throw new errors.ConnectionError(error.message) })
         .then((response) => {
@@ -30,4 +24,4 @@ const updatePassword = (newPassword, confirmationNewPassword, oldPassword) => {
         })
 }
 
-export default updatePassword
+export default deleteUser

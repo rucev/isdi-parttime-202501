@@ -1,9 +1,12 @@
 import { errors } from "common"
+import 'dotenv/config'
 
 const { FormatError, ExistenceError, AuthError, DuplicityError, ContentError } = errors
 
 const errorHandler = (error, req, res, next) => {
     const response = {}
+
+    if (process.env.IS_DEBUG_MODE === 'true') console.error(error)
 
     if (error instanceof TypeError || error instanceof RangeError || error instanceof FormatError || error instanceof ContentError) {
         response.name = error.name

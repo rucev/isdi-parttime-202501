@@ -4,18 +4,25 @@ import getLoggedUserId from "../helpers/getLoggedUserId"
 
 const updateEmail = (newEmail) => {
     validator.email(newEmail)
-    const loggedUserId = getLoggedUserId()
 
-    const doesUserExist = data.users.findUserByEmail(newEmail)
-    if (doesUserExist) {
-        throw new errors.ExistenceError('something went wrong, try again with new credentials')
-    }
-
-    const user = data.users.findUserById(loggedUserId)
-
-    if (!user) throw new errors.ExistenceError('user not found')
-    user.email = newEmail
-    data.users.updateUserById(loggedUserId, user)
+    return fetch(`${import.meta.env.VITE_API_APP}/users/email`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${getLoggedUserId()}`
+        },
+        body: JSON.stringify({ email: newEmail })
+    })
+        .catch(error => { throw new errors.ConnectionError(error.message) })
+        .then((response) => {
+            if (response.status === 200) {
+                return
+            } else {
+                return response.json().then(body => {
+                    throw new errors[body.name](body.message)
+                })
+            }
+        })
 }
 
 export default updateEmail

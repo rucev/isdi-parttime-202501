@@ -1,7 +1,8 @@
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb"
+import 'dotenv/config'
 
-const url = 'mongodb://localhost:27017'
-const dbName = 'pets-app'
+const url = process.env.MONGO_URL
+const dbName = process.env.MONGO_DB
 
 export const data = {
     users: null, posts: null,
