@@ -7,7 +7,7 @@ import useCustomContext from "../hooks/useCustomContext"
 const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
     const navigate = useNavigate()
 
-    const { alert } = useCustomContext()
+    const { alert, confirm } = useCustomContext()
 
     const handleLikePost = (id) => {
         try {
@@ -24,14 +24,14 @@ const Post = ({ postData, setRefreshPosts, isMyPostsPage }) => {
 
     const handleDeletePost = (id) => {
         try {
-            const isUserSure = confirm('you sure you want to delete?')
-            if (isUserSure) {
-                logics.posts.deletePost(id)
-                    .then(() => setRefreshPosts(Date.now()))
-                    .catch((error) => alert(error))
-            }
+            confirm('you sure you want to delete?').then(isUserSure => {
+                if (isUserSure) {
+                    logics.posts.deletePost(id)
+                        .then(() => setRefreshPosts(Date.now()))
+                        .catch((error) => alert(error))
+                }
+            })
         } catch (error) {
-            alert('ups, something is not working!')
             alert(error)
         }
     }

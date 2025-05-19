@@ -16,7 +16,8 @@ const App = () => {
     const [isUserLogged, setIsUserLogged] = useState(logics.users.isUserLoggedIn())
     const [locale, setLocale] = useState('en')
     const [alertError, setAlertError] = useState(null)
-    const [isConfirmOn, setIsConfirmOn] = useState(false)
+    const [confirmState, setConfirmState] = useState(null)
+    const [confirmMsg, setConfirmMsg] = useState(null)
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -35,18 +36,20 @@ const App = () => {
         setLocale(locale === 'en' ? 'es' : 'en')
     }
 
-    const onConfirmAccept = () => {
-        setIsConfirmOn(false)
-        return true
+    const handleShowConfirm = (message) => {
+        return new Promise((resolve, _reject) => {
+            setConfirmMsg(message)
+            setConfirmState({ resolve })
+        })
     }
 
-    const handleConfirmClick = () => {
-        setIsConfirmOn(true)
-
+    const resolveConfirm = (bool) => {
+        confirmState.resolve(bool)
+        setConfirmMsg(null)
+        setConfirmState(null)
     }
 
-
-    return <customContext.Provider value={{ alert: (error) => { setAlertError(error) }, confirm: () => { } }} >
+    return <customContext.Provider value={{ alert: (error) => { setAlertError(error) }, confirm: (message) => handleShowConfirm(message) }} >
         <div className="flex flex-col gap-2 w-full">
             <Header
                 isUserLogged={isUserLogged}
@@ -58,7 +61,7 @@ const App = () => {
             <Btn btnCallback={onSetLocale} btnContent={locale === 'en' ? 'traducir' : 'translate'} btnClassnames={'translate-btn'} />
         </div>
         {alertError && <Alert error={alertError} onClose={() => setAlertError(null)} />}
-        {isConfirmOn && <Confirm onClose={() => setIsConfirmOn(false)} message="dfaldsf aslkefajsdf dagjakrgf" />}
+        {confirmMsg && <Confirm onRejectConfirm={() => resolveConfirm(false)} onConfirmAccept={() => resolveConfirm(true)} message={confirmMsg} />}
     </customContext.Provider>
 }
 

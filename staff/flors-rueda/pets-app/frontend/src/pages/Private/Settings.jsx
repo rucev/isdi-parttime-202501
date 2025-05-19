@@ -17,7 +17,7 @@ const Settings = ({ locale }) => {
     const [translations, setTranslations] = useState(locales[locale]['settings'])
     const [formTranslations, setFormTranslations] = useState(locales[locale]['forms'])
 
-    const { alert } = useCustomContext()
+    const { alert, confirm } = useCustomContext()
 
     useEffect(() => {
         setTranslations(locales[locale]['settings'])
@@ -68,13 +68,14 @@ const Settings = ({ locale }) => {
 
     const onDeleteAccount = (formData, onSuccess) => {
         try {
-            const doesUserAgree = confirm(translations.confirmDelete)
-            if (doesUserAgree) {
-                logics.users.deleteUserById(getLoggedUserId(), formData.password)
-                logics.users.logoutUser()
-                onSuccess()
-                navigate('/register')
-            }
+            confirm(translations.confirmDelete).then(doesUserAgree => {
+                if (doesUserAgree) {
+                    logics.users.deleteUserById(getLoggedUserId(), formData.password)
+                    logics.users.logoutUser()
+                    onSuccess()
+                    navigate('/register')
+                }
+            })
         } catch (error) {
             alert(error)
         }
