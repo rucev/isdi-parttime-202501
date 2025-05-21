@@ -10,11 +10,11 @@ const loginUser = (email, password) => {
             if (!user) { throw new errors.ExistenceError('user not found') }
 
             return bcrypt.compare(password, user.password)
+                .catch(error => { throw new errors.ServerError(error.message) })
                 .then(result => {
                     if (!result) { throw new errors.AuthError('invalid credentials') }
                     return user._id.toString()
                 })
-                .catch(error => { throw new errors.ServerError(error.message) })
         })
 }
 

@@ -1,15 +1,20 @@
 import { Schema, model } from 'mongoose'
 
-export const { ObjectId } = Schema.Types
+const { ObjectId } = Schema.Types
 
 const userSchema = new Schema({
     username: {
         type: String,
         required: true
     },
-    email: {
+    password: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
     avatar: {
         type: String,
@@ -19,8 +24,14 @@ const userSchema = new Schema({
         type: String,
         required: false
     },
-    followers: [ObjectId],
-    following: [ObjectId]
+    followers: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
+    following: [{
+        type: ObjectId,
+        ref: 'User'
+    }]
 });
 
 export const User = model('User', userSchema);
@@ -31,7 +42,10 @@ const postSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    likes: [ObjectId],
+    likes: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
     title: {
         type: String,
         required: true
@@ -44,7 +58,7 @@ const postSchema = new Schema({
         type: String,
         required: false
     },
-}, Timestamp);
+}, { timestamps: true });
 
 export const Post = model('Post', postSchema)
 

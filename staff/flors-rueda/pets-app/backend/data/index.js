@@ -1,18 +1,19 @@
-import { connect } from "mongoose"
-import 'dotenv/config'
-import { User, Post, ObjectId } from "./models.js"
-
-const url = process.env.MONGO_URL
-const dbName = process.env.MONGO_DB
+import { connect, disconnect, Types } from "mongoose"
+import { User, Post } from "./models.js"
 
 export const data = {
     users: User, posts: Post,
-    ObjectId,
-    connect: () => {
+    ObjectId: Types.ObjectId,
+    connect: (url, dbName) => {
         return connect(`${url}/${dbName}`)
             .catch(error => console.error(error))
             .then(() => {
                 console.info(`Connected to Mongo Server ${url}/${dbName}`)
             })
+    },
+    disconnect: () => {
+        return disconnect()
+            .then(console.info('db disconected'))
+            .catch(error => console.error(error))
     }
 }

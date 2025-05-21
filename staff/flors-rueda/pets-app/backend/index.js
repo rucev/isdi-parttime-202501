@@ -7,10 +7,12 @@ import { data } from './data/index.js';
 import 'dotenv/config'
 
 const port = process.env.PORT
+const url = process.env.MONGO_URL
+const dbName = process.env.MONGO_DB
 
 
 try {
-    data.connect().catch(error => console.error(error))
+    data.connect(url, dbName).catch(error => console.error(error))
         .then(() => {
 
             const api = express()

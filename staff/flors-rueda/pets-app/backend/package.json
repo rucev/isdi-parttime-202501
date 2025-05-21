@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node .",
+    "test": "mocha ./logic/**/*.spec.js",
     "inspect": "node --inspect-brk .",
     "test-data-users": "node ./data/users.test.js"
   },
@@ -15,7 +16,10 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jose": "^6.0.11",
-    "mongodb": "^6.16.0",
     "mongoose": "^8.15.0"
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.4.0"
   }
 }

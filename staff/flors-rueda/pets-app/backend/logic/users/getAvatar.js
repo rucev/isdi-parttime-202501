@@ -2,11 +2,11 @@ import { errors } from "common"
 import { data } from "../../data/index.js"
 
 const getAvatar = (id, userId) => {
-    return data.users.findOne({ _id: new data.ObjectId(id) })
+    return data.users.findById(id)
         .catch(error => { throw new errors.ServerError(error.message) })
         .then((user) => {
             if (!user) { throw new errors.ExistenceError('logged user not found') }
-            return data.users.findOne({ _id: new data.ObjectId(userId) })
+            return data.users.findById(userId)
                 .catch(error => { throw new errors.ServerError(error.message) })
                 .then((retrivedUser) => {
                     if (!retrivedUser) { throw new errors.ExistenceError('user not found') }

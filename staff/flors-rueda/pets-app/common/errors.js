@@ -55,5 +55,5 @@ class TokenError extends Error {
 }
 
 export default {
-    ExistenceError, DuplicityError, ContentError, AuthError, FormatError, ServerError, ConnectionError, TokenError
+    ExistenceError, DuplicityError, ContentError, AuthError, FormatError, ServerError, ConnectionError, TokenError, TypeError, RangeError
 }
