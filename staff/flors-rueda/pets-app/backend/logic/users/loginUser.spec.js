@@ -6,7 +6,7 @@ import loginUser from "./loginUser.js"
 import { expect } from "chai"
 import { errors } from "common"
 
-describe('LoginUser', () => {
+describe('loginUser', () => {
     before(() => {
         return data.connect(process.env.MONGO_URL, process.env.MONGO_DB_TEST)
     })

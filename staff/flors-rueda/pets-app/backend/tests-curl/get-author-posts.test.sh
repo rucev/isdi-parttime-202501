@@ -1,2 +1,2 @@
-curl -X GET http://localhost:4321/posts/author/681d025ca644d79dddf3e3f3 \
-    -H "Authorization: Basic 681d01502f3a0ded5e3cb3ee" -v
+curl -X GET http://localhost:4321/posts/author/681d01502f3a0ded5e3cb3ee \
+        -H "Authorization: Bearer eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..DfuFWRUm2MA2pj0Mnwqz-g.TOXScBVEPVS_96OLbssahxt-1hv1irqKcRsROVwem-NtOJ5DHSq0wwvWWGlvIlscEC9W6SS5VbSFC0t0x_ZltQ.g39SjGQlZwsatjzejsE8sQ" -v

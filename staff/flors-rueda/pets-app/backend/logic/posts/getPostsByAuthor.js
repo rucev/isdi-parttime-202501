@@ -2,59 +2,37 @@ import { errors } from "common"
 import { data } from "../../data/index.js"
 
 const getPostsByAuthor = (userId, authorId) => {
-    return data.users.findOne({ _id: new data.ObjectId(userId) })
+    return data.users.findById(userId)
         .catch((error) => { throw new errors.ServerError(error.message) })
         .then((user) => {
             if (!user) { throw new errors.ExistenceError('user not found') }
-            return data.posts.aggregate([
-                {
-                    $match: {
-                        author: new data.ObjectId(authorId)
-                    }
-                },
-                {
-                    $lookup: {
-                        from: "users",
-                        localField: "author",
-                        foreignField: "_id",
-                        as: "author"
-                    }
-                },
-                {
-                    $unwind: "$author"
-                },
-                {
-                    $addFields: {
-                        "id": "$_id",
-                        "author.id": "$author._id"
-                    }
-                },
-                {
-                    $sort: { _id: -1 }
-                },
-                {
-                    $project: {
-                        "_id": 0,
-                        "author.password": 0,
-                        "author.email": 0,
-                        "author._id": 0
-                    }
-                }
-            ]).toArray()
+            return data.users.findById(authorId)
                 .catch((error) => { throw new errors.ServerError(error.message) })
-                .then(posts => {
+                .then((_author) => {
+                    if (!_author) { throw new errors.ExistenceError('author not found') }
+                    return data.posts.find({ author: _author._id }).populate('author', 'username _id avatar').sort({ createdAt: -1 }).lean()
+                        .catch((error) => { throw new errors.ServerError(error.message) })
+                        .then(posts => {
+                            const formatedPosts = posts.map((post) => {
+                                post.id = post._id.toString()
+                                delete post._id
 
-                    const formatedPosts = posts.map((post) => {
-                        const date = new Date(post.createdOn)
-                        post.createdOn = date.toLocaleString()
-                        if (post.likes.length > 0 && post.likes.includes(userId)) {
-                            post.isLiked = true
-                        } else {
-                            post.isLiked = false
-                        }
-                        return post
-                    })
-                    return formatedPosts
+                                post.author.id = post.author._id.toString()
+                                delete post.author._id
+
+                                const date = post.createdOn ? new Date(post.createdOn) : new Date(post.createdAt)
+                                delete post.createdAt
+                                post.createdOn = date.toLocaleString()
+
+                                if (post.likes.length > 0 && (post.likes.filter(objectId => objectId.toString() === userId)).length !== 0) {
+                                    post.isLiked = true
+                                } else {
+                                    post.isLiked = false
+                                }
+                                return post
+                            })
+                            return formatedPosts
+                        })
                 })
         })
 }
