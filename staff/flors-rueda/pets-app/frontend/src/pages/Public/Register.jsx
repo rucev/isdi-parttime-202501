@@ -24,19 +24,13 @@ const Register = ({ setRefreshHeader, locale }) => {
         setFormTranslations(locales[locale]['forms'])
     }, [locale])
 
-    const onRegisterUser = (formData, onSuccess) => {
+    const onRegisterUser = async (formData, onSuccess) => {
         try {
-            logics.users.registerUser(formData)
-                .then(() => {
-                    onSuccess()
-                    logics.users.loginUser(formData)
-                        .then(() => {
-                            setRefreshHeader(Date.now())
-                            navigate('/')
-                        })
-                        .catch(error => alert(error))
-                })
-                .catch(error => alert(error))
+            await logics.users.registerUser(formData)
+            onSuccess()
+            await logics.users.loginUser(formData)
+            setRefreshHeader(Date.now())
+            navigate('/')
         } catch (error) {
             if (error instanceof errors.FormatError) {
                 setSecurityErrors((error.message).split(','))
