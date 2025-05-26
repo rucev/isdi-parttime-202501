@@ -13,8 +13,10 @@ const getAllPosts = (userId) => {
                         post.id = post._id.toString()
                         delete post._id
 
-                        post.author.id = post.author._id.toString()
-                        delete post.author._id
+                        if (post.author._id && !post.author.id) {
+                            post.author.id = post.author._id.toString()
+                            delete post.author._id
+                        }
 
                         const date = post.createdOn ? new Date(post.createdOn) : new Date(post.createdAt)
                         delete post.createdAt

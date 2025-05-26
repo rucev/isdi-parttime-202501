@@ -1,20 +1,22 @@
 import { errors } from "common"
 import { data } from "../../data/index.js"
 
-const getAllPosts = (userId) => {
+const getHomePosts = (userId) => {
     return data.users.findById(userId)
         .catch((error) => { throw new errors.ServerError(error.message) })
         .then((user) => {
             if (!user) { throw new errors.ExistenceError('user not found') }
-            return data.posts.find({ author: { $in: user.following } }).populate('author', 'username _id avatar').sort({ createdAt: -1 }).lean()
+            return data.posts.find({ author: { $in: [...user.following, user._id] } }).populate('author', 'username _id avatar').sort({ createdAt: -1 }).lean()
                 .catch((error) => { throw new errors.ServerError(error.message) })
                 .then(posts => {
                     const formatedPosts = posts.map((post) => {
                         post.id = post._id.toString()
                         delete post._id
 
-                        post.author.id = post.author._id.toString()
-                        delete post.author._id
+                        if (post.author._id && !post.author.id) {
+                            post.author.id = post.author._id.toString()
+                            delete post.author._id
+                        }
 
                         const date = post.createdOn ? new Date(post.createdOn) : new Date(post.createdAt)
                         delete post.createdAt
@@ -32,4 +34,4 @@ const getAllPosts = (userId) => {
         })
 }
 
-export default getAllPosts
+export default getHomePosts
