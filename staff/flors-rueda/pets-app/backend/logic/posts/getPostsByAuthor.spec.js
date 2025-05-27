@@ -30,14 +30,17 @@ describe('getPostsByAuthor', () => {
             .then(([user1, user2, user3]) => {
                 const post1Data = { author: user2._id, likes: [user1._id], title: 'post-1-test', description: 'post-1-content-test', img: 'this.link/image.png' }
                 const post2Data = { author: user3._id, likes: [user2._id], title: 'post-2-test', description: 'post-2-content-test' }
-                return data.posts.create(post1Data)
-                    .then((_) => {
+                const post3Data = { author: user3._id, likes: [user1._id], title: 'post-3-test', description: 'post-3-content-test' }
+
+
+                return data.posts.create([post1Data, post3Data])
+                    .then(([_, post3]) => {
                         return data.posts.create(post2Data)
                             .then(post2 => {
                                 return getPostsByAuthor(user1._id.toString(), user3._id.toString())
                                     .then(posts => {
                                         expect(posts).to.be.an('array')
-                                        expect(posts.length).to.equal(1)
+                                        expect(posts.length).to.equal(2)
 
                                         expect(posts[0].id).to.equal(post2._id.toString())
                                         expect(posts[0]._id).to.equal(undefined)
@@ -57,6 +60,25 @@ describe('getPostsByAuthor', () => {
                                         expect(posts[0].author._id).to.equal(undefined)
                                         expect(posts[0].author.followers).to.equal(undefined)
                                         expect(posts[0].author.follows).to.equal(undefined)
+
+                                        expect(posts[1].id).to.equal(post3._id.toString())
+                                        expect(posts[1]._id).to.equal(undefined)
+                                        expect(posts[1].likes).to.deep.equal(post3Data.likes)
+                                        expect(posts[1].title).to.equal(post3Data.title)
+                                        expect(posts[1].description).to.equal(post3Data.description)
+                                        expect(posts[1].img).to.equal(post3Data.img)
+                                        expect(posts[1].createdAt).to.not.exist
+                                        expect(posts[1].createdOn).to.exist
+                                        expect(posts[1].isLiked).to.be.true
+                                        expect(posts[1].author).to.be.an('object')
+                                        expect(posts[1].author.username).to.equal(user3.username)
+                                        expect(posts[1].author.avatar).to.equal(user3.avatar)
+                                        expect(posts[1].author.id).to.equal(user3._id.toString())
+                                        expect(posts[1].author.password).to.equal(undefined)
+                                        expect(posts[1].author.mail).to.equal(undefined)
+                                        expect(posts[1].author._id).to.equal(undefined)
+                                        expect(posts[1].author.followers).to.equal(undefined)
+                                        expect(posts[1].author.follows).to.equal(undefined)
                                     })
                             })
 

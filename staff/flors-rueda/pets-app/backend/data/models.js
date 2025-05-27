@@ -36,6 +36,18 @@ const userSchema = new Schema({
 
 export const User = model('User', userSchema);
 
+const commentSchema = new Schema({
+    author: {
+        type: ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    content: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true })
+
 const postSchema = new Schema({
     author: {
         type: ObjectId,
@@ -58,6 +70,7 @@ const postSchema = new Schema({
         type: String,
         required: false
     },
+    comments: [commentSchema]
 }, { timestamps: true });
 
 export const Post = model('Post', postSchema)

@@ -29,6 +29,7 @@ describe('getAvatar', () => {
 
                 return getAvatar(userLoggedId, userGoalId)
                     .then((avatar) => {
+
                         expect(avatar).to.be.a('string')
                         expect(avatar).to.be.equal(user1data.avatar)
                     })

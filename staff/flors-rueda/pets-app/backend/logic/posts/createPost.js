@@ -1,8 +1,8 @@
 import { errors } from "common"
 import { data } from "../../data/index.js"
 
-const createPost = (authorId, title, description, img, callback) => {
-    return data.users.findOne({ _id: new data.ObjectId(authorId) })
+const createPost = (authorId, title, description, img) => {
+    return data.users.findById(authorId)
         .catch(error => { throw new errors.ServerError(error.message) })
         .then((user) => {
             if (!user) { throw new errors.ExistenceError('user not found') }

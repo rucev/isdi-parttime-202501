@@ -1,3 +1,4 @@
+import createComment from "./createComment.js";
 import createPost from "./createPost.js";
 import deletePost from "./deletePost.js";
 import getAllPosts from "./getAllPosts.js";
@@ -12,5 +13,6 @@ export default {
     toggleLike,
     deletePost,
     getPostsByAuthor,
-    getHomePosts
+    getHomePosts,
+    createComment
 }

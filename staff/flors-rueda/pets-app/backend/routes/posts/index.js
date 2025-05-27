@@ -6,6 +6,7 @@ const jsonBodyParser = json()
 const postRouter = Router()
 
 postRouter.post('/', jsonBodyParser, extractId, handlers.createPost)
+postRouter.post('/comment/:postId', jsonBodyParser, extractId, handlers.createComment)
 
 postRouter.get('/', extractId, handlers.getAllPosts)
 postRouter.get('/home', extractId, handlers.getHomePosts)

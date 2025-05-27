@@ -18,6 +18,7 @@ import getHomePosts from "./posts/getHomePosts.js";
 import updateEmail from "./users/updateEmail.js";
 import updatePassword from "./users/updatePassword.js";
 import deleteUser from "./users/deleteUser.js";
+import createComment from "./posts/createComment.js";
 
 export default {
     registerUser,
@@ -39,5 +40,6 @@ export default {
     getHomePosts,
     updateEmail,
     updatePassword,
-    deleteUser
+    deleteUser,
+    createComment
 }
