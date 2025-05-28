@@ -10,7 +10,7 @@ const getPostsByAuthor = (userId, authorId) => {
                 .catch((error) => { throw new errors.ServerError(error.message) })
                 .then((_author) => {
                     if (!_author) { throw new errors.ExistenceError('author not found') }
-                    return data.posts.find({ author: _author._id }).populate('author', 'username _id avatar').sort({ createdAt: -1 }).lean()
+                    return data.posts.find({ author: _author._id }).populate('author', 'username _id avatar').populate('comments.author', 'username _id avatar').sort({ createdAt: -1 }).lean()
                         .catch((error) => { throw new errors.ServerError(error.message) })
                         .then(posts => {
                             const formatedPosts = posts.map((post) => {
@@ -21,6 +21,22 @@ const getPostsByAuthor = (userId, authorId) => {
                                     post.author.id = post.author._id.toString()
                                     delete post.author._id
                                 }
+
+                                post.comments = post.comments.length > 0 ? post.comments.map(comment => {
+                                    comment.id = comment._id.toString()
+                                    delete comment._id
+
+                                    if (comment.author && !comment.author.id) {
+                                        comment.author.id = comment.author._id.toString()
+                                        delete comment.author._id
+                                    }
+
+                                    const date = new Date(comment.createdAt)
+                                    comment.createdAt = date.toLocaleString()
+
+                                    return comment
+
+                                }) : []
 
                                 const date = post.createdOn ? new Date(post.createdOn) : new Date(post.createdAt)
                                 delete post.createdAt

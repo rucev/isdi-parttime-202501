@@ -29,7 +29,7 @@ describe('getAllPosts', () => {
         return data.users.create([user1Data, user2Data, user3Data])
             .then(([user1, user2, user3]) => {
                 const post1Data = { author: user2._id, likes: [user1._id], title: 'post-1-test', description: 'post-1-content-test', img: 'this.link/image.png' }
-                const post2Data = { author: user3._id, likes: [user2._id], title: 'post-2-test', description: 'post-2-content-test' }
+                const post2Data = { author: user3._id, likes: [user2._id], title: 'post-2-test', description: 'post-2-content-test', comments: [{ author: user1._id, content: 'aaaah' }] }
                 return data.posts.create(post1Data)
                     .then((post1) => {
                         return data.posts.create(post2Data)
@@ -45,6 +45,16 @@ describe('getAllPosts', () => {
                                         expect(posts[0].title).to.equal(post2Data.title)
                                         expect(posts[0].description).to.equal(post2Data.description)
                                         expect(posts[0].img).to.equal(post2Data.img)
+                                        expect(posts[0].comments).to.be.an('array')
+                                        expect(posts[0].comments.length).to.equal(1)
+                                        expect(posts[0].comments[0].content).to.equal(post2Data.comments[0].content)
+                                        expect(posts[0].comments[0].createdAt).to.exist
+                                        expect(posts[0].comments[0].author.username).to.equal(user1Data.username)
+                                        expect(posts[0].comments[0].author.avatar).to.equal(user1Data.avatar)
+                                        expect(posts[0].comments[0]._id).to.not.exist
+                                        expect(posts[0].comments[0].id).to.equal(post2.comments[0]._id.toString())
+                                        expect(posts[0].comments[0].author._id).to.not.exist
+                                        expect(posts[0].comments[0].author.id).to.equal(user1._id.toString())
                                         expect(posts[0].createdAt).to.not.exist
                                         expect(posts[0].createdOn).to.exist
                                         expect(posts[0].isLiked).to.be.false
