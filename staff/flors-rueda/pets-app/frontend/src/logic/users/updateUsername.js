@@ -1,4 +1,3 @@
-import data from "../../data"
 import { errors, validator } from "common"
 import getToken from "../helpers/getToken";
 
